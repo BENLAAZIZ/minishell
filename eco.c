@@ -3,11 +3,11 @@
 
 int main(int argc, char* argv[])
 {
-    int suppress_newline = 0;
-	int indix = 0;
+    int newline = 0;
+	int indix = 1;
 
     if (argc > 1 && strcmp(argv[1], "-n") == 0) {
-        suppress_newline = 1;
+        newline = 1;
         indix = 2;
     }
     while (indix < argc)
@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
         }
 		indix++;
 	}
-    if (!suppress_newline) {
+    if (!newline) {
         printf("\n");
     }
     return 0;

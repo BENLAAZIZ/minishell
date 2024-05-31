@@ -11,7 +11,12 @@
 #include <fcntl.h>
 #include <errno.h>
 
-
+typedef struct s_env
+{
+	char			*variable;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 char	**ft_split(char const *s, char c);
 

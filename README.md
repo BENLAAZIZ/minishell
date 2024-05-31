@@ -39,6 +39,35 @@ int main() {
     } else {
         perror("getcwd() error");
     }
+    return 0;
+}
+```
+2. **chdir()**
+The chdir() function is used to change the current working directory to the directory specified in its argument.
+
+####  **Syntax**
+```
+int chdir(const char *path);
+```
+####  **Parameters**
++ **`path`**: A pointer to a string containing the path to the directory to which you want to change.
+####  **Return Value**
+On success, chdir() returns 0.
+On failure, it returns -1, and errno is set to indicate the error.
+
+#### Example
+```
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    const char *newDir = "/path/to/new/dir";
+
+    if (chdir(newDir) == 0) {
+        printf("Directory changed to: %s\n", newDir);
+    } else {
+        perror("chdir() error");
+    }
 
     return 0;
 }

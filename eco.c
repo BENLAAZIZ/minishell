@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <string.h>
+#include "minishell.h"
 
 int main(int argc, char* argv[])
 {

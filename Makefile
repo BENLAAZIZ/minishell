@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror #-lreadline
 
 RM = rm -f
 
-SRC =  builtins.c minishell.c spl.c
+SRC =  builtins.c minishell.c spl.c list.c
 
 OBJ = $(SRC:.c=.o)
 

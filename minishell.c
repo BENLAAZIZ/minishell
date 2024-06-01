@@ -91,13 +91,15 @@ int main(int argc, char* argv[], char **env)
 	t_env	*envv;
 
 	ft_env(env, &envv);
+  	if ((argc > 1) && (ft_strncmp(argv[1], "cd", 2) == 0))
+		cd(argv, &envv);
+	else if ((argc > 1) && (ft_strncmp(argv[1], "pwd", 3) == 0))
+		pwd();
+	else if ((argc > 1) && (ft_strncmp(argv[1], "export", 6) == 0))
+		export(&envv, argv[2]);
+	else 
+		echo(argc, argv);
 	display_list(envv);
-  	// if ((argc > 1) && (ft_strncmp(argv[1], "cd", 2) == 0))
-	// 	cd(argv, env);
-	// else if ((argc > 1) && (ft_strncmp(argv[1], "pwd", 3) == 0))
-	// 	pwd();
-	// else 
-	// 	echo(argc, argv);
 	// printf("%s\n", strchr("hamza=ben laziz", '=') + 1);
     return 0;
 }

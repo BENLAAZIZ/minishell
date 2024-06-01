@@ -5,12 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 10:53:30 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/01 12:42:34 by hben-laz         ###   ########.fr       */
+/*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
+/*   Updated: 2024/06/01 19:14:36 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "minishell.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	l;
+
+	l = 0;
+	while (*s != '\0')
+	{
+		l++;
+		s++;
+	}
+	return (l);
+}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -34,56 +48,50 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 void	echo(int argc, char **argv)
 {
-	int newline;
-	int indix;
+	int	newline;
+	int	indix;
 
 	newline = 0;
 	indix = 1;
-    if (argc > 1 && ft_strncmp(argv[1], "-n", 2) == 0)
+	if (argc > 1 && ft_strncmp(argv[1], "-n", 2) == 0)
 	{
-        newline = 1;
-        indix = 2;
-    }
-    while (indix < argc)
+		newline = 1;
+		indix = 2;
+	}
+	while (indix < argc)
 	{
 		printf("%s", argv[indix]);
-        if (indix < argc - 1) {
-            printf(" ");
-        }
+		if (indix < argc - 1)
+			printf(" ");
 		indix++;
 	}
-    if (newline != 1)
-        printf("\n");
+	if (newline != 1)
+		printf("\n");
 }
 
-void	cd(char **argv, char **env)
+void	cd(char **argv, t_env **envv)
 {
-	// add struct f blast env
 	char	*s;
-  	char	*str = "ls";
-	char	**cmd = ft_splith(str, ' ');
-	int i = 0;
+	t_env *current = *envv;
+	// int i = 0;
 	s = getcwd(NULL, 0);
 	if (s == NULL)
 		perror("");
 	else if (chdir(argv[2]) != 0)
 	{
-		puts("+++");
-		printf("%s\n", s);
-		while(env[i])
+		while(current)
 		{
-			if (ft_strncmp(env[i], "HOME=", 5) == 0)
+			if ((ft_strncmp(current->variable, "HOME", 4) == 0) &&
+				 (ft_strlen(current->variable) == ft_strlen("HOME")))
 				break ;
-			i++;
+			current = current->next;
 		}
-		env[i] += 5;
-		printf("%s", env[i]);
+		printf("%s", current->value);
 	}
 	else
 	{
 		s = getcwd(NULL, 0);
 		printf("curent : %s\n", s);
-		execve("/bin/ls", cmd, NULL);
 	}
 }
 
@@ -95,4 +103,25 @@ void	pwd()
 	if (s == NULL)
 		perror("");
 	printf("%s\n", s);
+}
+// t_env	*hello(char *name, t_env *envv)
+// {
+	
+// }
+
+void	export(t_env **envv , char *line)
+{
+	char	*var;
+	char	*val;
+	t_env	*node;
+	// t_env	*last;
+	// t_env	*list;
+
+	
+	// list = *envv;
+	var = get_variabl(line);
+	val = get_value(line);
+	node = ft_lstnew(var, val);
+	ft_lstadd_back(envv, node);
+	
 }

@@ -28,18 +28,21 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-void	ft_addto_node(char *line, t_node *node);
-int		ft_minishell(char *line);
-void	ft_lstclear(t_node **list);
-t_node	*ft_addlist(char *cmd, int j);
-void	ft_lstaddback(t_node **list, t_node *new_node);
-int		ft_lstsize(t_node *stack_a);
-char	**ft_split(char const *s, char c);
-int		ft_countword(char const *s, char c);
-int		ft_check_quotes(char c, int *sign);
-
+// typedef struct s_stack
+// {
+// 	int				content;
+// 	int				ord;
+// 	struct s_stack	*next;
+// } t_stack;
 //
 char	**ft_splith(char const *s, char c);
-
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	echo(int argc, char **argv);
+void	cd(char **argv, char **env);
+void	pwd();
+t_env	*ft_lstnew(char *var, char *value);
+t_env	*ft_lstlast(t_env *lst);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+int		size_stack(t_env *a);
 
 #endif

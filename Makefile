@@ -2,11 +2,11 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS =  -lreadline 
+CFLAGS = -Wall -Wextra -Werror #-lreadline 
 
 RM = rm -f
 
-SRC = list_function.c main.c ft_split.c
+SRC =  builtins.c minishell.c spl.c
 
 OBJ = $(SRC:.c=.o)
 

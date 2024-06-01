@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 10:53:30 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/01 10:54:32 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:42:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,22 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (ss1[i] - ss2[i]);
 }
 
-void	echo(int ac, char **av)
+void	echo(int argc, char **argv)
 {
 	int newline;
 	int indix;
 
 	newline = 0;
 	indix = 1;
-    if (ac > 1 && ft_strncmp(av[1], "-n", 2) == 0)
+    if (argc > 1 && ft_strncmp(argv[1], "-n", 2) == 0)
 	{
         newline = 1;
         indix = 2;
     }
-    while (indix < ac)
+    while (indix < argc)
 	{
-		printf("%s", av[indix]);
-        if (indix < ac - 1) {
+		printf("%s", argv[indix]);
+        if (indix < argc - 1) {
             printf(" ");
         }
 		indix++;
@@ -56,18 +56,19 @@ void	echo(int ac, char **av)
         printf("\n");
 }
 
-void	cd(char **av, char **env)
+void	cd(char **argv, char **env)
 {
 	// add struct f blast env
 	char	*s;
   	char	*str = "ls";
-	char	**cmd = ft_split(str, ' ');
+	char	**cmd = ft_splith(str, ' ');
 	int i = 0;
 	s = getcwd(NULL, 0);
 	if (s == NULL)
 		perror("");
-	else if (chdir(av[2]) != 0)
+	else if (chdir(argv[2]) != 0)
 	{
+		puts("+++");
 		printf("%s\n", s);
 		while(env[i])
 		{
@@ -81,12 +82,12 @@ void	cd(char **av, char **env)
 	else
 	{
 		s = getcwd(NULL, 0);
-		printf("%s\n", s);
+		printf("curent : %s\n", s);
 		execve("/bin/ls", cmd, NULL);
 	}
 }
 
-void	pwd(char **av)
+void	pwd()
 {
 	char	*s;
 

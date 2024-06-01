@@ -54,7 +54,7 @@ static void	free_function(char **array, int i)
 	free(array);
 }
 
-char	**my_array(char **array, char const *s, char c, int nbr_word)
+static char	**my_array(char **array, char const *s, char c, int nbr_word)
 {
 	int		i;
 	int		j;
@@ -81,7 +81,7 @@ char	**my_array(char **array, char const *s, char c, int nbr_word)
 	return (array);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_splith(char const *s, char c)
 {
 	char	**array;
 	int		nbr_wrd;

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/01 19:14:36 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/01 22:36:45 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ void	echo(int argc, char **argv)
 void	cd(char **argv, t_env **envv)
 {
 	char	*s;
-	t_env *current = *envv;
-	// int i = 0;
+	t_env *current;
+	
+	current = *envv;
 	s = getcwd(NULL, 0);
 	if (s == NULL)
 		perror("");
@@ -114,11 +115,13 @@ void	export(t_env **envv , char *line)
 	char	*var;
 	char	*val;
 	t_env	*node;
-	// t_env	*last;
-	// t_env	*list;
+	// int		i;
 
-	
-	// list = *envv;
+	// i = 0;
+	// if (line[0] == '+' || (line[0] >= '0' && line[i] <= '9'))
+	// while (line[i])
+	// {
+	// }
 	var = get_variabl(line);
 	val = get_value(line);
 	node = ft_lstnew(var, val);

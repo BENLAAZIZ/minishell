@@ -11,6 +11,15 @@ void display_list(t_env *a)
     }
     printf("\n");
 }
+void display_list_export(t_env *a)
+{
+    while(a)
+    {
+        printf("declare -x %s=\"%s\"\n", a->variable, a->value);
+        a = a->next;
+    }
+    printf("\n");
+}
 
 
 char	*get_variabl(char *line)
@@ -96,11 +105,17 @@ int main(int argc, char* argv[], char **env)
 	else if ((argc > 1) && (ft_strncmp(argv[1], "pwd", 3) == 0))
 		pwd();
 	else if ((argc > 1) && (ft_strncmp(argv[1], "export", 6) == 0))
+	{
 		export(&envv, argv[2]);
+		if (argc == 2)
+			display_list_export(envv);
+		else
+			display_list(envv);
+	}
+	else if ((argc > 1) && (ft_strncmp(argv[1], "env", 6) == 0))
+			display_list(envv);
 	else 
 		echo(argc, argv);
-	display_list(envv);
-	// printf("%s\n", strchr("hamza=ben laziz", '=') + 1);
     return 0;
 }
 

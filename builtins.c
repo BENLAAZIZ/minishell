@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/02 16:27:40 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:40:24 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,30 +69,6 @@ void	echo(int argc, char **argv)
 		printf("\n");
 }
 
-void	cd(char **cmd, t_env *env)
-{
-	t_env	*home;
-	char	*s;
-	
-	s = getcwd(NULL, 0);
-	if (s == NULL)
-		return (perror(""));
-	printf("curent : %s\n", getcwd(NULL, 0));
-	if (cmd[1] == NULL)
-	{
-		home = point_node(env, "HOME");
-		if (!home)
-			return ;
-		chdir(home->value);
-		printf("%s\n", home->value);
-	}
-	else
-	{
-		if (chdir(cmd[1]) != 0)
-			perror(cmd[1]);
-		// printf("curent : %s\n", getcwd(NULL, 0));
-	}
-}
 
 void	pwd()
 {
@@ -112,13 +88,6 @@ void	export(t_env **env , char *line)
 	char	*var;
 	char	*val;
 	t_env	*node;
-	// int		i;
-
-	// i = 0;
-	// if (line[0] == '+' || (line[0] >= '0' && line[i] <= '9'))
-	// while (line[i])
-	// {
-	// }
 	var = get_variabl(line);
 	val = get_value(line);
 	node = ft_lstnew(var, val);

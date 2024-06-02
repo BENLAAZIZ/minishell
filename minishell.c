@@ -141,7 +141,7 @@ void	ft_env(char **ev, t_env **env)
 
 int main(int argc, char* argv[], char **ev)
 {
-	t_env	*env;
+	t_env	env;
 	char	*line = NULL;
 	char	**cmd;
 
@@ -155,29 +155,13 @@ int main(int argc, char* argv[], char **ev)
 		if (!line)
 			break;
 		add_history(line);
-		// rl_redisplay();
+		rl_redisplay();
 		cmd = ft_splith(line, ' ');
-		cd(cmd, env);
+		// cd(cmd, &env);
+		display_env(&env);
 		free(line);
 	}
 
-
-  	// if ((argc > 1) && (ft_strncmp(argv[1], "cd", 2) == 0))
-	// 	cd(argv, &env);
-	// else if ((argc > 1) && (ft_strncmp(argv[1], "pwd", 3) == 0))
-	// 	pwd();
-	// else if ((argc > 1) && (ft_strncmp(argv[1], "export", 6) == 0))
-	// {
-	// 	export(&env, argv[2]);
-	// 	if (argc == 2)
-	// 		display_list_export(env);
-	// 	else
-	// 		display_env(env);
-	// }
-	// else if ((argc > 1) && (ft_strncmp(argv[1], "env", 3) == 0))
-	// 		display_env(env);
-	// else 
-	// 	echo(argc, argv);
     return 0;
 }
 

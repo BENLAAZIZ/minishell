@@ -38,7 +38,7 @@ typedef struct s_env
 char	**ft_splith(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	echo(int argc, char **argv);
-void	cd(char **cmd, t_env *env);
+void	cd(char **cmd, t_env **env);
 void	pwd();
 t_env	*ft_lstnew(char *var, char *value);
 t_env	*ft_lstlast(t_env *lst);

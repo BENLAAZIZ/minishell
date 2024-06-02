@@ -2,8 +2,11 @@
 
 
 
-void display_list(t_env *a)
+void displayenv(t_env *a)
 {
+
+
+
     while(a)
     {
         printf("%s=%s\n", a->variable, a->value);
@@ -73,9 +76,31 @@ char	*get_value(char *line)
 	value[i] = '\0';
 	return (value);
 }
+t_env 	*point_node(t_env *env, char *name)
+{
+	t_env	*node;
 
+	node = NULL;
+	while (env)
+	{
+		if (ft_strncmp(env->variable, name, ft_strlen(name)) == 0)
+			node = env;
+		env = env->next;
+	}
+	return (node);
+}
 
-void	ft_env(char **env, t_env **envv)
+void	remove_variab(t_env **env, char *name)
+{
+	t_env *node;
+	
+	node = point_node(*env, name);
+	if (node == NULL)
+		return ;
+	
+
+}
+void	ft_env(char **ev, t_env **env)
 {
 	int		i;
 	char	*var;
@@ -85,35 +110,36 @@ void	ft_env(char **env, t_env **envv)
 	i = 0;
 	var = NULL;
 	val = NULL;
-	while (env[i])
+	while (ev[i])
 	{
-		var = get_variabl(env[i]);
-		val = get_value(env[i]);
+		var = get_variabl(ev[i]);
+		val = get_value(ev[i]);
 		new = ft_lstnew(var, val);
-		ft_lstadd_back(envv, new);
+		ft_lstadd_back(env, new);
 		i++;
 	}
+
 }
 
-int main(int argc, char* argv[], char **env)
+int main(int argc, char* argv[], char **ev)
 {
-	t_env	*envv;
+	t_env	*env;
 
-	ft_env(env, &envv);
+	ft_env(ev, &env);
   	if ((argc > 1) && (ft_strncmp(argv[1], "cd", 2) == 0))
-		cd(argv, &envv);
+		cd(argv, &env);
 	else if ((argc > 1) && (ft_strncmp(argv[1], "pwd", 3) == 0))
 		pwd();
 	else if ((argc > 1) && (ft_strncmp(argv[1], "export", 6) == 0))
 	{
-		export(&envv, argv[2]);
+		export(&env, argv[2]);
 		if (argc == 2)
-			display_list_export(envv);
+			display_list_export(env);
 		else
-			display_list(envv);
+			display_list(env);
 	}
-	else if ((argc > 1) && (ft_strncmp(argv[1], "env", 6) == 0))
-			display_list(envv);
+	else if ((argc > 1) && (ft_strncmp(argv[1], "ev", 6) == 0))
+			display_env(env);
 	else 
 		echo(argc, argv);
     return 0;

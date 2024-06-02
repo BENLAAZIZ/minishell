@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/01 22:36:45 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/02 13:08:49 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	echo(int argc, char **argv)
 		printf("\n");
 }
 
-void	cd(char **argv, t_env **envv)
+void	cd(char **argv, t_env **env)
 {
 	char	*s;
 	t_env *current;
 	
-	current = *envv;
+	current = *env;
 	s = getcwd(NULL, 0);
 	if (s == NULL)
 		perror("");
@@ -105,12 +105,11 @@ void	pwd()
 		perror("");
 	printf("%s\n", s);
 }
-// t_env	*hello(char *name, t_env *envv)
+// t_env	*hello(char *name, t_env *env)
 // {
 	
 // }
-
-void	export(t_env **envv , char *line)
+void	export(t_env **env , char *line)
 {
 	char	*var;
 	char	*val;
@@ -125,6 +124,8 @@ void	export(t_env **envv , char *line)
 	var = get_variabl(line);
 	val = get_value(line);
 	node = ft_lstnew(var, val);
-	ft_lstadd_back(envv, node);
+	ft_lstadd_back(env, node);
 	
 }
+
+void	unset

@@ -2,11 +2,8 @@
 
 
 
-void displayenv(t_env *a)
+void display_env(t_env *a)
 {
-
-
-
     while(a)
     {
         printf("%s=%s\n", a->variable, a->value);
@@ -92,14 +89,28 @@ t_env 	*point_node(t_env *env, char *name)
 
 void	remove_variab(t_env **env, char *name)
 {
-	t_env *node;
+	t_env	*node;
+	t_env	*tmp;
 	
 	node = point_node(*env, name);
 	if (node == NULL)
 		return ;
-	
-
+	while (*env)
+	{
+		if (ft_strncmp((*env)->next->variable, name, ft_strlen(name)) == 0)
+		{
+			tmp = (*env)->next;
+			(*env)->next = (*env)->next->next;
+			free(tmp->variable);
+			if (tmp->value)
+				free(tmp->value);
+			return ;
+		}
+		*env = (*env)->next;
+	}
 }
+
+
 void	ft_env(char **ev, t_env **env)
 {
 	int		i;
@@ -118,30 +129,55 @@ void	ft_env(char **ev, t_env **env)
 		ft_lstadd_back(env, new);
 		i++;
 	}
-
+	remove_variab(env, "PATH");
+	remove_variab(env, "PWD");
+	new = ft_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	ft_lstadd_back(env, new);
+	new = ft_lstnew("PWD", getcwd(NULL, 0));
+	ft_lstadd_back(env, new);
+	new = ft_lstnew("OLDPWD", NULL);
+	ft_lstadd_back(env, new);
 }
 
 int main(int argc, char* argv[], char **ev)
 {
 	t_env	*env;
+	char	*line = NULL;
+	char	**cmd;
 
+
+	(void)argc;
+	(void)argv;
 	ft_env(ev, &env);
-  	if ((argc > 1) && (ft_strncmp(argv[1], "cd", 2) == 0))
-		cd(argv, &env);
-	else if ((argc > 1) && (ft_strncmp(argv[1], "pwd", 3) == 0))
-		pwd();
-	else if ((argc > 1) && (ft_strncmp(argv[1], "export", 6) == 0))
+	while (1)
 	{
-		export(&env, argv[2]);
-		if (argc == 2)
-			display_list_export(env);
-		else
-			display_list(env);
+		line = readline("minishell$ ");
+		if (!line)
+			break;
+		add_history(line);
+		// rl_redisplay();
+		cmd = ft_splith(line, ' ');
+		cd(cmd, env);
+		free(line);
 	}
-	else if ((argc > 1) && (ft_strncmp(argv[1], "ev", 6) == 0))
-			display_env(env);
-	else 
-		echo(argc, argv);
+
+
+  	// if ((argc > 1) && (ft_strncmp(argv[1], "cd", 2) == 0))
+	// 	cd(argv, &env);
+	// else if ((argc > 1) && (ft_strncmp(argv[1], "pwd", 3) == 0))
+	// 	pwd();
+	// else if ((argc > 1) && (ft_strncmp(argv[1], "export", 6) == 0))
+	// {
+	// 	export(&env, argv[2]);
+	// 	if (argc == 2)
+	// 		display_list_export(env);
+	// 	else
+	// 		display_env(env);
+	// }
+	// else if ((argc > 1) && (ft_strncmp(argv[1], "env", 3) == 0))
+	// 		display_env(env);
+	// else 
+	// 	echo(argc, argv);
     return 0;
 }
 

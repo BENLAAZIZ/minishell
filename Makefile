@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-lreadline 
+CFLAGS = -Wall -Wextra -Werror 
 
 RM = rm -f
 
@@ -13,7 +13,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lreadline 
 
 %.o: %.c minishell.h
 		 $(CC) $(CFLAGS) -c $< -o $@

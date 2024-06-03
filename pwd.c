@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:40:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 20:35:00 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:34:14 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd()
+void	pwd(void)
 {
 	char	*s;
 
@@ -21,4 +21,3 @@ void	pwd()
 		perror("");
 	printf("%s\n", s);
 }
-

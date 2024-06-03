@@ -1,49 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
+/*   Updated: 2024/06/03 23:48:28 by hben-laz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-
-void display_env(t_env *a)
+void	display_env(t_env *a)
 {
-    while(a)
-    {
+	while (a)
+	{
 		if (a->value != NULL)
-        	printf("%s=%s\n", a->variable, a->value);
-        a = a->next;
-    }
+			printf("%s=%s\n", a->variable, a->value);
+		a = a->next;
+	}
 }
 
-
-int main(int argc, char* argv[], char **ev)
+void	ft_minishell(t_env **env, char **cmd)
 {
-	t_env	*env;
-	char	*line = NULL;
-	char	**cmd;
+	char	*line;
 
-
-	(void)argc;
-	(void)argv;
-	ft_env(ev, &env);
+	line = NULL;
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			break;
+			break ;
 		add_history(line);
 		rl_redisplay();
 		cmd = ft_splith(line, ' ');
 		if (ft_strncmp(cmd[0], "env", 4) == 0)
-			display_env(env);
+			display_env(*env);
 		else if (ft_strncmp(cmd[0], "echo", 5) == 0)
 			echo(cmd);
 		else if (ft_strncmp(cmd[0], "cd", 3) == 0)
-			cd(cmd, &env);
+			cd(cmd, env);
 		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
 			pwd();
 		else if (ft_strncmp(cmd[0], "export", 7) == 0)
-			display_list_export(env);
+			display_list_export(*env);
+		else if (ft_strncmp(cmd[0], "unset", 7) == 0)
+			unset(env, cmd);
 		free(line);
 	}
-
-    return 0;
 }
 
+int	main(int argc, char *argv[], char **ev)
+{
+	t_env	*env;
+	char	**cmd;
+
+	(void)argc;
+	(void)argv;
+	cmd = NULL;
+	ft_env(ev, &env);
+	ft_minishell(&env, cmd);
+	return (0);
+}

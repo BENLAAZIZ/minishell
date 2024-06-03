@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:39:55 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 17:55:56 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:21:28 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	change_env(t_env **env, t_env *home, char *oldpwd)
 {
 	char	*pwd;
-	
+
 	home = point_node(*env, "OLDPWD");
 	if (home)
 		home->value = oldpwd;
@@ -31,7 +31,7 @@ void	cd(char **cmd, t_env **env)
 {
 	t_env	*home;
 	char	*oldpwd;
-	
+
 	home = NULL;
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)

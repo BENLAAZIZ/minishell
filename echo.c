@@ -6,12 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:44:27 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 17:58:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:23:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
 
 void	ft_putstr(char *s)
 {
@@ -21,23 +20,21 @@ void	ft_putstr(char *s)
 	if (!s)
 		return ;
 	while (s[i])
-	{
 		i++;
-	}
-		write(1 , s, i);
+	write(1, s, i);
 }
 
 void	echo(char **cmd)
 {
 	int	newline;
 	int	index;
-	
+
 	newline = 0;
 	index = 1;
-	if (cmd[index] && (strncmp(cmd[index], "-n", 3)) == 0)
+	if (cmd[index] && (ft_strncmp(cmd[index], "-n", 3)) == 0)
 	{
-			newline = 1;	
-			index = 2;
+		newline = 1;
+		index = 2;
 	}
 	while (cmd[index])
 	{
@@ -49,4 +46,3 @@ void	echo(char **cmd)
 	if (!newline)
 		printf("\n");
 }
-

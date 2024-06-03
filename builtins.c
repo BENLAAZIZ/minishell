@@ -6,10 +6,9 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 20:33:26 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:20:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -82,7 +81,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (ss1[i] - ss2[i]);
 }
 
-t_env 	*point_node(t_env *env, char *name)
+t_env	*point_node(t_env *env, char *name)
 {
 	while (env)
 	{

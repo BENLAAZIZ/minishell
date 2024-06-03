@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 21:43:55 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:26:50 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,39 +64,14 @@ char	*get_value(char *line)
 	return (value);
 }
 
-void	remove_variab(t_env **env, char *name)
-{
-	t_env	*node;
-	t_env	*tmp;
-	
-	tmp = *env;
-	node = point_node(*env, name);
-	if (node == NULL)
-		return ;
-	while (*env)
-	{
-		if (ft_strncmp((*env)->next->variable, name, ft_strlen(name) + 1) == 0)
-		{
-			(*env)->next = (*env)->next->next;
-			free(node->variable);
-			free(node->value);
-			free(node);
-			*env = tmp;
-			return ;
-		}
-		*env = (*env)->next;
-	}
-	*env = tmp;
-}
-
 void	modif_env(t_env **env)
 {
 	t_env	*new;
-	
+
 	if (point_node(*env, "PATH") == NULL)
 	{
 		new = ft_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-		ft_lstadd_back(env, new);	
+		ft_lstadd_back(env, new);
 	}
 	remove_variab(env, "PWD");
 	remove_variab(env, "OLDPWD");
@@ -106,11 +81,11 @@ void	modif_env(t_env **env)
 	ft_lstadd_back(env, new);
 }
 
-void	modif_SHELVL(t_env **env, t_env *new, char *var, char *val)
+void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 {
 	t_env	*node;
 	int		val_shlvl;
-	
+
 	val_shlvl = 1;
 	node = point_node(*env, "SHLVL");
 	if (!node)
@@ -150,5 +125,5 @@ void	ft_env(char **ev, t_env **env)
 		i++;
 	}
 	modif_env(env);
-	modif_SHELVL(env, new, var, val);
+	modif_shlvl(env, new, var, val);
 }

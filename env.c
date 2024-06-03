@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 15:35:57 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:19:00 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ t_env 	*point_node(t_env *env, char *name)
 void	remove_variab(t_env **env, char *name)
 {
 	t_env	*node;
+	t_env	*tmp;
 	
+	tmp = *env;
 	node = point_node(*env, name);
 	if (node == NULL)
 		return ;
@@ -92,18 +94,18 @@ void	remove_variab(t_env **env, char *name)
 			free(node->variable);
 			free(node->value);
 			free(node);
+			*env = tmp;
 			return ;
 		}
 		*env = (*env)->next;
 	}
+	*env = tmp;
 }
 
 void	modif_env(t_env **env)
 {
 	t_env	*new;
-	t_env	*tmp;
 	
-	tmp = *env;
 	if (point_node(*env, "PATH") == NULL)
 	{
 		new = ft_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
@@ -111,7 +113,6 @@ void	modif_env(t_env **env)
 	}
 	remove_variab(env, "PWD");
 	remove_variab(env, "OLDPWD");
-	*env = tmp;
 	new = ft_lstnew("PWD", getcwd(NULL, 0));
 	ft_lstadd_back(env, new);
 	new = ft_lstnew("OLDPWD", NULL);
@@ -120,23 +121,25 @@ void	modif_env(t_env **env)
 
 void	ft_env(char **ev, t_env **env)
 {
-	int		i;
 	char	*var;
 	char	*val;
 	t_env	*new;
-	t_env	**tmp;
+	int		i;
 
-	i = 0;
 	var = NULL;
 	val = NULL;
-	tmp = env;
+	i = 0;
 	while (ev[i])
 	{
 		var = get_variabl(ev[i]);
 		val = get_value(ev[i]);
 		new = ft_lstnew(var, val);
-		ft_lstadd_back(tmp, new);
+		ft_lstadd_back(env, new);
 		i++;
 	}
+	display_env(*env);
 	modif_env(env);
+	// modif_SHELVL(env);
+	printf("\n\n ------------------- \n\n");
+	display_env(*env);
 }

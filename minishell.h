@@ -51,5 +51,9 @@ size_t	ft_strlen(const char *s);
 t_env 	*point_node(t_env *env, char *name);
 void	ft_env(char **ev, t_env **env);
 void	display_env(t_env *a);
+char	*ft_strdup(const char *s1);
+void	*ft_memcpy(void	*dst, const void *src, size_t n);
+int		ft_atoi(const char *str);
+char	*ft_itoa(unsigned int n);
 
 #endif

@@ -39,6 +39,8 @@ int main(int argc, char* argv[], char **ev)
 			cd(cmd, &env);
 		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
 			pwd();
+		else if (ft_strncmp(cmd[0], "export", 7) == 0)
+			display_list_export(env);
 		free(line);
 	}
 

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/02 18:45:22 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:33:26 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,42 @@ size_t	ft_strlen(const char *s)
 		s++;
 	}
 	return (l);
+}
+
+void	*ft_memcpy(void	*dst, const void *src, size_t n)
+{
+	unsigned char	*ptr;
+	unsigned char	*c;
+	size_t			i;
+
+	i = 0;
+	if (n == 0)
+		return (dst);
+	ptr = (unsigned char *)dst;
+	c = (unsigned char *)src;
+	if (ptr == NULL && c == NULL)
+		return (dst);
+	while (i < n)
+	{
+		*(ptr + i) = *(c + i);
+		i++;
+	}
+	return (dst);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	size_t	size;
+	char	*tab;
+
+	size = ft_strlen(s1);
+	tab = (char *)malloc(sizeof(char) * (size + 1));
+	if (tab == NULL)
+		return (NULL);
+	if (size > 0)
+		ft_memcpy(tab, s1, size);
+	tab[size] = '\0';
+	return (tab);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -44,4 +80,15 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	if (n == i)
 		return (0);
 	return (ss1[i] - ss2[i]);
+}
+
+t_env 	*point_node(t_env *env, char *name)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->variable, name, ft_strlen(name) + 1) == 0)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
 }

@@ -55,5 +55,6 @@ char	*ft_strdup(const char *s1);
 void	*ft_memcpy(void	*dst, const void *src, size_t n);
 int		ft_atoi(const char *str);
 char	*ft_itoa(unsigned int n);
+void	display_list_export(t_env *a);
 
 #endif

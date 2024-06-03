@@ -6,47 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 20:24:23 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 21:43:55 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	*ft_memcpy(void	*dst, const void *src, size_t n)
-{
-	unsigned char	*ptr;
-	unsigned char	*c;
-	size_t			i;
-
-	i = 0;
-	if (n == 0)
-		return (dst);
-	ptr = (unsigned char *)dst;
-	c = (unsigned char *)src;
-	if (ptr == NULL && c == NULL)
-		return (dst);
-	while (i < n)
-	{
-		*(ptr + i) = *(c + i);
-		i++;
-	}
-	return (dst);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	size_t	size;
-	char	*tab;
-
-	size = ft_strlen(s1);
-	tab = (char *)malloc(sizeof(char) * (size + 1));
-	if (tab == NULL)
-		return (NULL);
-	if (size > 0)
-		ft_memcpy(tab, s1, size);
-	tab[size] = '\0';
-	return (tab);
-}
 
 char	*get_variabl(char *line)
 {
@@ -98,17 +62,6 @@ char	*get_value(char *line)
 		value[i++] = line[t++];
 	value[i] = '\0';
 	return (value);
-}
-
-t_env 	*point_node(t_env *env, char *name)
-{
-	while (env)
-	{
-		if (ft_strncmp(env->variable, name, ft_strlen(name) + 1) == 0)
-			return (env);
-		env = env->next;
-	}
-	return (NULL);
 }
 
 void	remove_variab(t_env **env, char *name)

@@ -6,12 +6,10 @@ void display_env(t_env *a)
 {
     while(a)
     {
-		// printf("\n");
-		// if (a->value != NULL)
+		if (a->value != NULL)
         	printf("%s=%s\n", a->variable, a->value);
         a = a->next;
     }
-    // printf("\n");
 }
 
 

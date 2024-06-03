@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 16:19:00 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:50:55 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,11 @@ void	modif_env(t_env **env)
 	ft_lstadd_back(env, new);
 }
 
+// void	modif_SHELVL(t_env **env)
+// {
+	
+// }
+
 void	ft_env(char **ev, t_env **env)
 {
 	char	*var;
@@ -137,9 +142,6 @@ void	ft_env(char **ev, t_env **env)
 		ft_lstadd_back(env, new);
 		i++;
 	}
-	display_env(*env);
 	modif_env(env);
 	// modif_SHELVL(env);
-	printf("\n\n ------------------- \n\n");
-	display_env(*env);
 }

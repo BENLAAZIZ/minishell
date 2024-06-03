@@ -50,5 +50,6 @@ char	*get_variabl(char *line);
 size_t	ft_strlen(const char *s);
 t_env 	*point_node(t_env *env, char *name);
 void	ft_env(char **ev, t_env **env);
+void	display_env(t_env *a);
 
 #endif

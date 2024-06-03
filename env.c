@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/02 18:52:21 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:34:54 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,35 +66,32 @@ char	*get_value(char *line)
 }
 t_env 	*point_node(t_env *env, char *name)
 {
-	t_env	*node;
 
-	node = NULL;
+	
 	while (env)
 	{
-		if (ft_strncmp(env->variable, name, ft_strlen(name)) == 0)
-			node = env;
+		if (ft_strncmp(env->variable, name, ft_strlen(name) + 1) == 0)
+			return (env);
 		env = env->next;
 	}
-	return (node);
+	return (NULL);
 }
 
 void	remove_variab(t_env **env, char *name)
 {
 	t_env	*node;
-	t_env	*tmp;
 	
 	node = point_node(*env, name);
 	if (node == NULL)
 		return ;
 	while (*env)
 	{
-		if (ft_strncmp((*env)->next->variable, name, ft_strlen(name)) == 0)
+		if (ft_strncmp((*env)->next->variable, name, ft_strlen(name) + 1) == 0)
 		{
-			tmp = (*env)->next;
 			(*env)->next = (*env)->next->next;
-			free(tmp->variable);
-			if (tmp->value)
-				free(tmp->value);
+			free(node->variable);
+			free(node->value);
+			free(node);
 			return ;
 		}
 		*env = (*env)->next;
@@ -119,12 +116,17 @@ void	ft_env(char **ev, t_env **env)
 		ft_lstadd_back(env, new);
 		i++;
 	}
-	remove_variab(env, "PATH");
+	// display_env(*env);
+	// remove_variab(env, "PATH");
+	if (point_node(*env, "PATH") == NULL)
+	{
+		new = ft_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+		ft_lstadd_back(env, new);	
+	}
 	remove_variab(env, "PWD");
-	new = ft_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-	ft_lstadd_back(env, new);
 	new = ft_lstnew("PWD", getcwd(NULL, 0));
 	ft_lstadd_back(env, new);
+	remove_variab(env, "OLDPWD");
 	new = ft_lstnew("OLDPWD", NULL);
 	ft_lstadd_back(env, new);
 }

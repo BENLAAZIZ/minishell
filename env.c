@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 13:34:54 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:35:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,35 +98,45 @@ void	remove_variab(t_env **env, char *name)
 	}
 }
 
-void	ft_env(char **ev, t_env **env)
+void	modif_env(t_env **env)
 {
-	int		i;
-	char	*var;
-	char	*val;
 	t_env	*new;
-
-	i = 0;
-	var = NULL;
-	val = NULL;
-	while (ev[i])
-	{
-		var = get_variabl(ev[i]);
-		val = get_value(ev[i]);
-		new = ft_lstnew(var, val);
-		ft_lstadd_back(env, new);
-		i++;
-	}
-	// display_env(*env);
-	// remove_variab(env, "PATH");
+	t_env	*tmp;
+	
+	tmp = *env;
 	if (point_node(*env, "PATH") == NULL)
 	{
 		new = ft_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 		ft_lstadd_back(env, new);	
 	}
 	remove_variab(env, "PWD");
+	remove_variab(env, "OLDPWD");
+	*env = tmp;
 	new = ft_lstnew("PWD", getcwd(NULL, 0));
 	ft_lstadd_back(env, new);
-	remove_variab(env, "OLDPWD");
 	new = ft_lstnew("OLDPWD", NULL);
 	ft_lstadd_back(env, new);
+}
+
+void	ft_env(char **ev, t_env **env)
+{
+	int		i;
+	char	*var;
+	char	*val;
+	t_env	*new;
+	t_env	**tmp;
+
+	i = 0;
+	var = NULL;
+	val = NULL;
+	tmp = env;
+	while (ev[i])
+	{
+		var = get_variabl(ev[i]);
+		val = get_value(ev[i]);
+		new = ft_lstnew(var, val);
+		ft_lstadd_back(tmp, new);
+		i++;
+	}
+	modif_env(env);
 }

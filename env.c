@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 23:26:50 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:08:09 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,21 @@ void	modif_env(t_env **env)
 
 	if (point_node(*env, "PATH") == NULL)
 	{
-		new = ft_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+		new = ft_lstnew(ft_strdup("PATH"), ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 		ft_lstadd_back(env, new);
 	}
 	remove_variab(env, "PWD");
 	remove_variab(env, "OLDPWD");
-	new = ft_lstnew("PWD", getcwd(NULL, 0));
+	new = ft_lstnew(ft_strdup("PWD"), getcwd(NULL, 0));
 	ft_lstadd_back(env, new);
-	new = ft_lstnew("OLDPWD", NULL);
+	new = ft_lstnew(ft_strdup("OLDPWD"), NULL);
 	ft_lstadd_back(env, new);
 }
 
 void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 {
 	t_env	*node;
-	int		val_shlvl;
+	long	val_shlvl;
 
 	val_shlvl = 1;
 	node = point_node(*env, "SHLVL");
@@ -101,7 +101,7 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 		node->value = ft_strdup("0");
 	else
 	{
-		val_shlvl += ft_atoi(node->value);
+		val_shlvl += ft_atoi(node->value, 0);
 		node->value = ft_itoa(val_shlvl);
 	}
 }

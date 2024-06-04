@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 23:48:28 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:59:20 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_minishell(t_env **env, char **cmd)
 		add_history(line);
 		rl_redisplay();
 		cmd = ft_splith(line, ' ');
+		if (!cmd)
+			continue ;
 		if (ft_strncmp(cmd[0], "env", 4) == 0)
 			display_env(*env);
 		else if (ft_strncmp(cmd[0], "echo", 5) == 0)
@@ -45,8 +47,10 @@ void	ft_minishell(t_env **env, char **cmd)
 			pwd();
 		else if (ft_strncmp(cmd[0], "export", 7) == 0)
 			display_list_export(*env);
-		else if (ft_strncmp(cmd[0], "unset", 7) == 0)
+		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
 			unset(env, cmd);
+		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
+			ft_exit(cmd, *env);
 		free(line);
 	}
 }

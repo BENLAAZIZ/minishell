@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 23:33:30 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:12:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_env
 {
 	char			*variable;
 	char			*value;
+	long			status;
 	struct s_env	*next;
 }	t_env;
 
@@ -54,10 +55,11 @@ void	ft_env(char **ev, t_env **env);
 void	display_env(t_env *a);
 char	*ft_strdup(const char *s1);
 void	*ft_memcpy(void	*dst, const void *src, size_t n);
-int		ft_atoi(const char *str);
+long	ft_atoi(const char *str, int *fil);
 char	*ft_itoa(unsigned int n);
 void	display_list_export(t_env *a);
 void	remove_variab(t_env **env, char *name);
 void	unset(t_env **env, char **cmd);
+void	ft_exit(char **cmd, t_env	*env);
 
 #endif

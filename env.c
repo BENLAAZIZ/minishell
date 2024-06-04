@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/04 20:08:09 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/04 22:05:54 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 		node->value = ft_strdup("0");
 	else
 	{
-		val_shlvl += ft_atoi(node->value, 0);
+		val_shlvl += ft_atoi(node->value, *env);
 		node->value = ft_itoa(val_shlvl);
 	}
 }

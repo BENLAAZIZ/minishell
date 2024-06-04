@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:17:46 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/04 23:35:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:46:14 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ void	ft_exit(char **cmd, t_env	*env)
 		else if (cmd[1])
 		{
 			env->status = ft_atoi(cmd[1], env);
-			if (strcmp(env->fil, "11") == 0)
+			if (strcmp("env->fil", "11") == 0)
 			{
 				printf("exit\nminishell: exit: %s: numeric argument required\n", cmd[1]);
 			}
+		printf("\nstatus \n");
 		}
 	}
 	exit((unsigned char)(env->status));

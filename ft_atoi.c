@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/04 23:20:28 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:18:29 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,6 @@ long	ft_atoi(const char *str, t_env *env)
 		env->fil = ft_strdup("11");
 		return (-1);
 	}
-	
-
-	// if (*(str + i) == '+' || *(str + i) == '-')
-	// {
-	// 	if (*(str + i) == '-')
-	// 		s *= -1;
-	// 	i++;
-	// }
-	// while (str[i])
-	// {
-	// 	if (!(str[i] >= '0' && str[i] <= '9'))
-	// 	{
-	// 		env->fil = ft_strdup("11");
-	// 		return (-1);
-	// 	}
-	// 	i++;
-	// }
 	i = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 	{	
@@ -73,6 +56,5 @@ long	ft_atoi(const char *str, t_env *env)
 			return ((env->fil = ft_strdup("-1")), -1);
 		i++;
 	}
-		
 	return ((long)f * s);
 }

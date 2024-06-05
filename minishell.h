@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/05 10:41:00 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:41:17 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ t_env	*ft_lstnew(char *var, char *value);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 int		size_stack(t_env *a);
-void	export(t_env **env , char **cmd, char *line);
+void	export(t_env **env , char **cmd);
 char	*get_value(char *line);
-char	*get_variabl(char *line);
+char	*get_variabl(char *line, int *egal);
 size_t	ft_strlen(const char *s);
 t_env	*point_node(t_env *env, char *name);
 void	ft_env(char **ev, t_env **env);
@@ -62,5 +62,6 @@ void	display_list_export(t_env *a);
 void	remove_variab(t_env **env, char *name);
 void	unset(t_env **env, char **cmd);
 void	ft_exit(char **cmd, t_env	*env);
+int		check_special_char(char *str);
 
 #endif

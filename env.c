@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/04 22:05:54 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:11:06 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_variabl(char *line)
+char	*get_variabl(char *line, int *egal)
 {
 	int		i;
 	char	*variable;
@@ -29,7 +29,10 @@ char	*get_variabl(char *line)
 	while (line[i])
 	{
 		if (line[i] == '=')
+		{
+			*egal = 1;
 			break ;
+		}
 		variable[i] = line[i];
 		i++;
 	}
@@ -49,8 +52,17 @@ char	*get_value(char *line)
 	t = 0;
 	if (!line)
 		return (NULL);
-	while (line[i] && (line[i] != '='))
+	while (line[i])
+	{
+		if (line[i] == '=')
+		{
+			t = 1;
+			break ;
+		}
 		i++;
+	}
+	if (t == 0)
+		return (NULL);
 	t = i + 1;
 	while (line[++i] != '\0')
 		j++;
@@ -112,13 +124,15 @@ void	ft_env(char **ev, t_env **env)
 	char	*val;
 	t_env	*new;
 	int		i;
+	int		egal;
 
+	egal = 0;
 	var = NULL;
 	val = NULL;
 	i = 0;
 	while (ev[i])
 	{
-		var = get_variabl(ev[i]);
+		var = get_variabl(ev[i], &egal);
 		val = get_value(ev[i]);
 		new = ft_lstnew(var, val);
 		ft_lstadd_back(env, new);

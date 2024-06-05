@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:39:55 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 23:21:28 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:38:14 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	cd(char **cmd, t_env **env)
 	else
 	{
 		if (chdir(cmd[1]) != 0)
-			perror(cmd[1]);
+			printf("minishell: cd: %s: No such file or directory\n",cmd[1]);
 	}
 	change_env(env, home, oldpwd);
 }

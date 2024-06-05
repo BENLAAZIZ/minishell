@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/04 18:59:20 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:52:15 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_minishell(t_env **env, char **cmd)
 		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
 			pwd();
 		else if (ft_strncmp(cmd[0], "export", 7) == 0)
-			display_list_export(*env);
+			export(env , cmd, line);
 		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
 			unset(env, cmd);
 		else if (ft_strncmp(cmd[0], "exit", 6) == 0)

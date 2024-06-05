@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/05 09:54:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:41:00 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_env	*ft_lstnew(char *var, char *value);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 int		size_stack(t_env *a);
-void	export(t_env **env, char *line);
+void	export(t_env **env , char **cmd, char *line);
 char	*get_value(char *line);
 char	*get_variabl(char *line);
 size_t	ft_strlen(const char *s);

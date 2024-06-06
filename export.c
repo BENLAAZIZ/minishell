@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/05 21:32:28 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:52:35 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,17 @@ void	export(t_env **env , char **cmd)
 				}
 				else
 				{
+					//khasni nsayb hadi ila kant += egal= 1 +dfgdf egal=-1 
 					if (egal == 1)
+						node->value = ft_strjoin(node->value, val);
+					else if(egal == -1)
+						printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
+					else
 						node->value = val;
 				}
 			}
 			i++;
 		}
 	}
+	
 }

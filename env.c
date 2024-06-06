@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/05 21:34:52 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:48:46 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,14 @@ char	*get_variabl(char *line, int *egal)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '=')
+		if (line[i] == '+' || line[i] == '=')
 		{
-			*egal = 1;
+			if (line[i] == '+' && line[i + 1] == '=')
+				*egal = 1;
+			if (line[i] == '+' && line[i + 1] != '=')
+				*egal = -1;
+			else
+				*egal = 1;
 			break ;
 		}
 		variable[i] = line[i];
@@ -41,6 +46,7 @@ char	*get_variabl(char *line, int *egal)
 	variable[i] = '\0';
 	return (variable);
 }
+
 
 char	*get_value(char *line)
 {

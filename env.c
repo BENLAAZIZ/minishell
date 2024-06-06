@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/05 16:11:06 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 21:34:52 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*get_variabl(char *line, int *egal)
 		return (NULL);
 	while (line[i] && (line[i] != '='))
 		i++;
+	if (i == 0)
+		return (NULL);
 	variable = (char *)malloc(i + 1);
 	if (!variable)
 		return (NULL);

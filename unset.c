@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:42:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 23:27:26 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 22:11:45 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,19 @@ int	check_special_char(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if ((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'a' && str[i] <= 'z')
-			|| (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_')
+			|| (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_' || str[i] == '+' || str[i] == '$')
 		{
-			if ((str[0] >= '0' && str[0] <= '9'))
+			if ((str[0] >= '0' && str[0] <= '9') || str[0] == '=' || str[i] == '+')
+			{
+				if (str[i] == '+' && str[i + 1] == '=')
+					return (1);
 				return (0);
+			}
 		}
 		else
 			return (0);

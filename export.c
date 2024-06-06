@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/05 16:24:26 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/05 21:32:28 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	export(t_env **env , char **cmd)
 		{
 			var = get_variabl(cmd[i], &egal);
 			val = get_value(cmd[i]);
-			if (check_special_char(var) == 0)
+			if (check_special_char(var) == 0 || !var)
 			{
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
 				i++;

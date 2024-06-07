@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/06 22:48:46 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/07 15:32:25 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_variabl(char *line, int *egal)
+char	*get_variabl(char *line)
 {
 	int		i;
 	char	*variable;
@@ -30,16 +30,8 @@ char	*get_variabl(char *line, int *egal)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '+' || line[i] == '=')
-		{
-			if (line[i] == '+' && line[i + 1] == '=')
-				*egal = 1;
-			if (line[i] == '+' && line[i + 1] != '=')
-				*egal = -1;
-			else
-				*egal = 1;
+		if (line[i] == '=')
 			break ;
-		}
 		variable[i] = line[i];
 		i++;
 	}
@@ -140,7 +132,7 @@ void	ft_env(char **ev, t_env **env)
 	i = 0;
 	while (ev[i])
 	{
-		var = get_variabl(ev[i], &egal);
+		var = get_variabl(ev[i]);
 		val = get_value(ev[i]);
 		new = ft_lstnew(var, val);
 		ft_lstadd_back(env, new);

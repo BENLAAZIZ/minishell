@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/06 22:52:35 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:51:43 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,52 +29,113 @@ void	display_list_export(t_env *a)
 	}
 }
 
+void	check_get_variabl(char *line, int *egal, char *variable, int *i)
+{
+	while (line[*i])
+	{
+		if (line[*i] == '+' || line[*i] == '=')
+		{
+			if (line[*i] == '+' && line[*i + 1] == '=')
+				*egal = 1;
+			else if (line[*i] == '+' && line[*i + 1] != '=')
+				*egal = -1;
+			else
+				*egal = 0;
+			break ;
+		}
+		variable[*i] = line[*i];
+		(*i)++;
+	}
+}
+
+char	*get_variabl_export(char *line, int *egal)
+{
+	int		i;
+	char	*variable;
+
+	i = 0;
+	if (!line)
+		return (NULL);
+	while (line[i] && (line[i] != '='))
+		i++;
+	if (i == 0)
+		return (NULL);
+	variable = (char *)malloc(i + 1);
+	if (!variable)
+		return (NULL);
+	i = 0;
+	check_get_variabl(line, egal, variable, &i);
+	variable[i] = '\0';
+	return (variable);
+}
+
+int	check_special_char_export(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	if (!((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z') || str[i] == '_'))
+			return (0);
+	while (str[i])
+	{
+		if ((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'a' && str[i] <= 'z')
+			|| (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
+void	export_suit(t_env **env, t_var	*var, char *str)
+{	
+	t_env	*node;	
+	t_env	*exp;
+
+	node = point_node(*env, var->var);
+	if (!node)
+	{
+		exp = ft_lstnew(var->var, var->val);
+		ft_lstadd_back(env, exp);
+	}
+	else
+	{
+		if (var->egal == 1)
+			node->value = ft_strjoin(node->value, var->val);
+		else if(var->egal == -1)
+			printf("minishell: export: `%s': not a valid identifier\n", str);
+		else
+			node->value = var->val;
+	}
+}
+
 void	export(t_env **env , char **cmd)
 {
-	char	*var;
-	char	*val;
-	t_env	*exp;
-	t_env	*node;
+	t_var	*var;
 	int		i;
-	int		egal;
 
-	egal = 0;
+	var = malloc(sizeof(t_var));
+	var->egal = 0;
 	if (!cmd[1])
 		display_list_export(*env);
 	else
 	{
-			i = 1;
+		i = 1;
 		while (cmd[i])
 		{
-			var = get_variabl(cmd[i], &egal);
-			val = get_value(cmd[i]);
-			if (check_special_char(var) == 0 || !var)
+			var->var = get_variabl_export(cmd[i], &var->egal);
+			var->val = get_value(cmd[i]);
+			if (check_special_char_export(var->var) == 0 || !var || var->egal == -1)
 			{
 				printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
 				i++;
 				continue ;
 			}
 			else
-			{		
-				node = point_node(*env, var);
-				if (!node)
-				{
-					exp = ft_lstnew(var, val);
-					ft_lstadd_back(env, exp);
-				}
-				else
-				{
-					//khasni nsayb hadi ila kant += egal= 1 +dfgdf egal=-1 
-					if (egal == 1)
-						node->value = ft_strjoin(node->value, val);
-					else if(egal == -1)
-						printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
-					else
-						node->value = val;
-				}
-			}
+				export_suit(env, var, cmd[i]);
 			i++;
 		}
 	}
-	
 }

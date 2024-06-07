@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/07 15:32:25 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:57:27 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ char	*get_variabl(char *line)
 }
 
 
+void	init(char *line, int *i, int *t)
+{
+	while (line[*i])
+	{
+		if (line[*i] == '=')
+		{
+			*t = 1;
+			break ;
+		}
+		(*i)++;
+	}
+}
+
 char	*get_value(char *line)
 {
 	int		i;
@@ -52,15 +65,7 @@ char	*get_value(char *line)
 	t = 0;
 	if (!line)
 		return (NULL);
-	while (line[i])
-	{
-		if (line[i] == '=')
-		{
-			t = 1;
-			break ;
-		}
-		i++;
-	}
+	init(line, &i, &t);
 	if (t == 0)
 		return (NULL);
 	t = i + 1;
@@ -124,11 +129,9 @@ void	ft_env(char **ev, t_env **env)
 	char	*val;
 	t_env	*new;
 	int		i;
-	int		egal;
 
-	egal = 0;
-	var = NULL;
-	val = NULL;
+	// var = NULL;
+	// val = NULL;
 	i = 0;
 	while (ev[i])
 	{

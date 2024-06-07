@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:42:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/07 12:40:15 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/07 21:15:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	unset(t_env **env, char **cmd)
 	{
 		if (check_special_char_unset(cmd[i]) == 0)
 		{
-			printf("unset: `%s': not a valid identifier\n", cmd[i]);
+			printf("minishell: unset: `%s': not a valid identifier\n", cmd[i]);
 			i++;
 			continue ;
 		}

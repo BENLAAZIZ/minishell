@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/08 15:27:08 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:20:11 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	check_option_n(char *str, int *index, int *newline)
 		}
 		if (str[i] == '\0')
 		{
-			newline = 1;
-			index = 2;
+			*newline = 1;
+			*index = 2;
 		}
 	}
 }
@@ -56,21 +56,6 @@ void	echo(char **cmd)
 	i = 0;
 	newline = 0;
 	index = 1;
-	// if (cmd[index] && cmd[index][0] == '-')
-	// {
-	// 	i++;
-	// 	while (cmd[index][i])
-	// 	{
-	// 		if (cmd[index][i] != 'n')
-	// 			break ;
-	// 		i++;
-	// 	}
-	// 	if (cmd[index][i] == '\0')
-	// 	{
-	// 		newline = 1;
-	// 		index = 2;
-	// 	}
-	// }
 	while (cmd[index])
 	{
 		printf("%s", cmd[index]);

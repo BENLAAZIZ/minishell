@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/06 16:48:37 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:49:29 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	check_number(const char *str)
 	return (0);
 }
 
-
 void	check_sin(const char *str, int *i, int *s)
 {
 	if (str[*i] == '+' || str[*i] == '-')
@@ -38,7 +37,6 @@ void	check_sin(const char *str, int *i, int *s)
 		(*i)++;
 	}
 }
-
 
 long	ft_atoi(const char *str, t_env *env)
 {

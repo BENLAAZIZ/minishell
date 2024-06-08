@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/07 16:51:43 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:47:56 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 {	
 	t_env	*node;	
 	t_env	*exp;
+	char	*tmp;
 
 	node = point_node(*env, var->var);
 	if (!node)
@@ -103,11 +104,16 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 	else
 	{
 		if (var->egal == 1)
-			node->value = ft_strjoin(node->value, var->val);
+		{
+			tmp = node->value;
+			node->value = ft_strjoin(tmp, var->val);
+			free(tmp);
+		}
 		else if(var->egal == -1)
 			printf("minishell: export: `%s': not a valid identifier\n", str);
 		else
-			node->value = var->val;
+			if (node->variable && var->val)
+				node->value = var->val;
 	}
 }
 

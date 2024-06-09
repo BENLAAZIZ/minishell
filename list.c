@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 13:32:24 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:13:45 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 }
 
 int	size_pipe_node(t_node *a)
+{
+	int		size;
+
+	if (!a)
+		return (-1);
+	size = 0;
+	while (a)
+	{
+		size++;
+		a = a -> next;
+	}
+	return (size);
+}
+
+int	size_env(t_env *a)
 {
 	int		size;
 

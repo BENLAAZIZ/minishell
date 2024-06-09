@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 15:00:54 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:14:01 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <string.h>
+# include <fcntl.h>
 # include <readline/history.h>
 
 
@@ -41,6 +42,13 @@ typedef struct s_node
 	struct s_node	*next;
 }	t_node;
 
+
+
+typedef struct s_path
+{
+	char			**path;
+	char			**cmd_env;
+}	t_path;
 // **********************
 
 
@@ -85,5 +93,6 @@ void	remove_variab(t_env **env, char *name);
 void	unset(t_env **env, char **cmd);
 void	ft_exit(char **cmd, t_env	*env);
 char	*ft_strjoin(char const *s1, char const *s2);
+int		size_env(t_env *a);
 
 #endif

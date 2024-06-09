@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 11:59:22 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:57:27 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*get_variabl(char *line)
 	variable[i] = '\0';
 	return (variable);
 }
+
 
 void	init(char *line, int *i, int *t)
 {
@@ -124,11 +125,13 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 
 void	ft_env(char **ev, t_env **env)
 {
-	t_env	*new;
 	char	*var;
 	char	*val;
+	t_env	*new;
 	int		i;
 
+	// var = NULL;
+	// val = NULL;
 	i = 0;
 	while (ev[i])
 	{

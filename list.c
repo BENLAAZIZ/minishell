@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 23:28:42 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/09 12:02:20 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ int	size_stack(t_env *a)
 		a = a -> next;
 	}
 	return (size);
+}
+
+t_env	*point_node(t_env *env, char *name)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->variable, name, ft_strlen(name) + 1) == 0)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
 }

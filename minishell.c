@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/07 22:13:40 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:02:08 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,44 @@ void	display_env(t_env *a)
 	}
 }
 
+void	ft_exuctute()
+{
+	
+}	
+
+
 void	ft_minishell(t_env **env, char **cmd)
 {
 	char	*line;
+	int		size;
+	t_node	*pipe_node;
 
 	line = NULL;
 	while (1)
 	{
+		size = 0;
 		line = readline("minishell$ ");
 		if (!line)
 			break ;
 		add_history(line);
 		rl_redisplay();
+
+		
+		pipe_node = NULL;
+		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
+		// if (!pipe_node)
+		// 	continue ;
+		size = size_pipe_node(pipe_node);
+		// if (size == 1)
+		// {
+		// 	//without fork
+		// }
+		// else
+		// {
+		// 	// fork for any pipe_node
+		// }
+		
+		// *******************
 		cmd = ft_splith(line, ' ');
 		if (!cmd)
 			continue ;
@@ -51,6 +77,8 @@ void	ft_minishell(t_env **env, char **cmd)
 			unset(env, cmd);
 		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
 			ft_exit(cmd, *env);
+		else
+			ft_exuctute();
 		free(line);
 	}
 }

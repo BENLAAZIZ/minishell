@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/07 16:24:08 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:00:54 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,29 @@
 # include <string.h>
 # include <readline/history.h>
 
+
+typedef struct s_cmd
+{
+	char			**command;
+	struct s_cmd	*next;
+}	t_cmd;
+
+typedef struct s_red
+{
+	char			**red;
+	struct s_red	*next;
+}	t_red;
+
+
 typedef struct s_node
 {
-	char			**redirection;
-	char			**command;
-	char			**com;
-	int				data;
+	t_cmd			*cmd_node;
+	t_red			*red_node;
 	struct s_node	*next;
 }	t_node;
+
+// **********************
+
 
 typedef struct s_env
 {
@@ -53,7 +68,7 @@ void	pwd(void);
 t_env	*ft_lstnew(char *var, char *value);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_back(t_env **lst, t_env *new);
-int		size_stack(t_env *a);
+int		size_pipe_node(t_node *a);
 void	export(t_env **env , char **cmd);
 char	*get_value(char *line);
 char	*get_variabl(char *line);

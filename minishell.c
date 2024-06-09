@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 21:52:55 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/09 22:07:50 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	display_env(t_env *a)
 // 	exec_cmd(cmd, data->path);
 // }	
 
-void	ft_initialis_data(t_path **path, t_env *env)
+void	ft_initialis_data(t_path *path, t_env *env)
 {
 	t_env	*poin;
 	int		size;
@@ -110,33 +110,31 @@ void	ft_initialis_data(t_path **path, t_env *env)
 
 	char *str;
 	str = poin->value;
-	tmp = NULL;
-	// (*path)->path = NULL;
-	// (*path)->cmd_env = NULL;
-	(*path)->path = ft_splith(str, ':');
+	// path->path = NULL;
+	// path->cmd_env = NULL;
+	path->path = ft_splith(str, ':');
 	size = size_env(env);
-	(*path)->cmd_env = (char **)malloc(sizeof(char *) * size + 1);
+	path->cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
 	while (env)
 	{
+		tmp = NULL;
 		if (env->value)
 		{	
 			tmp = ft_strjoin(env->variable, "=");
-			(*path)->cmd_env[i] = ft_strjoin(tmp, env->value);
+			path->cmd_env[i] = ft_strjoin(tmp, env->value);
 		}
-		else
-			(*path)->cmd_env[i] = ft_strdup(env->variable);
 		free(tmp);
 		i++;
 		env = env->next;
 	}
-	(*path)->cmd_env[i] = NULL;
+	path->cmd_env[i] = NULL;
 }
 
 
 void	ft_minishell(t_env **env, char **cmd)
 {
 	t_node	*pipe_node;
-	// t_path	*path;
+	t_path	path;
 	char	*line;
 	int		size;
 	// int		fd[2];
@@ -155,13 +153,13 @@ void	ft_minishell(t_env **env, char **cmd)
 
 		
 		pipe_node = NULL;
-		// ft_initialis_data(&path, *env);
+		ft_initialis_data(&path, *env);
 		printf("\n ======================= env =====================\n");
-		// while (path->cmd_env[i])
-		// {
-		// 	printf("%s\n", path->cmd_env[i]);
-		// 	i++;
-		// }
+		while (path.cmd_env[i])
+		{
+			printf("%s\n", path.cmd_env[i]);
+			i++;
+		}
 		printf("\n ======================= env =====================\n");
 		
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];

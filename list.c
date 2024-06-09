@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 19:13:45 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/09 22:04:16 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	size_env(t_env *a)
 	size = 0;
 	while (a)
 	{
-		size++;
+		if (a->value != NULL)
+			size++;
 		a = a -> next;
 	}
 	return (size);

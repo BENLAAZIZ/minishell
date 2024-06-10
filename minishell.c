@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 22:07:50 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:24:45 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,18 @@ void	ft_minishell(t_env **env, char **cmd)
 			i++;
 		}
 		printf("\n ======================= env =====================\n");
-		
+		i = 0;
+		printf("\n ======================= path =====================\n");
+		while (path.path[i])
+		{
+			printf("%s\n", path.path[i]);
+			i++;
+		}
+		printf("\n ======================= path =====================\n");
+		// if (path.path)
+		// 	free_t_split(path.path);
+		// if (path.cmd_env)
+		// 	free_t_split(path.cmd_env);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
 		// if (!pipe_node)
 			// continue ;

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 19:14:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:01:36 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void	unset(t_env **env, char **cmd);
 void	ft_exit(char **cmd, t_env	*env);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		size_env(t_env *a);
+void	free_t_split(char **array);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/10 19:24:45 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 00:56:24 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,52 +95,56 @@ void	display_env(t_env *a)
 // 	exec_cmd(cmd, data->path);
 // }	
 
-void	ft_initialis_data(t_path *path, t_env *env)
+void	ft_initialis_data(t_path *data, t_env *env)
 {
 	t_env	*poin;
 	int		size;
 	int		i;
 	char	*tmp;
+	t_env	*tp;
 	
 	size = 0;
 	i = 0;
+	tp = env;
 	poin = point_node(env, "PATH");
 	if (!poin)
 		return ;
-
 	char *str;
 	str = poin->value;
-	// path->path = NULL;
-	// path->cmd_env = NULL;
-	path->path = ft_splith(str, ':');
+	
+	data->cmd_env = NULL;
+	data->path = ft_splith(str, ':');
 	size = size_env(env);
-	path->cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
+	printf("\nsize = %d\n", size);
+	data->cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
 	while (env)
 	{
 		tmp = NULL;
 		if (env->value)
 		{	
 			tmp = ft_strjoin(env->variable, "=");
-			path->cmd_env[i] = ft_strjoin(tmp, env->value);
+			data->cmd_env[i] = ft_strjoin(tmp, env->value);
+			i++;
 		}
 		free(tmp);
-		i++;
 		env = env->next;
 	}
-	path->cmd_env[i] = NULL;
+	data->cmd_env[i] = NULL;
+	env = tp;
 }
 
 
 void	ft_minishell(t_env **env, char **cmd)
 {
-	t_node	*pipe_node;
-	t_path	path;
+	// t_node	*pipe_node;
+	t_path	data;
 	char	*line;
 	int		size;
 	// int		fd[2];
 	
 	int		i;
 	line = NULL;
+
 	while (1)
 	{
 		size = 0;
@@ -150,33 +154,33 @@ void	ft_minishell(t_env **env, char **cmd)
 			break ;
 		add_history(line);
 		rl_redisplay();
-
 		
-		pipe_node = NULL;
-		ft_initialis_data(&path, *env);
-		printf("\n ======================= env =====================\n");
-		while (path.cmd_env[i])
-		{
-			printf("%s\n", path.cmd_env[i]);
-			i++;
-		}
-		printf("\n ======================= env =====================\n");
-		i = 0;
-		printf("\n ======================= path =====================\n");
-		while (path.path[i])
-		{
-			printf("%s\n", path.path[i]);
-			i++;
-		}
-		printf("\n ======================= path =====================\n");
-		// if (path.path)
-		// 	free_t_split(path.path);
-		// if (path.cmd_env)
-		// 	free_t_split(path.cmd_env);
+		// pipe_node = NULL;
+		// data = NULL;
+		ft_initialis_data(&data, *env);
+		// printf("\n ======================= env =====================\n");
+		// while (data.cmd_env[i])
+		// {
+		// 	printf("%s\n", data.cmd_env[i]);
+		// 	i++;
+		// }
+		// printf("\n ======================= env =====================\n");
+		// i = 0;
+		// printf("\n ======================= data =====================\n");
+		// while (data.path[i])
+		// {
+		// 	printf("%s\n", data.path[i]);
+		// 	i++;
+		// }
+		// printf("\n ======================= path =====================\n");
+		if (data.path)
+			free_t_split(data.path);
+		if (data.cmd_env)
+			free_t_split(data.cmd_env);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
 		// if (!pipe_node)
 			// continue ;
-		size = size_pipe_node(pipe_node);
+		// size = size_pipe_node(pipe_node);
 		// if (size == 1)
 		// {
 		// 	//without fork
@@ -210,6 +214,7 @@ void	ft_minishell(t_env **env, char **cmd)
 		free(line);
 	}
 }
+
 
 int	main(int argc, char *argv[], char **ev)
 {

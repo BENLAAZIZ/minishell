@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 11:52:56 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:53:32 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,11 @@ void	ft_minishell(t_env **env, char **cmd)
 	
 	int		i;
 	line = NULL;
-
 	while (1)
 	{
-		size = 0;
 		i = 0;
+		size = 0;
+		var.status = 0;
 		line = readline("minishell$ ");
 		if (!line)
 			break ;
@@ -202,19 +202,40 @@ void	ft_minishell(t_env **env, char **cmd)
 		if (!cmd)
 			continue ;
 		if (ft_strncmp(cmd[0], "env", 4) == 0)
+		{
 			display_env(*env);
+			printf("\n\n exit status = %ld \n\n", var.status);
+		}
 		else if (ft_strncmp(cmd[0], "echo", 5) == 0)
+		{
 			echo(cmd);
+			printf("\n\n exit status = %ld \n\n", var.status);
+		}
 		else if (ft_strncmp(cmd[0], "cd", 3) == 0)
-			cd(cmd, env);
+		{
+			var.status = cd(cmd, env);
+			printf("\n\n exit status = %ld \n\n", var.status);
+		}
 		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
-			pwd();
+		{
+			var.status = pwd();
+			printf("\n\n exit status = %ld \n\n", var.status);
+		}
 		else if (ft_strncmp(cmd[0], "export", 7) == 0)
-			export(env , cmd);
+		{
+			var.status = export(env , cmd);
+			printf("\n\n exit status = %ld \n\n", var.status);
+		}
 		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
-			unset(env, cmd);
+		{
+			unset(env, cmd, &var);
+			printf("\n\n exit status = %ld \n\n", var.status);
+		}
 		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
+		{
 			ft_exit(cmd, &var);
+			printf("\n\n exit status = %ld \n\n", var.status);
+		}
 		// else
 		// 	ft_exuctute(cmd, &data, var);
 		free(line);

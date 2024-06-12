@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_functions.c                            :+:      :+:    :+:   */
+/*   error_f.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 11:15:56 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 11:16:08 by hben-laz         ###   ########.fr       */
+/*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
+/*   Updated: 2024/06/12 12:47:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "minishell.h"
 
-void	ft_error(char *s, char *flag, int i, int in, t_env *env)
+void	ft_error(char *s, char *flag, int i, int in)
 {
 	if (ft_strncmp(flag, "fail", 4) != 0 && i == 1)
 	{
@@ -37,7 +37,7 @@ void	ft_error(char *s, char *flag, int i, int in, t_env *env)
 		write(2, s, ft_strlen(s));
 		write(2, "\n", 1);
 	}
-	;
+	//kant exit hna ;
 }
 
 void	free_t_split(char **array)

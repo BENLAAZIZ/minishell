@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 11:52:44 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:41:10 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ typedef struct s_var
 }	t_var;
 
 void	echo(char **cmd);
-void	cd(char **cmd, t_env **env);
-void	pwd(void);
+void	unset(t_env **env, char **cmd, t_var *var);
 void	ft_env(char **ev, t_env **env);
-void	export(t_env **env , char **cmd);
-void	unset(t_env **env, char **cmd);
 void	ft_exit(char **cmd, t_var *var);
+int		cd(char **cmd, t_env **env);
+int		pwd(void);
+int		export(t_env **env , char **cmd);
 
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

@@ -1,6 +1,8 @@
 # minishell
 
-# execution functions 
+In our extensive and critical project within the 42 network, we are tasked with developing a sophisticated command interpreter that emulates the functionality of bash. This minishell will manage environment variables, launch programs, and handle their return values. Additionally, it will include several built-in functions such as **`cd`**, **`echo`**, **`env`**, **`exit`**, **`export`**, **`pwd`**, and **`unset`**. This ambitious and lengthy endeavor is a cornerstone of our curriculum, reflecting the depth and complexity expected in our training.
+
+## builtin functions 
 
 
 ## echo with option -n

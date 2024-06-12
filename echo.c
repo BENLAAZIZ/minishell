@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 12:07:18 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/13 00:19:04 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ void	ft_putstr(char *s)
 }
 
 
-void	check_option_n(char *str, int *index, int *newline)
+int	check_option_n(char *str, int *index, int *newline)
 {
 	int	i;
+	int	c;
 
+	c = 0;
 	i = 0;
 	if (str && str[0] == '-')
 	{
@@ -42,9 +44,11 @@ void	check_option_n(char *str, int *index, int *newline)
 		if (str[i] == '\0')
 		{
 			*newline = 1;
-			*index = 2;
+			(*index)++;
+			c = 1;
 		}
 	}
+	return (c);
 }
 
 void	echo(char **cmd)
@@ -53,10 +57,15 @@ void	echo(char **cmd)
 	int	index;
 	int	i;
 
-	i = 0;
 	newline = 0;
 	index = 1;
-	check_option_n(cmd[index], &index, &newline);
+	i = 1;
+	while (cmd[i])
+	{
+		if (check_option_n(cmd[index], &index, &newline) == 0)
+			break ;
+		i++;
+	}
 	while (cmd[index])
 	{
 		// printf("%s", cmd[index]);
@@ -66,6 +75,6 @@ void	echo(char **cmd)
 			// printf(" ");
 		index++;
 	}
-	if (!newline)
+	// if (!newline)
 		printf("\n");
 }

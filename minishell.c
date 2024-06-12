@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 20:08:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/13 00:14:13 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,27 +230,29 @@ void	ft_minishell(t_env **env, char **cmd)
 		// printf("\n ======================= env =====================\n");
 		// i = 0;
 		// printf("\n ======================= data =====================\n");
-		// while (data.path[i])
+		// if (data.path)
 		// {
-		// 	printf("%s\n", data.path[i]);
-		// 	i++;
+		// 	while (data.path[i])
+		// 	{
+		// 		printf("%s\n", data.path[i]);
+		// 		i++;
+		// 	}
+		// 	if (data.path)
+		// 		free_t_split(data.path);
 		// }
 		// printf("\n ======================= path =====================\n");
-		if (data.path)
-			free_t_split(data.path);
-		if (data.cmd_env)
-			free_t_split(data.cmd_env);
+		// if (data.cmd_env)
+		// 	free_t_split(data.cmd_env);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
 		// if (!pipe_node)
 		// 	continue ;
-			printf("\n++++++\n");
-		size = size_pipe_node(pipe_node);
+		// size = size_pipe_node(pipe_node);
 		cmd = ft_splith(line, ' ');
 		if (!cmd)
 			continue ;
 		size = 1; // hadi ghi bach njarab node whda
 		// handle_file_rederection(&pipe_node, fd);
-		printf("\nsize = %d\n", size);
+		// printf("\nsize = %d\n", size);
 
 		if (size == 1)
 		{
@@ -263,6 +265,7 @@ void	ft_minishell(t_env **env, char **cmd)
 		}
 		else
 		{
+			// while i < size : pipe_node = pipe_node->next -->
 			if (pipe(fd) == -1)
 			{
 				perror("pipe fail :");
@@ -282,6 +285,12 @@ void	ft_minishell(t_env **env, char **cmd)
 		// {
 		// 	// fork for any pipe_node
 		// }
+		if (cmd)
+			free_t_split(cmd);
+		if (data.path)
+			free_t_split(data.path);
+		if (data.cmd_env)
+			free_t_split(data.cmd_env);
 		free(line);
 	}
 }

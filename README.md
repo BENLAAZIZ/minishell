@@ -70,7 +70,26 @@ int main() {
     } else {
         perror("chdir() error");
     }
-
     return 0;
 }
 ```
+
+### `env` with no options or arguments:
+
+
+In Bash, an **`environment`** refers to a set of variables that are used by the operating system to control the behavior of processes. These environment variables can store information such as user preferences, system configurations, and other settings that programs can access to tailor their functionality. Here’s a detailed explanation of environment variables in Bash and their typical use cases:
+
+
+**Environment Variables in Bash**
+1. Definition and Structure:
+
+* Environment variables are key-value pairs, where the key is the variable name and the value is the variable's data.
+* They are typically written in uppercase letters (e.g., PATH, HOME, USER).
+2. Common Environment Variables:
+
+* `PATH`: Specifies the directories in which the shell looks for executable files. For example, when you type a command, Bash searches these directories to find the command.
+* `HOME`: Indicates the current user's home directory.
+* `USER`: Contains the username of the current user.
+* `SHELL`: Indicates the path to the current user's shell.
+* `PWD`: Stores the current working directory.
+**Using Environment Variables**

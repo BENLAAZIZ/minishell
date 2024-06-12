@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/11 23:37:19 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:52:44 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,44 +56,49 @@ typedef struct s_env
 {
 	char			*variable;
 	char			*value;
-	char			*fil;
-	long			status;
+	// char			*fil;
+	// long			status;
 	struct s_env	*next;
 }	t_env;
 
 typedef struct s_var
 {
-	char	*var;
-	char	*val;
-	int		egal;
+	char			*var;
+	char			*val;
+	int				egal;
+	char			*fil;
+	long			status;
 }	t_var;
 
-char	**ft_splith(char const *s, char c);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	echo(char **cmd);
 void	cd(char **cmd, t_env **env);
 void	pwd(void);
+void	ft_env(char **ev, t_env **env);
+void	export(t_env **env , char **cmd);
+void	unset(t_env **env, char **cmd);
+void	ft_exit(char **cmd, t_var *var);
+
+size_t	ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strdup(const char *s1);
+char	*ft_itoa(unsigned int n);
+long	ft_atoi(const char *str, t_var *var);
+void	*ft_memcpy(void	*dst, const void *src, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
+
+t_env	*point_node(t_env *env, char *name);
 t_env	*ft_lstnew(char *var, char *value);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 int		size_pipe_node(t_node *a);
-void	export(t_env **env , char **cmd);
-char	*get_value(char *line);
-char	*get_variabl(char *line);
-size_t	ft_strlen(const char *s);
-t_env	*point_node(t_env *env, char *name);
-void	ft_env(char **ev, t_env **env);
-void	display_env(t_env *a);
-char	*ft_strdup(const char *s1);
-void	*ft_memcpy(void	*dst, const void *src, size_t n);
-long	ft_atoi(const char *str, t_env *env);
-char	*ft_itoa(unsigned int n);
-void	display_list_export(t_env *a);
-void	remove_variab(t_env **env, char *name);
-void	unset(t_env **env, char **cmd);
-void	ft_exit(char **cmd, t_env	*env);
-char	*ft_strjoin(char const *s1, char const *s2);
 int		size_env(t_env *a);
+void	display_env(t_env *a);
+void	display_list_export(t_env *a);
+
+char	*get_variabl(char *line);
+char	*get_value(char *line);
+void	remove_variab(t_env **env, char *name);
+char	**ft_splith(char const *s, char c);
 void	free_t_split(char **array);
 
 #endif

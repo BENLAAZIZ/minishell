@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 00:56:24 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:52:56 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	display_env(t_env *a)
 // }
 
 
-// void	exec_cmd(char **cmd, char **cmd_find)
+// int	exec_cmd(char **cmd, t_path *data)
 // {
 // 	char	*s;
 // 	char	*comand;
@@ -58,29 +58,33 @@ void	display_env(t_env *a)
 // 	comand = NULL;
 // 	s = ft_strjoin("/", cmd[0]);
 // 	if (!s)
-// 		return (free_t_split(cmd), free_t_split(cmd_find));
-// 	while (cmd_find[++i])
+// 		return (free_t_split(cmd), free_t_split(data->path), 0);
+// 	while (data->path[++i])
 // 	{
-// 		comand = ft_strjoin(cmd_find[i], s);
+// 		comand = ft_strjoin(data->path[i], s);
 // 		if (!comand)
-// 			return (free(s), free_t_split(cmd), free_t_split(cmd_find));
+// 			return (free(s), free_t_split(cmd), free_t_split(data->path), 0);
 // 		if (access(comand, X_OK) != 0)
 // 			free(comand);
 // 		else
 // 			break ;
 // 	}
 // 	free(s);
-// 	free_t_split(cmd_find);
-// 	if (execve(comand, cmd, NULL) == -1)
+// 	free_t_split(data->path);
+// 	if (execve(comand, cmd, data->cmd_env) == -1)
+// 	{
 // 		ft_error("command not found: ", cmd[0], 0, 0);
+// 		return (0);
+// 	}
+// 	return (1);
 // }
 
 
 
-// void	ft_exuctute(char **cmd, t_path *data)
+// void	ft_exuctute(char **cmd, t_path *data, t_var *var)
 // {
-// 		if (!cmd)
-// 		ft_error("command not found: ", " ", 0, 0);
+// 	if (!cmd)
+// 		ft_error("command not found: ", " ", 0, 0, data);
 // 	if (ft_strchr(cmd[0], '/') != NULL)
 // 	{
 // 		if (execve(cmd[0], cmd, NULL) == -1)
@@ -92,7 +96,7 @@ void	display_env(t_env *a)
 // 		free_t_split(cmd);
 // 		exit(1);
 // 	}
-// 	exec_cmd(cmd, data->path);
+// 	exec_cmd(cmd, data);
 // }	
 
 void	ft_initialis_data(t_path *data, t_env *env)
@@ -138,6 +142,7 @@ void	ft_minishell(t_env **env, char **cmd)
 {
 	// t_node	*pipe_node;
 	t_path	data;
+	t_var	var;
 	char	*line;
 	int		size;
 	// int		fd[2];
@@ -179,12 +184,13 @@ void	ft_minishell(t_env **env, char **cmd)
 			free_t_split(data.cmd_env);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
 		// if (!pipe_node)
-			// continue ;
+		// 	continue ;
 		// size = size_pipe_node(pipe_node);
 		// if (size == 1)
 		// {
 		// 	//without fork
 		// 	handle_file_rederection(pipe_node->red_node, pipe_node->cmd_node, &fd);
+		// 	ft_exuctute(pipe_node->cmd_node, &data);
 		// }
 		// else
 		// {
@@ -208,9 +214,9 @@ void	ft_minishell(t_env **env, char **cmd)
 		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
 			unset(env, cmd);
 		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
-			ft_exit(cmd, *env);
+			ft_exit(cmd, &var);
 		// else
-		// 	ft_exuctute();
+		// 	ft_exuctute(cmd, &data, var);
 		free(line);
 	}
 }

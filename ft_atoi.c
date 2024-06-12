@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/08 17:49:29 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:50:49 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	check_sin(const char *str, int *i, int *s)
 	}
 }
 
-long	ft_atoi(const char *str, t_env *env)
+long	ft_atoi(const char *str, t_var *var)
 {
 	int				i;
 	unsigned long	f;
@@ -50,7 +50,7 @@ long	ft_atoi(const char *str, t_env *env)
 	
 	if (check_number(str) == -1)
 	{
-		env->fil = ft_strdup("11");
+		var->fil = ft_strdup("11");
 		return (-1);
 	}
 	check_sin(str, &i, &s);
@@ -58,9 +58,9 @@ long	ft_atoi(const char *str, t_env *env)
 	{	
 		f = (f * 10) + str[i] - '0';
 		if (f >= 9223372036854775807 && s == 1)
-			return ((env->fil = ft_strdup("-1")), -1);
+			return ((var->fil = ft_strdup("-1")), -1);
 		if (f > 9223372036854775808UL && s == -1)
-			return ((env->fil = ft_strdup("-1")), -1);
+			return ((var->fil = ft_strdup("-1")), -1);
 		i++;
 	}
 	return ((long)f * s);

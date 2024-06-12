@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/09 11:59:22 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:51:05 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	modif_env(t_env **env)
 void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 {
 	t_env	*node;
+	t_var	varr;
 	long	val_shlvl;
 
 	val_shlvl = 1;
@@ -117,7 +118,7 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 		node->value = ft_strdup("0");
 	else
 	{
-		val_shlvl += ft_atoi(node->value, *env);
+		val_shlvl += ft_atoi(node->value, &varr);
 		node->value = ft_itoa(val_shlvl);
 	}
 }

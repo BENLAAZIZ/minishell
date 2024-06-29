@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/13 00:14:13 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/29 16:48:13 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	handle_file_rederection(t_node	*pipe_node , int *fd)
 	}
 }
 
-
 int	exec_cmd(char **cmd, t_path *data)
 {
 	char	*s;
@@ -81,7 +80,6 @@ int	exec_cmd(char **cmd, t_path *data)
 	}
 	return (1);
 }
-
 
 
 void	ft_exuctute(char **cmd, t_path *data, t_var *var)
@@ -119,6 +117,7 @@ void	ft_initialis_data(t_path *data, t_env *env)
 	int		i;
 	char	*tmp;
 	t_env	*tp;
+	char *str;
 	
 	size = 0;
 	i = 0;
@@ -126,13 +125,11 @@ void	ft_initialis_data(t_path *data, t_env *env)
 	poin = point_node(env, "PATH");
 	if (!poin)
 		return ;
-	char *str;
 	str = poin->value;
 	
 	data->cmd_env = NULL;
 	data->path = ft_splith(str, ':');
 	size = size_env(env);
-	// printf("\nsize = %d\n", size);
 	data->cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
 	while (env)
 	{
@@ -154,15 +151,23 @@ void	ft_initialis_data(t_path *data, t_env *env)
 int built_functions(t_env **env, t_var *var, char **cmd)
 {
 		int c = 0;
+		
+		printf("  \n ***cmd %s\n", cmd[0]);
 		if (ft_strncmp(cmd[0], "env", 4) == 0)
 		{
-			display_env(*env);
+			if (cmd[1])
+			{
+				printf("env: %s: No such file or directory\n", cmd[1]);
+				var->status = 1;
+			}
+			else 
+				display_env(*env);
 			printf("\n\n exit status = %ld \n\n", var->status);
 		}
 		else if (ft_strncmp(cmd[0], "echo", 5) == 0)
 		{
 			echo(cmd);
-			// printf("\n\n exit status = %ld \n\n", var.status);
+			printf("\n\n exit status = %ld \n\n", var->status);
 		}
 		else if (ft_strncmp(cmd[0], "cd", 3) == 0)
 		{
@@ -176,6 +181,7 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 		}
 		else if (ft_strncmp(cmd[0], "export", 7) == 0)
 		{
+			
 			var->status = export(env , cmd);
 			printf("\n\n exit status = %ld \n\n", var->status);
 		}
@@ -203,8 +209,8 @@ void	ft_minishell(t_env **env, char **cmd)
 	int		size;
 	int		fd[2];
 	int		pid;
-	
 	int		i;
+	
 	line = NULL;
 	while (1)
 	{
@@ -221,28 +227,6 @@ void	ft_minishell(t_env **env, char **cmd)
 		pipe_node = NULL;
 		// data = NULL;
 		ft_initialis_data(&data, *env);
-		// printf("\n ======================= env =====================\n");
-		// while (data.cmd_env[i])
-		// {
-		// 	printf("%s\n", data.cmd_env[i]);
-		// 	i++;
-		// }
-		// printf("\n ======================= env =====================\n");
-		// i = 0;
-		// printf("\n ======================= data =====================\n");
-		// if (data.path)
-		// {
-		// 	while (data.path[i])
-		// 	{
-		// 		printf("%s\n", data.path[i]);
-		// 		i++;
-		// 	}
-		// 	if (data.path)
-		// 		free_t_split(data.path);
-		// }
-		// printf("\n ======================= path =====================\n");
-		// if (data.cmd_env)
-		// 	free_t_split(data.cmd_env);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
 		// if (!pipe_node)
 		// 	continue ;
@@ -254,31 +238,40 @@ void	ft_minishell(t_env **env, char **cmd)
 		// handle_file_rederection(&pipe_node, fd);
 		// printf("\nsize = %d\n", size);
 
-		if (size == 1)
+		if (size == 2)
 		{
 			//without fork
 			if (built_functions(env, &var, cmd) == -1)
 			{
-				printf("\nexcution\n");
+				printf("\nexcution her \n");
 				ft_exuctute(cmd, &data, &var);
 			}
 		}
 		else
 		{
 			// while i < size : pipe_node = pipe_node->next -->
-			if (pipe(fd) == -1)
+			while (i < size)
 			{
-				perror("pipe fail :");
-				continue ;
+				
+				if (pipe(fd) == -1)
+				{
+					perror("pipe fail :");
+					continue ;
+				}
+				pid = fork();
+				if (pid == -1)
+				{
+					perror("pid fail :"), close_fd(fd);
+					i++;
+					continue ;
+				}
+				else if (pid == 0 && built_functions(env, &var, cmd) == -1)
+	
+					printf("\nexcution her \n");
+					// ft_exuctute(cmd, &data, &var);
+				i++;
 			}
-			pid = fork();
-			if (pid == -1)
-			{
-				perror("pid fail :"), close_fd(fd);
-				continue ;
-			}
-			else if (pid == 0 && built_functions(env, &var, cmd) == -1)
-				ft_exuctute(cmd, &data, &var);
+			
 		}
 		
 		// else

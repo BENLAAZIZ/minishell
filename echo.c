@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/13 00:19:04 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/29 17:51:42 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_putstr(char *s)
 		i++;
 	write(1, s, i);
 }
-
 
 int	check_option_n(char *str, int *index, int *newline)
 {
@@ -75,6 +74,6 @@ void	echo(char **cmd)
 			// printf(" ");
 		index++;
 	}
-	// if (!newline)
+	if (!newline)
 		printf("\n");
 }

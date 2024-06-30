@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/29 16:48:13 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:30:47 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void	ft_initialis_data(t_path *data, t_env *env)
 	if (!poin)
 		return ;
 	str = poin->value;
-	
 	data->cmd_env = NULL;
 	data->path = ft_splith(str, ':');
 	size = size_env(env);
@@ -150,9 +149,6 @@ void	ft_initialis_data(t_path *data, t_env *env)
 
 int built_functions(t_env **env, t_var *var, char **cmd)
 {
-		int c = 0;
-		
-		printf("  \n ***cmd %s\n", cmd[0]);
 		if (ft_strncmp(cmd[0], "env", 4) == 0)
 		{
 			if (cmd[1])
@@ -162,42 +158,22 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 			}
 			else 
 				display_env(*env);
-			printf("\n\n exit status = %ld \n\n", var->status);
 		}
 		else if (ft_strncmp(cmd[0], "echo", 5) == 0)
-		{
 			echo(cmd);
-			printf("\n\n exit status = %ld \n\n", var->status);
-		}
 		else if (ft_strncmp(cmd[0], "cd", 3) == 0)
-		{
 			var->status = cd(cmd, env);
-			printf("\n\n exit status = %ld \n\n", var->status);
-		}
 		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
-		{
 			var->status = pwd();
-			printf("\n\n exit status = %ld \n\n", var->status);
-		}
 		else if (ft_strncmp(cmd[0], "export", 7) == 0)
-		{
-			
 			var->status = export(env , cmd);
-			printf("\n\n exit status = %ld \n\n", var->status);
-		}
 		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
-		{
 			unset(env, cmd, var);
-			printf("\n\n exit status = %ld \n\n", var->status);
-		}
 		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
-		{
 			ft_exit(cmd, var);
-			printf("\n\n exit status = %ld \n\n", var->status);
-		}
 		else
-			c = -1;
-		return (c);
+			return (-1);
+		return (0);
 }
 
 void	ft_minishell(t_env **env, char **cmd)
@@ -215,7 +191,7 @@ void	ft_minishell(t_env **env, char **cmd)
 	while (1)
 	{
 		i = 0;
-		size = 0;
+		// size = 0;
 		var.status = 0;
 		
 		line = readline("minishell$ ");
@@ -225,7 +201,6 @@ void	ft_minishell(t_env **env, char **cmd)
 		rl_redisplay();
 		
 		pipe_node = NULL;
-		// data = NULL;
 		ft_initialis_data(&data, *env);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
 		// if (!pipe_node)
@@ -238,7 +213,7 @@ void	ft_minishell(t_env **env, char **cmd)
 		// handle_file_rederection(&pipe_node, fd);
 		// printf("\nsize = %d\n", size);
 
-		if (size == 2)
+		if (size == 1)
 		{
 			//without fork
 			if (built_functions(env, &var, cmd) == -1)

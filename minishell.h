@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 19:12:41 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:46:18 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ void	free_t_split(char **array);
 char	*ft_strchr(const char *s, int c);
 void	ft_error(char *s, char *flag, int i, int in);
 void	close_fd(int *fd);
+
+void	ft_exuctute(char **cmd, t_path *data, t_var *var);
+int	exec_cmd(char **cmd, t_path *data);
 
 
 #endif

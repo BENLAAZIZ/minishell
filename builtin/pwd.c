@@ -6,18 +6,19 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:40:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/03 23:34:14 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:21:47 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(void)
+int	pwd(void)
 {
 	char	*s;
 
 	s = getcwd(NULL, 0);
 	if (s == NULL)
-		perror("");
+		return (perror(""), 1);
 	printf("%s\n", s);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/07 18:57:27 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/06/28 20:20:47 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*get_variabl(char *line)
 	variable[i] = '\0';
 	return (variable);
 }
-
 
 void	init(char *line, int *i, int *t)
 {
@@ -101,6 +100,7 @@ void	modif_env(t_env **env)
 void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 {
 	t_env	*node;
+	t_var	varr;
 	long	val_shlvl;
 
 	val_shlvl = 1;
@@ -118,20 +118,18 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 		node->value = ft_strdup("0");
 	else
 	{
-		val_shlvl += ft_atoi(node->value, *env);
+		val_shlvl += ft_atoi(node->value, &varr);
 		node->value = ft_itoa(val_shlvl);
 	}
 }
 
 void	ft_env(char **ev, t_env **env)
 {
+	t_env	*new;
 	char	*var;
 	char	*val;
-	t_env	*new;
 	int		i;
 
-	// var = NULL;
-	// val = NULL;
 	i = 0;
 	while (ev[i])
 	{

@@ -6,18 +6,19 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
-SRC =  builtins.c minishell.c spl.c list.c cd.c echo.c env.c \
-	  export.c pwd.c unset.c ft_atoi.c ft_itoa.c exit.c ft_strjoin.c \
+SRC =  builtin/builtins.c builtin/cd.c minishell.c spl.c list.c  builtin/echo.c builtin/env.c \
+	  builtin/export.c builtin/pwd.c builtin/unset.c ft_atoi.c ft_itoa.c builtin/exit.c ft_strjoin.c \
 	   error_f.c ft_exec.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lreadline 
+	$(CC) -I. $(CFLAGS) $(OBJ) -o $(NAME) -lreadline 
 
 %.o: %.c minishell.h
-		 $(CC) $(CFLAGS) -c $< -o $@
+		 $(CC) -I. $(CFLAGS) -c $< -o $@
+
 
 clean:
 		$(RM) $(OBJ) 

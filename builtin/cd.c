@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:39:55 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/05 16:38:14 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:04:19 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_env(t_env **env, t_env *home, char *oldpwd)
+int	change_env(t_env **env, t_env *home, char *oldpwd)
 {
 	char	*pwd;
 
@@ -21,13 +21,16 @@ void	change_env(t_env **env, t_env *home, char *oldpwd)
 		home->value = oldpwd;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (perror(""));
+		return (perror(""), 1);
 	home = point_node(*env, "PWD");
 	if (home)
 		home->value = pwd;
+	else 
+		return (1);
+	return (0);
 }
 
-void	cd(char **cmd, t_env **env)
+int	cd(char **cmd, t_env **env)
 {
 	t_env	*home;
 	char	*oldpwd;
@@ -35,19 +38,21 @@ void	cd(char **cmd, t_env **env)
 	home = NULL;
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		return (perror(""));
+		return (perror(""), 1);
 	if (cmd[1] == NULL)
 	{
 		home = point_node(*env, "HOME");
 		if (!home)
-			return ;
+			return (1);
 		if (chdir(home->value) != 0)
 			perror(home->value);
 	}
 	else
 	{
 		if (chdir(cmd[1]) != 0)
-			printf("minishell: cd: %s: No such file or directory\n",cmd[1]);
+			return (printf("minishell: cd: %s: No such file or directory\n",cmd[1]), 1);
 	}
-	change_env(env, home, oldpwd);
+	if (change_env(env, home, oldpwd) == 1)
+		return (1);
+	return (0);
 }

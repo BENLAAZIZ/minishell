@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/29 17:51:42 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:51:38 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	check_option_n(char *str, int *index, int *newline)
 				break ;
 			i++;
 		}
+		if (i == 1)
+			return (c);
 		if (str[i] == '\0')
 		{
 			*newline = 1;
@@ -65,6 +67,7 @@ void	echo(char **cmd)
 			break ;
 		i++;
 	}
+	index = i;
 	while (cmd[index])
 	{
 		// printf("%s", cmd[index]);
@@ -75,5 +78,6 @@ void	echo(char **cmd)
 		index++;
 	}
 	if (!newline)
-		printf("\n");
+		write(1, "\n", 1);
+		// printf("\n");
 }

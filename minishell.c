@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/30 17:16:11 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:08:29 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,11 @@ void	ft_minishell(t_env **env, char **cmd)
 		// size = 0;
 		var.status = 0;
 		
-		line = readline("mash$");
+		line = readline("minishell$ ");
 		if (!line)
 			break ;
 		add_history(line);
 		rl_redisplay();
-		
 		pipe_node = NULL;
 		ft_initialis_data(&data, *env);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
@@ -128,19 +127,27 @@ void	ft_minishell(t_env **env, char **cmd)
 		if (size == 1)
 		{
 			//without fork
-			pid = fork();
+			// pid = fork();
+			b = built_functions(env, &var, cmd);
 			// pid = 0;
-		b = built_functions(env, &var, cmd);
-
-			if (b == -1 && pid == 0)
+			// b = built_functions(env, &var, cmd);
+			if (b == -1)
 			{
-				printf("\n b = %d \n", b);
-				// if (pid == 0)
-				// {
-					printf("\nexcution her \n");
+				pid = fork();
+				if (pid == 0)
 					ft_exuctute(cmd, &data, &var);
-				// }
 			}
+			
+			// if (pid == 0)
+			// {
+			// 	printf("\n b = %d \n", b);
+			// 	// if (pid == 0)
+			// 	// {
+			// 		printf("\nexcution her \n");
+			// 		ft_exuctute(cmd, &data, &var);
+			// 	// }
+			// }
+			
 			
 		}
 		// else

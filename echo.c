@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 09:51:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:54:44 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	ft_putstr(char *s)
 	if (!s)
 		return ;
 	while (s[i])
+	{
+		write(1, &s[i], 1);
 		i++;
-	write(1, s, i);
+	}
 }
 
 int	check_option_n(char *str, int *index, int *newline)

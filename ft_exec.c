@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/06 18:13:37 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:19:00 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	ft_exuctute(char **cmd, t_path *data, t_var *var)
 	}
 	if (data->path == NULL)
 	{
-		printf("\n///////\n");
 		ft_error(": no such file or directory", cmd[0], 1, -1);
 		free_t_split(cmd);
 		var->status = 1;
@@ -100,5 +99,4 @@ void	ft_exuctute(char **cmd, t_path *data, t_var *var)
 	if (exec_cmd(cmd, data) == 0)
 		var->status = 1;
 	exit(var->status);
-		
 }

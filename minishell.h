@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/30 15:46:18 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:00:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,16 @@ typedef struct s_var
 	char			*fil;
 	long			status;
 }	t_var;
+
+// typedef struct s_pipe
+// {
+// 	int		fd[2];
+// 	int		i;
+// 	int		argc;
+// 	char	**envv;
+// 	int		in_tmp;
+// 	pid_t	pid;
+// }	t_pipe;
 
 void	echo(char **cmd);
 void	unset(t_env **env, char **cmd, t_var *var);

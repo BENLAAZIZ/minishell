@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/06 18:08:29 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:01:43 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,11 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 		return (0);
 }
 
+// void	handle_pipe(command, env)
+// {
+	
+// }
+
 void	ft_minishell(t_env **env, char **cmd)
 {
 	t_node	*pipe_node;
@@ -104,9 +109,7 @@ void	ft_minishell(t_env **env, char **cmd)
 	while (1)
 	{
 		i = 0;
-		// size = 0;
 		var.status = 0;
-		
 		line = readline("minishell$ ");
 		if (!line)
 			break ;
@@ -122,33 +125,16 @@ void	ft_minishell(t_env **env, char **cmd)
 		if (!cmd)
 			continue ;
 		size = 1; // hadi ghi bach njarab node whda
-		// handle_file_rederection(&pipe_node, fd);
-		// printf("\nsize = %d\n", size);
 		if (size == 1)
 		{
-			//without fork
-			// pid = fork();
+			// handle_file_rederection(pipe_node.red, fd);
 			b = built_functions(env, &var, cmd);
-			// pid = 0;
-			// b = built_functions(env, &var, cmd);
 			if (b == -1)
 			{
 				pid = fork();
 				if (pid == 0)
 					ft_exuctute(cmd, &data, &var);
 			}
-			
-			// if (pid == 0)
-			// {
-			// 	printf("\n b = %d \n", b);
-			// 	// if (pid == 0)
-			// 	// {
-			// 		printf("\nexcution her \n");
-			// 		ft_exuctute(cmd, &data, &var);
-			// 	// }
-			// }
-			
-			
 		}
 		// else
 		// {
@@ -156,12 +142,10 @@ void	ft_minishell(t_env **env, char **cmd)
 		// 	while (i < size)
 		// 	{
 				
-		// 		if (pipe(fd) == -1)
-		// 		{
-		// 			perror("pipe fail :");
-		// 			continue ;
-		// 		}
+		// 		handle_pipe(data, env);// mmmmm
 		// 		pid = fork();
+		// 		// handle_file_rederection(pipe_node.red, fd);
+		// 		b = built_functions(env, &var, cmd);
 		// 		if (pid == -1)
 		// 		{
 		// 			perror("pid fail :"), close_fd(fd);
@@ -176,13 +160,6 @@ void	ft_minishell(t_env **env, char **cmd)
 		// 	}
 			
 		// }
-		
-		// else
-		// {
-		// 	// fork for any pipe_node
-		// }
-		// if (cmd)
-		// 	free_t_split(cmd);
 		if (data.path)
 			free_t_split(data.path);
 		if (data.cmd_env)

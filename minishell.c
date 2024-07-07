@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 12:01:43 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:14:32 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,13 @@ void	display_env(t_env *a)
 	}
 }
 
-void	ft_initialis_data(t_path *data, t_env *env)
+void	ft_initialis_data(t_path *data, t_env *env, int size, int i)
 {
 	t_env	*poin;
-	int		size;
-	int		i;
 	char	*tmp;
 	t_env	*tp;
 	char *str;
 	
-	size = 0;
-	i = 0;
 	tp = env;
 	poin = point_node(env, "PATH");
 	if (!poin)
@@ -93,6 +89,58 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 	
 // }
 
+void	here_doc(char *limiter, int *fd_in, int fd)
+{
+	char	*line;
+
+	*fd_in = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (*fd_in == -1 || fd == -1)
+		return (ft_error("open fail : \n", "fail", 0, -1));
+	unlink("herd.txt");
+	while (1)
+	{
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (!line)
+			break ;
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
+			&& ft_strlen(limiter) == ft_strlen(line) - 1)
+			break ;
+		write(*fd_in, line, ft_strlen(line));
+		free(line);
+	}
+	dup2(fd, 0);
+	close(fd);
+	free(line);
+}
+
+// void	handle_rederection(t_node	*pipe_node)
+// {
+// 	int		fd;
+// 	int		*fd_in;
+// 	int		fd_out;
+// 	int		i;
+
+// 	i = 0;
+// 	if (!pipe_node)
+// 		return ;
+// 	while (pipe_node->red_node)
+// 	{
+// 		if (ft_strncmp(pipe_node->red_node->type, "<<", 3) == 0)
+// 			here_doc(pipe_node->red_node->red, fd_in, fd);
+// 		else if (ft_strncmp(pipe_node->red_node->type, "<", 2) == 0)
+// 			*fd_in = open(pipe_node->red_node->red, O_RDONLY, 0777);
+// 		else if (ft_strncmp(pipe_node->red_node->type, ">", 2) == 0)
+// 			fd_out = open(pipe_node->red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0777);
+// 		pipe_node->red_node = pipe_node->red_node->next;
+// 	}
+// 	dup2(*fd_in, 0);
+// 	dup2(fd_out, 1);
+// 	close (*fd_in);
+// 	close (fd_out);
+// }
+
 void	ft_minishell(t_env **env, char **cmd)
 {
 	t_node	*pipe_node;
@@ -100,7 +148,8 @@ void	ft_minishell(t_env **env, char **cmd)
 	t_var	var;
 	char	*line;
 	int		size;
-	// int		fd[2];
+	// int		fdd[2];
+	// int		*fd;
 	int		pid;
 	int		i;
 	int b;
@@ -116,7 +165,7 @@ void	ft_minishell(t_env **env, char **cmd)
 		add_history(line);
 		rl_redisplay();
 		pipe_node = NULL;
-		ft_initialis_data(&data, *env);
+		ft_initialis_data(&data, *env, 0, 0);
 		//get pipe_node [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]] -> [cmd[][], red[][]];
 		// if (!pipe_node)
 		// 	continue ;
@@ -127,7 +176,7 @@ void	ft_minishell(t_env **env, char **cmd)
 		size = 1; // hadi ghi bach njarab node whda
 		if (size == 1)
 		{
-			// handle_file_rederection(pipe_node.red, fd);
+			// handle_rederection(pipe_node);
 			b = built_functions(env, &var, cmd);
 			if (b == -1)
 			{

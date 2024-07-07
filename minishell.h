@@ -6,12 +6,16 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 12:00:57 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 16:56:47 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10000
+# endif
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -22,6 +26,7 @@
 # include <readline/history.h>
 
 
+
 typedef struct s_cmd
 {
 	char			**command;
@@ -30,7 +35,8 @@ typedef struct s_cmd
 
 typedef struct s_red
 {
-	char			**red;
+	char			*red;
+	char			*type;
 	struct s_red	*next;
 }	t_red;
 
@@ -115,7 +121,8 @@ void	ft_error(char *s, char *flag, int i, int in);
 void	close_fd(int *fd);
 
 void	ft_exuctute(char **cmd, t_path *data, t_var *var);
-int	exec_cmd(char **cmd, t_path *data);
+int		exec_cmd(char **cmd, t_path *data);
+char	*get_next_line(int fd);
 
 
 #endif

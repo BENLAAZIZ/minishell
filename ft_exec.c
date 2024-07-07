@@ -6,38 +6,38 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 10:19:00 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:44:45 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_file_rederection(t_node	*pipe_node , int *fd)
-{
-	int	i;
-	t_red *red;
+// void	handle_file_rederection(t_node	*pipe_node , int *fd)
+// {
+// 	int	i;
+// 	t_red *red;
 	
-	red = NULL;
-	i = 0;
-	while (pipe_node->red_node->red)
-	{
-		if (ft_strncmp(pipe_node->red_node->red[i], "<", 2) == 0 || ft_strncmp(pipe_node->red_node->red[i], "<<", 3) == 0)
-		{
-				fd[1] = open("text.txt", O_RDONLY | O_CREAT);
-				dup2(fd[1], 1);
-		}
-		else if (ft_strncmp(pipe_node->red_node->red[i], ">", 2) == 0 || ft_strncmp(pipe_node->red_node->red[i], ">>", 3) == 0)
-		{
-			if (ft_strncmp(pipe_node->red_node->red[i], ">>", 3) == 0)
-				fd[0] = open("text.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-			else
-				fd[0] = open("text.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
-			dup2(fd[0], 0);
-		}
-		i++;
-		close(*fd);
-	}
-}
+// 	red = NULL;
+// 	i = 0;
+// 	while (pipe_node->red_node->red)
+// 	{
+// 		if (ft_strncmp(pipe_node->red_node->red[i], "<", 2) == 0)
+// 		{
+// 				fd[1] = open("text.txt", O_RDONLY | O_CREAT);
+// 				dup2(fd[1], 1);
+// 		}
+// 		else if (ft_strncmp(pipe_node->red_node->red[i], ">", 2) == 0 || ft_strncmp(pipe_node->red_node->red[i], ">>", 3) == 0)
+// 		{
+// 			if (ft_strncmp(pipe_node->red_node->red[i], ">>", 3) == 0)
+// 				fd[0] = open("text.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+// 			else
+// 				fd[0] = open("text.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
+// 			dup2(fd[0], 0);
+// 		}
+// 		i++;
+// 		close(*fd);
+// 	}
+// }
 
 int	exec_cmd(char **cmd, t_path *data)
 {

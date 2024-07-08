@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 19:22:51 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:10:06 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void	ft_minishell(t_env **env, char **cmd)
 				pid = fork();
 				if (pid == 0)
 					ft_exuctute(cmd, &data, &var);
+				wait(NULL);
 			}
 		}
 		// else

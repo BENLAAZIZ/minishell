@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 16:56:47 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:05:17 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 
 
 
-typedef struct s_cmd
-{
-	char			**command;
-	struct s_cmd	*next;
-}	t_cmd;
+// typedef struct s_cmd
+// {
+// 	char			**command;
+// 	struct s_cmd	*next;
+// }	t_cmd;
 
 typedef struct s_red
 {
@@ -43,11 +43,10 @@ typedef struct s_red
 
 typedef struct s_node
 {
-	t_cmd			**cmd_node;
+	char			**cmd_node;
 	t_red			*red_node;
 	struct s_node	*next;
 }	t_node;
-
 
 
 typedef struct s_path
@@ -106,6 +105,12 @@ t_env	*point_node(t_env *env, char *name);
 t_env	*ft_lstnew(char *var, char *value);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_back(t_env **lst, t_env *new);
+//=========================================
+t_node	*ft_lstnew_node(char **cmd);
+t_node	*ft_lstlast_node(t_node *lst);
+void	ft_lstadd_back_node(t_node **lst, t_node *new);
+
+//=========================================
 int		size_pipe_node(t_node *a);
 int		size_env(t_env *a);
 void	display_env(t_env *a);

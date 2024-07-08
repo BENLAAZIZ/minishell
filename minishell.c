@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/08 17:10:06 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:47:33 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,11 @@ void	handle_rederection(t_node	*pipe_node)
 		if (ft_strncmp(pipe_node->red_node->type, "<<", 3) == 0)
 			here_doc(pipe_node->red_node->red, &fd_in, fd);
 		else if (ft_strncmp(pipe_node->red_node->type, "<", 2) == 0)
-			fd_in = open(pipe_node->red_node->red, O_RDONLY, 0777);
+			fd_in = open(pipe_node->red_node->red, O_RDONLY, 0644);
 		else if (ft_strncmp(pipe_node->red_node->type, ">", 2) == 0)
-			fd_out = open(pipe_node->red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0777);
+			fd_out = open(pipe_node->red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0644);
 		else if (ft_strncmp(pipe_node->red_node->type, ">>", 3) == 0)
-			fd_out = open(pipe_node->red_node->red, O_CREAT, O_RDWR, O_APPEND, 0777);
+			fd_out = open(pipe_node->red_node->red, O_CREAT, O_RDWR, O_APPEND, 0644);
 		pipe_node->red_node = pipe_node->red_node->next;
 	}
 	dup2(fd_in, 0);
@@ -142,6 +142,54 @@ void	handle_rederection(t_node	*pipe_node)
 	close (fd_in);
 	close (fd_out);
 }
+
+//***************************************
+
+t_node	*get_pars(void)
+{
+	t_node *node;
+	char *cmd[3] = {"ls -la", "grep Makefile", "wc -lwc"};
+	node = NULL;
+	int i = -1;
+	
+	while(++i < 3)
+		ft_lstadd_back_node(&node, ft_lstnew_node(ft_splith(cmd[i], 32)));
+	// display_env1(node);
+	return (node);
+}
+
+#include <string.h>
+void make_process(t_node *node, int *fd_out)
+{
+	int pid;
+	int fd[2];
+
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[0]);
+		if (!strcmp(node->cmd_node[0], "wc"))
+		{
+			printf("tetse\n");
+			dup2(*fd_out, 1);
+			// close(*fd_out);
+		}
+		else
+		{
+			// dup2(fd[1], 1);
+			// close(fd[1]);
+		}
+		execve(node->cmd_node[0], node->cmd_node, NULL);	
+		exit(1);
+	}
+	// close(fd[1]);
+	// dup2(fd[0], 0);
+	// close(fd[0]);
+	printf("parent\n");
+}
+
+//*****************************************
 
 void	ft_minishell(t_env **env, char **cmd)
 {
@@ -172,9 +220,12 @@ void	ft_minishell(t_env **env, char **cmd)
 		// if (!pipe_node)
 		// 	continue ;
 		// size = size_pipe_node(pipe_node);
+		// char *cm[3] = {"ls -l", "grep Makefile", "wc"};
+		t_node *node = get_pars();
 		cmd = ft_splith(line, ' ');
 		if (!cmd)
 			continue ;
+			
 		size = 1; // hadi ghi bach njarab node whda
 		if (size == 1)
 		{
@@ -185,7 +236,19 @@ void	ft_minishell(t_env **env, char **cmd)
 				pid = fork();
 				if (pid == 0)
 					ft_exuctute(cmd, &data, &var);
-				wait(NULL);
+				// wait(NULL);
+				//===========
+				int i = -1;
+				int fd_out = open("dev", O_CREAT | O_RDWR | O_APPEND, 0644);
+				while(node)
+				{
+					make_process(node, &fd_out);
+					node = node->next;
+					i++;
+				}
+				// i = -1;
+				while(++i < 3)
+					wait(NULL);
 			}
 		}
 		// else

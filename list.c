@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 19:59:09 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:03:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,46 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	ft_lstlast(*lst)->next = new;
 }
 
+//========================================
+t_node	*ft_lstnew_node(char **cmd)
+{
+	t_node	*node;
+
+	node = malloc(sizeof(t_node));
+	if (node == NULL)
+		return (NULL);
+	node->cmd_node = cmd;
+	// node->variable = var;
+	// node->value = value;
+	node->next = NULL;
+	return (node);
+}
+
+t_node	*ft_lstlast_node(t_node *lst)
+{
+	t_node	*last;
+
+	if (!lst)
+		return (NULL);
+	last = lst;
+	while (last->next)
+		last = last->next;
+	return (last);
+}
+
+void	ft_lstadd_back_node(t_node **lst, t_node *new)
+{
+	if (!lst || !new)
+		return ;
+	if (!*lst)
+	{
+		(*lst) = new;
+		return ;
+	}
+	ft_lstlast_node(*lst)->next = new;
+}
+
+//========================================
 int	size_pipe_node(t_node *a)
 {
 	int		size;

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/09 14:27:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:55:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,21 @@ void	display_env(t_env *a)
 }
 //============== start 
 
-// void	display_red(t_red *a)
-// {
-// 	while (a)
-// 	{
-// 			printf("%s %s index = %d\n", a->type, a->red, a->index);
-// 		a = a->next;
-// 	}
-// }
+void	display_red(t_red *a)
+{
+	while (a)
+	{
+			printf("%s %s index = %d\n", a->type, a->red, a->index);
+		a = a->next;
+	}
+}
 
-// void	display_node(t_node *a)
-// {
-// 	(void)(a);
-// 	printf("\n hamza \n");
-// 			// printf("%s %s index = %d || %s %s \n", a->red_node->type, a->red_node->red, a->red_node->index, a->cmd_node[0], a->cmd_node[1]);
-// }
+void	display_node(t_node *a)
+{
+	(void)(a);
+	printf("\n hamza \n");
+			// printf("%s %s index = %d || %s %s \n", a->red_node->type, a->red_node->red, a->red_node->index, a->cmd_node[0], a->cmd_node[1]);
+}
 
 // =============== end
 
@@ -108,194 +108,194 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 	
 // }
 
-// void	here_doc(char *limiter, int *fd_in, int fd, int p)
-// {
-// 	char	*line;
+void	here_doc(char *limiter, int *fd_in, int fd, int p)
+{
+	char	*line;
 
-// 	*fd_in = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-// 	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-// 	if (*fd_in == -1 || fd == -1)
-// 		return (ft_error("open fail : \n", "fail", 0, -1));
-// 	unlink("herd.txt");
-// 	while (1)
-// 	{
-// 		write(1, "> ", 2);
-// 		line = get_next_line(0);
-// 		if (!line)
-// 			break ;
-// 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
-// 			&& ft_strlen(limiter) == ft_strlen(line) - 1)
-// 			break ;
-// 		if (p == 1)
-// 			write(*fd_in, line, ft_strlen(line));
-// 		free(line);
-// 	}
-// 	dup2(fd, 0);
-// 	close(fd);
-// 	free(line);
-// }
+	*fd_in = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (*fd_in == -1 || fd == -1)
+		return (ft_error("open fail : \n", "fail", 0, -1));
+	unlink("herd.txt");
+	while (1)
+	{
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (!line)
+			break ;
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
+			&& ft_strlen(limiter) == ft_strlen(line) - 1)
+			break ;
+		if (p == 1)
+			write(*fd_in, line, ft_strlen(line));
+		free(line);
+	}
+	dup2(fd, 0);
+	close(fd);
+	free(line);
+}
 
-// int	get_max_in(t_red *red)
-// {
-// 	int max_in;
+int	get_max_in(t_red *red)
+{
+	int max_in;
+
+	if (!red)
+		return (-1);
+	max_in = red->index;
+	while (red)
+	{
+		if (ft_strncmp(red->type, "<<", 3) == 0 || ft_strncmp(red->type, "<", 2) == 0)
+		{
+			if (red->index >= max_in)
+				max_in = red->index;	
+		}
+		red = red->next;
+	}
+	return (max_in);
+}
+
+int	get_max_out(t_red *red)
+{
+	int max_out;
 	
-// 	if (!red)
-// 		return (-1);
-// 	max_in = red->index;
-// 	while (red)
-// 	{
-// 		if (ft_strncmp(red->type, "<<", 3) == 0 || ft_strncmp(red->type, "<", 2) == 0)
-// 		{
-// 			if (red->index >= max_in)
-// 				max_in = red->index;	
-// 		}
-// 		red = red->next;
-// 	}
-// 	return (max_in);
-// }
+	if (!red)
+		return (-1);
+	max_out = red->index;
+	while (red)
+	{
+		if (ft_strncmp(red->type, ">>", 3) == 0 || ft_strncmp(red->type, ">", 2) == 0)
+		{
+			if (red->index >= max_out)
+				max_out = red->index;	
+		}
+		red = red->next;
+	}
+	return (max_out);
+}
 
-// int	get_max_out(t_red *red)
-// {
-// 	int max_out;
-	
-// 	if (!red)
-// 		return (-1);
-// 	max_out = red->index;
-// 	while (red)
-// 	{
-// 		if (ft_strncmp(red->type, "<<", 3) == 0 || ft_strncmp(red->type, "<", 2) == 0)
-// 		{
-// 			if (red->index >= max_out)
-// 				max_out = red->index;	
-// 		}
-// 		red = red->next;
-// 	}
-// 	return (max_out);
-// }
+void	handle_rederection(t_red *red_node)
+{
+	int		fd;
+	int		fd_in;
+	int		fd_out;
+	int		max_in;
+	int		max_out;
+	// t_red	*point;
 
-// void	handle_rederection(t_red *red_node)
-// {
-// 	int		fd;
-// 	int		fd_in;
-// 	int		fd_out;
-// 	int		max_in;
-// 	int		max_out;
-// 	// t_red	*point;
-
-// 	fd_in = -1;
-// 	fd_out = -1;
-// 	fd = -1;
-// 	// printf("\ntest\n");
-// 	if (!red_node)
-// 		return ;
-// 	max_in = get_max_in(red_node);
-// 	max_out = get_max_out(red_node);
-// 	// printf("\nmax_in = %d\n", max_in);
-// 	// printf("\nmax_out = %d\n", max_out);
-// 	while (red_node)
-// 	{
-// 		if (ft_strncmp(red_node->type, "<<", 3) == 0 || ft_strncmp(red_node->type, "<", 2) == 0)
-// 		{
-// 			if (ft_strncmp(red_node->type, "<<", 3) == 0)
-// 			{
-// 				if (red_node->index == max_in)
-// 					here_doc(red_node->red, &fd_in, fd, 1);
-// 				here_doc(red_node->red, &fd_in, fd, 0);
-// 			}
-// 			else // else if (ft_strncmp(red_node->type, "<", 2) == 0)
-// 			{
-// 				if (red_node->index == max_in)
-// 					fd_in = open(red_node->red, O_RDONLY, 0644);
-// 			}
-// 		}
-// 		else if (ft_strncmp(red_node->type, ">>", 3) == 0 || ft_strncmp(red_node->type, ">", 2) == 0)
-// 		{
-// 			if (ft_strncmp(red_node->type, ">>", 3) == 0)
-// 			{
-// 				if (red_node->index == max_out)
-// 					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_APPEND, 0644);
-// 				open(red_node->red, O_CREAT, O_RDWR, O_APPEND, 0644);
-// 			}
-// 			else // else if (ft_strncmp(red_node->type, ">", 2) == 0)
-// 			{
-// 				if (red_node->index == max_out)
-// 					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0644);
-// 				open(red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0644);
-// 			}
-// 		}
-// 		red_node = red_node->next;
-// 	}
-// 	dup2(fd_in, 0);
-// 	dup2(fd_out, 1);
-// 	close (fd_in);
-// 	close (fd_out);
-// }
+	fd_in = -1;
+	fd_out = -1;
+	fd = -1;
+	// printf("\ntest\n");
+	if (!red_node)
+		return ;
+	max_in = get_max_in(red_node);
+	max_out = get_max_out(red_node);
+	printf("\nmax_in = %d\n", max_in);
+	printf("\nmax_out = %d\n", max_out);
+	while (red_node)
+	{
+		if (ft_strncmp(red_node->type, "<<", 3) == 0 || ft_strncmp(red_node->type, "<", 2) == 0)
+		{
+			if (ft_strncmp(red_node->type, "<<", 3) == 0)
+			{
+				if (red_node->index == max_in)
+					here_doc(red_node->red, &fd_in, fd, 1);
+				here_doc(red_node->red, &fd_in, fd, 0);
+			}
+			else // else if (ft_strncmp(red_node->type, "<", 2) == 0)
+			{
+				if (red_node->index == max_in)
+					fd_in = open(red_node->red, O_RDONLY, 0644);
+			}
+		}
+		else if (ft_strncmp(red_node->type, ">>", 3) == 0 || ft_strncmp(red_node->type, ">", 2) == 0)
+		{
+			if (ft_strncmp(red_node->type, ">>", 3) == 0)
+			{
+				if (red_node->index == max_out)
+					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_APPEND, 0644);
+				open(red_node->red, O_CREAT, O_RDWR, O_APPEND, 0644);
+			}
+			else // else if (ft_strncmp(red_node->type, ">", 2) == 0)
+			{
+				if (red_node->index == max_out)
+					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0644);
+				open(red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0644);
+			}
+		}
+		red_node = red_node->next;
+	}
+	dup2(fd_in, 0);
+	dup2(fd_out, 1);
+	close (fd_in);
+	close (fd_out);
+}
 
 //***************************************
-// t_red	*get_red_nod(void)
-// {
-// 	t_red *node;
-// 	// char *cmd[3] = {"ls -la", "grep Makefile", "wc -lwc"};
-// 	node = NULL;
-// 	// int i = -1;
-// 		ft_lstadd_back_red(&node, ft_lstnew_red("<", "Makefile", 1));
-// 		// ft_lstadd_back_red(&node, ft_lstnew_red(">", "test1", 2));
-// 		// ft_lstadd_back_red(&node, ft_lstnew_red("<", "test2", 3));
-// 	// display_red(node);
-// 	return (node);
-// }
+t_red	*get_red_nod(void)
+{
+	t_red *node;
+	// char *cmd[3] = {"ls -la", "grep Makefile", "wc -lwc"};
+	node = NULL;
+	// int i = -1;
+		ft_lstadd_back_red(&node, ft_lstnew_red("<", "Makefile", 1));
+		ft_lstadd_back_red(&node, ft_lstnew_red(">", "test1", 2));
+		ft_lstadd_back_red(&node, ft_lstnew_red("<", "test2", 3));
+	// display_red(node);
+	return (node);
+}
 
-// t_node	*get_pars(void)
-// {
-// 	t_node *node;
-// 	node = NULL;
-// 	node = malloc(sizeof(t_node));
-// 	node->red_node  = get_red_nod();
-// 	// display_red(node->red_node);
-// 	char *cmd = "ls -la";
-// 	// int i = -1;
+t_node	*get_pars(void)
+{
+	t_node *node;
+	node = NULL;
+	node = malloc(sizeof(t_node));
+	node->red_node  = get_red_nod();
+	display_red(node->red_node);
+	char *cmd = "ls -la";
+	// int i = -1;
 	
-// 	// while(++i < 3)
-// 	// 	ft_lstadd_back_node(&node, ft_lstnew_node(ft_splith(cmd[i], 32)));
-// 	node->cmd_node = ft_splith(cmd, 32);
-// 	if (!node->cmd_node)
-// 		return NULL;
+	// while(++i < 3)
+	// 	ft_lstadd_back_node(&node, ft_lstnew_node(ft_splith(cmd[i], 32)));
+	node->cmd_node = ft_splith(cmd, 32);
+	if (!node->cmd_node)
+		return NULL;
 	
-// 	display_node(node);
-// 	return (node);
-// }
+	display_node(node);
+	return (node);
+}
 
 #include <string.h>
 
-// void make_process(t_node *node, int *fd_out)
-// {
-// 	int pid;
-// 	int fd[2];
+void make_process(t_node *node, int *fd_out)
+{
+	int pid;
+	int fd[2];
 
-// 	pipe(fd);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		close(fd[0]);
-// 		if (!strcmp(node->cmd_node[0], "wc"))
-// 		{
-// 			printf("tetse\n");
-// 			dup2(*fd_out, 1);
-// 			// close(*fd_out);
-// 		}
-// 		else
-// 		{
-// 			// dup2(fd[1], 1);
-// 			// close(fd[1]);
-// 		}
-// 		execve(node->cmd_node[0], node->cmd_node, NULL);	
-// 		exit(1);
-// 	}
-// 	// close(fd[1]);
-// 	// dup2(fd[0], 0);
-// 	// close(fd[0]);
-// 	printf("parent\n");
-// }
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[0]);
+		if (!strcmp(node->cmd_node[0], "wc"))
+		{
+			printf("tetse\n");
+			dup2(*fd_out, 1);
+			// close(*fd_out);
+		}
+		else
+		{
+			// dup2(fd[1], 1);
+			// close(fd[1]);
+		}
+		execve(node->cmd_node[0], node->cmd_node, NULL);	
+		exit(1);
+	}
+	// close(fd[1]);
+	// dup2(fd[0], 0);
+	// close(fd[0]);
+	printf("parent\n");
+}
 
 //*****************************************
 
@@ -333,15 +333,15 @@ void	ft_minishell(t_env **env, char **cmd)
 		if (!cmd)
 			continue ;
 			
-		// t_node *node =  malloc(sizeof(t_node));
-		// if (!node)
-		// 	continue ;
-		// node = get_pars();
+		t_node *node =  malloc(sizeof(t_node));
+		if (!node)
+			continue ;
+		node = get_pars();
 		printf("\n789\n");
 		size = 1; // hadi ghi bach njarab node whda
 		if (size == 1)
 		{
-			// handle_rederection(node->red_node);
+			handle_rederection(node->red_node);
 			b = built_functions(env, &var, cmd);
 			if (b == -1)
 			{

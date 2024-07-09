@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/09 14:55:34 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:06:30 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ void	here_doc(char *limiter, int *fd_in, int fd, int p)
 			write(*fd_in, line, ft_strlen(line));
 		free(line);
 	}
-	dup2(fd, 0);
+	if (p == 1)
+		dup2(fd, 0);
 	close(fd);
 	free(line);
 }

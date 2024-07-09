@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/09 14:30:21 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:31:28 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ t_node	*ft_lstnew_node(char **cmd);
 t_node	*ft_lstlast_node(t_node *lst);
 void	ft_lstadd_back_node(t_node **lst, t_node *new);
 
-// t_red	*ft_lstnew_red(char *type, char *red, int index);
-// t_red	*ft_lstlast_red(t_red *lst);
-// void	ft_lstadd_back_red(t_red **lst, t_red *new);
+t_red	*ft_lstnew_red(char *type, char *red, int index);
+t_red	*ft_lstlast_red(t_red *lst);
+void	ft_lstadd_back_red(t_red **lst, t_red *new);
 
 //=========================================
 int		size_pipe_node(t_node *a);

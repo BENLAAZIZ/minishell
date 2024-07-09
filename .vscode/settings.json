@@ -2,6 +2,9 @@
 	"files.associations": {
 		"iterator": "c",
 		"algorithm": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"chrono": "c",
+		"limits": "c",
+		"ratio": "c"
 	}
 }

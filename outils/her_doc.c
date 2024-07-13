@@ -6,39 +6,39 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 16:56:40 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:40:55 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_substr(char *s, unsigned int start, size_t len)
-{
-	size_t	s_len;
-	size_t	substr_len;
-	size_t	i;
-	char	*substr;
+// char		*ft_substr(char const *s, unsigned int start, size_t len)
+// {
+// 	size_t	s_len;
+// 	size_t	substr_len;
+// 	size_t	i;
+// 	char	*substr;
 
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (start >= s_len)
-		return (NULL);
-	substr_len = len;
-	if (start + substr_len > s_len)
-		substr_len = s_len - start;
-	substr = (char *)malloc((substr_len + 1) * sizeof(char));
-	if (substr == NULL)
-		return (NULL);
-	while (i < substr_len)
-	{
-		substr[i] = s[start + i];
-		i++;
-	}
-	substr[substr_len] = '\0';
-	return (substr);
-}
+// 	i = 0;
+// 	if (s == NULL)
+// 		return (NULL);
+// 	s_len = ft_strlen(s);
+// 	if (start >= s_len)
+// 		return (NULL);
+// 	substr_len = len;
+// 	if (start + substr_len > s_len)
+// 		substr_len = s_len - start;
+// 	substr = (char *)malloc((substr_len + 1) * sizeof(char));
+// 	if (substr == NULL)
+// 		return (NULL);
+// 	while (i < substr_len)
+// 	{
+// 		substr[i] = s[start + i];
+// 		i++;
+// 	}
+// 	substr[substr_len] = '\0';
+// 	return (substr);
+// }
 
 static int	chek_new_line(char *buf, int *n)
 {

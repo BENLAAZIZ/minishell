@@ -6,26 +6,26 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 13:08:10 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:41:30 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	l;
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	l;
 
-	l = 0;
-	if (!s)
-		return (0);
-	while (*s != '\0')
-	{
-		l++;
-		s++;
-	}
-	return (l);
-}
+// 	l = 0;
+// 	if (!s)
+// 		return (0);
+// 	while (*s != '\0')
+// 	{
+// 		l++;
+// 		s++;
+// 	}
+// 	return (l);
+// }
 
 void	*ft_memcpy(void	*dst, const void *src, size_t n)
 {

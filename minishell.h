@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/12 22:04:37 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/13 07:51:31 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 
 typedef struct s_red
 {
+	char			*file;
 	char			*red;
-	char			*type;
 	char			*exp;
 	int				*fd_herdoc;
 	int				expaind;

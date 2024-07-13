@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/12 22:49:44 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/13 07:53:24 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	display_env(t_env *a)
 // {
 // 	while (a)
 // 	{
-// 			printf("%s %s index = %d\n", a->type, a->red, a->index);
+// 			printf("%s %s index = %d\n", a->red, a->red, a->index);
 // 		a = a->next;
 // 	}
 // }
@@ -173,6 +173,8 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 // 	}
 // 	return (max_out);
 // }
+
+
 void	handle_rederection(t_red *red_node)
 {
 	int		fd;
@@ -186,31 +188,31 @@ void	handle_rederection(t_red *red_node)
 		return ;
 	while (red_node)
 	{
-		if (ft_strncmp(red_node->type, "<<", 3) == 0 || ft_strncmp(red_node->type, "<", 2) == 0)
+		if (ft_strncmp(red_node->red, "<<", 3) == 0 || ft_strncmp(red_node->red, "<", 2) == 0)
 		{
-			if (ft_strncmp(red_node->type, "<<", 3) == 0)
+			if (ft_strncmp(red_node->red, "<<", 3) == 0)
 			{
 				dup2(*(red_node)->fd_herdoc, 1);
 				close(*(red_node)->fd_herdoc);
 			}
 			else
 			{
-					fd_in = open(red_node->red, O_RDONLY, 0644);
+					fd_in = open(red_node->file, O_RDONLY, 0644);
 					if (fd_in < 0)
 					{
 						if (red_node->expaind == 1)
 							printf("minishell: %s: ambiguous redirect\n", red_node->exp);
 						else
-							printf("minishell: %s: No such file or directory\n", red_node->red);
+							printf("minishell: %s: No such file or directory\n", red_node->file);
 						exit(1);
 					}
 					dup2(fd_in, 1);
 					close(fd_in);
 			}
 		}
-		else if (ft_strncmp(red_node->type, ">>", 3) == 0 || ft_strncmp(red_node->type, ">", 2) == 0)
+		else if (ft_strncmp(red_node->red, ">>", 3) == 0 || ft_strncmp(red_node->red, ">", 2) == 0)
 		{
-			if (ft_strncmp(red_node->type, ">>", 3) == 0)
+			if (ft_strncmp(red_node->red, ">>", 3) == 0)
 			{
 					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_APPEND, 0644);
 					if (fd_out < 0)

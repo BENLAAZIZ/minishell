@@ -8,9 +8,9 @@ char *replace_token(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 	if (env_node == NULL)
 	{
 		while (check_char_expand (token->value[envirment->i]) == 1)
-			envirment->i++; 
+			envirment->i++;
 		if (envirment->sub != NULL)
-			return(ft_strjoin(envirment->sub, ""));
+			return(ft_strjoin(envirment->sub, token->value + envirment->i));
 		else
 			return(ft_strdup(""));
 	}
@@ -22,7 +22,7 @@ char *replace_token(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 		envirment->i++;
 	}
 	ft_check_quotes(token->value[envirment->i], sign);
-	if (token->value[envirment->i] == '=' || token->value[envirment->i] == ' ')
+	if (token->value[envirment->i] == '=' || token->value[envirment->i] == ' ' || token->value[envirment->i] == '.')
 	{
 		special_case = ft_strjoin(env_node->value, token->value + envirment->i);
 		envirment->sub = ft_strjoin(envirment->sub, special_case);
@@ -72,7 +72,7 @@ char	*expand_value(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '=' || line[i] == '"' || line[i] == '$' || line[i] == ' ' || line[i] == '\'' || line[i] == '\0')
+		if (line[i] == '.' || line[i] == '=' || line[i] == '"' || line[i] == '$' || line[i] == ' ' || line[i] == '\'' || line[i] == '\0')
 			break ;
 		variable[i] = line[i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/13 19:21:52 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:15:47 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	handle_rederection(t_red_node *red_node)
 					fd_in = open(red_node->file, O_RDONLY, 0644);
 					if (fd_in < 0)
 					{
-						if (red_node->expaind == 1)
+						if (red_node->expand == 1)
 							printf("minishell: %s: ambiguous redirect\n", red_node->exp);
 						else
 							printf("minishell: %s: No such file or directory\n", red_node->file);
@@ -144,7 +144,7 @@ void	handle_rederection(t_red_node *red_node)
 					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0644);
 			if (fd_out < 0)
 			{
-				if (red_node->expaind == 1)
+				if (red_node->expand == 1)
 					printf("minishell: %s: ambiguous redirect\n", red_node->exp);
 				exit(1);
 			}
@@ -225,7 +225,7 @@ void	ft_minishell(t_env **env)
 	int		pid;
 	int		i;
 	int b;
-	
+	node = NULL;
 	files = NULL;
 	token = NULL;
 	line = NULL;
@@ -238,9 +238,6 @@ void	ft_minishell(t_env **env)
 			continue ; 
 		add_history(line);
 		rl_redisplay();
-		node =  (t_cmd_node *)malloc(sizeof(t_cmd_node));
-		if (!node)
-			continue ;
 		if (check_quotes(line) == 1)
 			continue ;
 		ft_initialis_data(&data, *env, 0, 0);
@@ -256,7 +253,7 @@ void	ft_minishell(t_env **env)
 			continue ;
 		}
 		ft_list_cmd (token, &node);
-		ft_lstclear_token(&token);
+		ft_lstclear_token(&token);	
 		//==============
 
 		// printf("{env = %s}\n", (*env)->variable);
@@ -269,7 +266,7 @@ void	ft_minishell(t_env **env)
 		{
 			handle_rederection(node->red_node);
 			b = built_functions(env, &var, node->command);
-			// exit(0);
+			// printf("b %d\n", b);
 			if (b == -1)
 			{
 				pid = fork();
@@ -288,6 +285,8 @@ void	ft_minishell(t_env **env)
 		if (data.cmd_env)
 			free_t_split(data.cmd_env);
 		free(line);
+		ft_lstclear_red(&node->red_node);
+		ft_lstclear_cmd(&node);
 	}
 }
 

@@ -68,10 +68,5 @@ int remove_quotes(t_word *token)
 		token = token->next;
 	}
 	token = tmp;
-	while(tmp != NULL)
-	{
-		printf("%s\n", tmp->val_noquotes);
-		tmp = tmp->next;
-	}
 	return (0);
 }

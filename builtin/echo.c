@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 09:54:44 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:17:10 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ void	echo(char **cmd)
 			// printf(" ");
 		index++;
 	}
+	fflush(stdout);
 	if (!newline)
 		write(1, "\n", 1);
+	fflush(stdout);
 		// printf("\n");
 }

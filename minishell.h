@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/13 18:10:33 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:11:39 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct  s_red_node
 	char			*red;
 	char			*exp;
 	int				*fd_herdoc;
-	int				expaind;
+	int				expand;
 	struct s_red_node	*next;
 }	t_red_node;
 
@@ -200,5 +200,8 @@ void	ft_exuctute(char **cmd, t_path *data, t_var *var);
 int		exec_cmd(char **cmd, t_path *data);
 char	*get_next_line(int fd);
 
+//free
 
+void	ft_lstclear_red(t_red_node **list);
+void	ft_lstclear_cmd(t_cmd_node **list);
 #endif

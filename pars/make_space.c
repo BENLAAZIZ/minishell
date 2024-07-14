@@ -20,7 +20,7 @@ int	ft_is_space(char c)
 
 int	check_char_expand (char c)
 {
-	if (c == 32 || (c >= 9 && c <= 13) || c == '|'
+	if (c == '.' || c == 32 || (c >= 9 && c <= 13) || c == '|'
 		|| c == '>' || c == '<' || c == '"' || c == '=' || c == '$' || c == '\'' || c == '\0')
 		return (0);
 

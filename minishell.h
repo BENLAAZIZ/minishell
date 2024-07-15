@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/14 17:11:39 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:54:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <readline/readline.h>
 # include <stdio.h>
+# include <readline/readline.h>
 # include <string.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -59,6 +59,8 @@ typedef struct s_cmd_node
 {
 	char				**command;
 	t_red_node			*red_node;
+	int					fd_in;
+	int					fd_out;
 	struct s_cmd_node	*next;
 }	t_cmd_node;
 
@@ -115,7 +117,7 @@ typedef struct s_var
 
 
 //expand
-void	desplay_node(t_cmd_node *cmd);
+void	desplay_node(t_cmd_node **cmd);
 //token_list
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);
@@ -196,7 +198,7 @@ char	*ft_strchr(const char *s, int c);
 void	ft_error(char *s, char *flag, int i, int in);
 void	close_fd(int *fd);
 
-void	ft_exuctute(char **cmd, t_path *data, t_var *var);
+void	ft_execute(char **cmd, t_path *data, t_var *var);
 int		exec_cmd(char **cmd, t_path *data);
 char	*get_next_line(int fd);
 

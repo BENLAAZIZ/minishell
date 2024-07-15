@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/14 19:15:47 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:07:44 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,6 @@ void	ft_initialis_data(t_path *data, t_env *env, int size, int i)
 
 int built_functions(t_env **env, t_var *var, char **cmd)
 {
-	if (!env || !env[0])
-	{
-		printf("env failed\n");
-		// while (1);
-		
-	}
-		if (!cmd || !cmd[0])
-	{
-		printf("cmd failed\n");
-		// while (1);
-		
-	}
 		if (ft_strncmp(cmd[0], "env", 4) == 0)
 		{
 			if (cmd[1])
@@ -101,7 +89,7 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 
 
 
-void	handle_rederection(t_red_node *red_node)
+int	handle_redirection(t_red_node *red_node)
 {
 	int		fd;
 	int		fd_in;
@@ -111,7 +99,8 @@ void	handle_rederection(t_red_node *red_node)
 	fd_out = -1;
 	fd = -1;
 	if (!red_node)
-		return ;
+		return 0;
+	// desplay_node(node);
 	while (red_node)
 	{
 		if (ft_strncmp(red_node->red, "<<", 2) == 0 || ft_strncmp(red_node->red, "<", 1) == 0)
@@ -130,52 +119,38 @@ void	handle_rederection(t_red_node *red_node)
 							printf("minishell: %s: ambiguous redirect\n", red_node->exp);
 						else
 							printf("minishell: %s: No such file or directory\n", red_node->file);
-						exit(1);
+						return (1);
 					}
-					dup2(fd_in, 1);
+					// printf("her is 1\n");
+	
+					dup2(fd_in, 0);
 					close(fd_in);
+					// printf("her is 2\n");
 			}
 		}
 		else if (ft_strncmp(red_node->red, ">>", 3) == 0 || ft_strncmp(red_node->red, ">", 2) == 0)
 		{
 			if (ft_strncmp(red_node->red, ">>", 3) == 0)
-					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_APPEND, 0644);
+					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			else
-					fd_out = open(red_node->red, O_CREAT, O_RDWR, O_TRUNC, 0644);
+					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			if (fd_out < 0)
 			{
 				if (red_node->expand == 1)
 					printf("minishell: %s: ambiguous redirect\n", red_node->exp);
-				exit(1);
+				return (1);
 			}
-			dup2(fd_out, 0);
+			// printf("her is 2\n");
+			dup2(fd_out, 1);
 			close(fd_out);
 		}
 		red_node = red_node->next;
 	}
+	return (0);
 }
 
 //***************************************
 
-
-// t_node	*get_pars(void)
-// {
-// 	t_node *node;
-// 	node = NULL;
-// 	node = malloc(sizeof(t_node));
-// 	node->red_node  = get_red_nod();
-// 	// display_red(node->red_node);
-// 	char *cmd = "ls -la";
-// 	// int i = -1;
-	
-// 	// while(++i < 3)
-// 	// 	ft_lstadd_back_node(&node, ft_lstnew_node(ft_splith(cmd[i], 32)));
-// 	node->cmd_node = ft_splith(cmd, 32);
-// 	if (!node->cmd_node)
-// 		return NULL;
-// 	display_node(node);
-// 	return (node);
-// }
 
 // #include <string.h>
 
@@ -211,7 +186,7 @@ void	handle_rederection(t_red_node *red_node)
 
 //*****************************************
 
-void	ft_minishell(t_env **env)
+void	ft_minishell(char **ev, t_env **env)
 {
 	t_word		*token;
 	t_red_node	*files;
@@ -219,8 +194,8 @@ void	ft_minishell(t_env **env)
 	t_path	data;
 	t_var	var;
 	char	*line;
-	int		size;
-	// int		fdd[2];
+	// int		size;
+	int		fd[2];
 	// int		*fd;
 	int		pid;
 	int		i;
@@ -229,10 +204,14 @@ void	ft_minishell(t_env **env)
 	files = NULL;
 	token = NULL;
 	line = NULL;
+	int fd_stdin = dup(0);
+	int fd_stdout = dup(1);
 	while (1)
 	{
 		i = 0;
 		var.status = 0;
+		dup2(fd_stdin, 0);
+		dup2(fd_stdout, 1);
 		line = readline("minishell$ ");
 		if (!line || line[0] == '\0')
 			continue ; 
@@ -240,6 +219,7 @@ void	ft_minishell(t_env **env)
 		rl_redisplay();
 		if (check_quotes(line) == 1)
 			continue ;
+		ft_env(ev, env);
 		ft_initialis_data(&data, *env, 0, 0);
 		// size = size_pipe_node(pipe_node);
 		//=======
@@ -255,37 +235,67 @@ void	ft_minishell(t_env **env)
 		ft_list_cmd (token, &node);
 		ft_lstclear_token(&token);	
 		//==============
-
-		// printf("{env = %s}\n", (*env)->variable);
-		// desplay_node(node);
-		// pause();
-			
-		// node = get_pars();
-		size = 1; // hadi ghi bach njarab node whda
-		if (size == 1)
+		// desplay_node(&node);
+		// desplay_node(&node);
+		if (node->next == NULL)
 		{
-			handle_rederection(node->red_node);
+			if (handle_redirection(node->red_node) == 1)
+				continue ;
 			b = built_functions(env, &var, node->command);
-			// printf("b %d\n", b);
 			if (b == -1)
 			{
 				pid = fork();
 				if (pid == 0)
-					ft_exuctute(node->command, &data, &var);
-				// wait(NULL);
-				//===========
-				int i = -1;
-				i = -1;
-				while(++i < 3)
-					wait(NULL);
+					ft_execute(node->command, &data, &var);
+				wait(NULL);
 			}
+		}
+		else
+		{
+			while (node)
+			{
+				if (pipe(fd) == -1)
+					perror("pipe fail :");
+				pid = fork();
+				if (pid == 0)
+				{
+					if (handle_redirection(node->red_node) == 1)
+					{
+						node = node->next;
+						continue ;
+					}
+					b = built_functions(env, &var, node->command);
+					close(fd[0]);
+					dup2(fd[1], 1);
+					close(fd[1]);
+					if (b == -1)
+						ft_execute(node->command, &data, &var);
+				}
+				close(fd[1]);
+				dup2(fd[0], 0);
+				close(fd[0]);
+				node = node->next;
+			}
+
+			wait(NULL);
+			// wait(NULL);
+			
 		}
 		if (data.path)
 			free_t_split(data.path);
 		if (data.cmd_env)
 			free_t_split(data.cmd_env);
 		free(line);
-		ft_lstclear_red(&node->red_node);
+		// while (node->red_node)
+		if (node->red_node == NULL)
+		{
+			puts("hhhh");
+			printf("[%s]\n", node->red_node->file);
+			node->red_node = node->red_node->next;
+		}
+		else
+			puts("hshs");
+		// ft_lstclear_red(&node->red_node);
 		ft_lstclear_cmd(&node);
 	}
 }
@@ -299,7 +309,7 @@ int	main(int argc, char *argv[], char **ev)
 	(void)argc;
 	(void)argv;
 	cmd = NULL;
-	ft_env(ev, &env);
-	ft_minishell(&env);
+	// ft_env(ev, &env);
+	ft_minishell(ev, &env);
 	return (0);
 }

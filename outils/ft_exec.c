@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 15:44:45 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/15 10:16:30 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	exec_cmd(char **cmd, t_path *data)
 }
 
 
-void	ft_exuctute(char **cmd, t_path *data, t_var *var)
+void	ft_execute(char **cmd, t_path *data, t_var *var)
 {
 	if (!cmd)
 	{

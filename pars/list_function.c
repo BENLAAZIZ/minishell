@@ -25,7 +25,7 @@ void	ft_lstclear_red(t_red_node **list)
 	if (list == NULL || (*list) == NULL)
 		return ;
 	tmp = (*list);
-	while ((*list) != NULL)
+	while (list &&  *list)
 	{
 		tmp = (*list);
 		(*list) = (*list)->next;

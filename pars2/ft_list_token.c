@@ -31,7 +31,7 @@ int dollar_size(char *all_command)
 			else if (sign != 1 && size % 2 != 0)
 				lenght++;
 			if (size % 2 == 0 && sign != 1)
-				lenght += 2;
+				lenght++;
 		}
 		lenght++;
 		i++;
@@ -71,11 +71,8 @@ char *remove_dollar(char *all_command)
 			}
 			else if (sign != 1 && size % 2 != 0)
 				escap_dollar[j++] = '$';
-			if (size % 2 == 0 && sign != 1)
-			{
-				escap_dollar[j++] = '$';
-				escap_dollar[j++] = '$';
-			}
+			// if (size % 2 == 0 && sign != 1)
+			// 	escap_dollar[j++] = ' ';
 		}
 		escap_dollar[j++] = all_command[i];
 		i++;

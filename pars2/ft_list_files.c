@@ -93,8 +93,10 @@ void	ft_list_file(t_word	*token, t_red_node **files)
 	char		*red;
 	t_red_node	*file_and_red;
 	t_word		*tmp;
+	// t_red_node		*tmp2;
 
 	tmp = token;
+	// tmp2 = *files;
 	*files = NULL;
 	while (token)
 	{
@@ -112,6 +114,7 @@ void	ft_list_file(t_word	*token, t_red_node **files)
 		token = token->next;
 	}
 	token = tmp;
+	// *files = tmp2;
 }
 
 //   1 2 3 4 5 6 >> 7 << 8 | 9 10 | 11 12 | > 13 6

@@ -59,6 +59,8 @@ int	lenght_cmds(t_word	*token)
 
 void	desplay_red_node(t_red_node *redd)
 {
+	t_red_node *tmp;
+	tmp = redd;
 	if (!redd)
 		return ;
 	while (redd)
@@ -68,37 +70,41 @@ void	desplay_red_node(t_red_node *redd)
 		printf(" ---> ");
 		redd = redd->next;
 	} 
+	redd = tmp;
 }
 
 
-void	desplay_node(t_cmd_node *cmd)
+void	desplay_node(t_cmd_node **cmd)
 {
 	int i;
+	t_cmd_node *tmp1;
+	tmp1 = *cmd;
 	if (!cmd)
 		printf("nothing\n");
 	else
 	{
-		while (cmd)
+		while (*cmd)
 		{
 		printf("\n ========================================== \n\n");
 			printf("red : ");
-			desplay_red_node(cmd->red_node);
+			desplay_red_node((*cmd)->red_node);
 			i = 0;
-			if (cmd->command)
+			if ((*cmd)->command)
 			{
-				while (cmd->command[i])
+				while ((*cmd)->command[i])
 				{
-					printf("\ncommand: %s", cmd->command[i]);
+					printf("\ncommand: %s", (*cmd)->command[i]);
 					i++;
 				}
 				puts("");
 			}
-			cmd = cmd->next;
+			(*cmd) = (*cmd)->next;
 			puts("\n\n");
 		}
 		printf("\n");
 
 	}
+	*cmd = tmp1;
 }
 
 void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
@@ -109,7 +115,9 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 	t_word		*tmp;
 	t_word		*tmp2;
 	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
-	// cmd = NULL;
+	commands->red_node = NULL;
+	// commands->red_node->file = NULL;
+	// commands->red_node->red = NULL;
 	tmp2 = token;
 	tmp = token;
 	while (token != NULL)

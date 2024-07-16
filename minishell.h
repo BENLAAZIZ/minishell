@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/16 11:40:21 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:51:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct s_var
 
 
 //expand
-void	desplay_node(t_cmd_node **cmd);
+// void	desplay_node(t_cmd_node **cmd);
 void	desplay_red_node(t_red_node *redd);
 //token_list
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
@@ -130,6 +130,8 @@ int			check_quotes(char *line);
 int			check_red(int type);
 int 		c_after_add(char c);
 int 		check_dollar_sign(char c1, char c2, char c3);
+int 		char_stop(char c);
+int 		char_continue(char c);
 
 //list_function
 void		ft_lstclear_token(t_word **list);

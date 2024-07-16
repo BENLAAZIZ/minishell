@@ -6,26 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/13 16:41:30 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/16 09:30:32 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// size_t	ft_strlen(const char *s)
-// {
-// 	size_t	l;
-
-// 	l = 0;
-// 	if (!s)
-// 		return (0);
-// 	while (*s != '\0')
-// 	{
-// 		l++;
-// 		s++;
-// 	}
-// 	return (l);
-// }
 
 void	*ft_memcpy(void	*dst, const void *src, size_t n)
 {
@@ -72,6 +57,10 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	unsigned char	*ss2;
 
 	i = 0;
+	if (!s1)
+		return (s2[i]);
+	if (!s2)
+		return (s1[i]);
 	ss1 = (unsigned char *)s1;
 	ss2 = (unsigned char *)s2;
 	while ((ss1[i] != '\0' || ss2[i] != '\0') && (n > i))

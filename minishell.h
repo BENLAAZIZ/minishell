@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/15 15:54:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:40:21 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@
 # include <fcntl.h>
 # include <readline/history.h>
 
-
-
-// typedef struct s_cmd
-// {
-// 	char			**command;
-// 	struct s_cmd	*next;
-// }	t_cmd;
-
 typedef enum e_type
 {
 	WORD = 0,
@@ -43,24 +35,21 @@ typedef enum e_type
 	DR_RED = 6,
 }	t_type;
 
-
 typedef struct  s_red_node
 {
-	char			*file;
-	char			*red;
-	char			*exp;
-	int				*fd_herdoc;
-	int				expand;
+	char				*file;
+	char				*red;
+	char				*exp;
+	int					*fd_herdoc;
+	int					expand;
 	struct s_red_node	*next;
 }	t_red_node;
-
 
 typedef struct s_cmd_node
 {
 	char				**command;
 	t_red_node			*red_node;
-	int					fd_in;
-	int					fd_out;
+	int					flag_r;
 	struct s_cmd_node	*next;
 }	t_cmd_node;
 
@@ -118,6 +107,7 @@ typedef struct s_var
 
 //expand
 void	desplay_node(t_cmd_node **cmd);
+void	desplay_red_node(t_red_node *redd);
 //token_list
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);

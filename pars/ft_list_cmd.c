@@ -59,6 +59,8 @@ int	lenght_cmds(t_word	*token)
 
 void	desplay_red_node(t_red_node *redd)
 {
+	t_red_node *tmp;
+	tmp = redd;
 	if (!redd)
 		return ;
 	while (redd)
@@ -68,6 +70,7 @@ void	desplay_red_node(t_red_node *redd)
 		printf(" ---> ");
 		redd = redd->next;
 	} 
+	redd = tmp;
 }
 
 

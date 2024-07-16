@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/15 10:16:30 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:01:40 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ int	exec_cmd(char **cmd, t_path *data)
 	free(s);
 	free_t_split(data->path);
 	if (execve(comand, cmd, data->cmd_env) == -1)
-	{
-		ft_error("command not found: ", cmd[0], 0, 0);
-		return (0);
-	}
+		return (ft_error("command not found: ", cmd[0], 0, 0), 0);
 	return (1);
 }
 

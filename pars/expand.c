@@ -108,6 +108,7 @@ int is_expand(char c)
 		return (1);
 	return (0);
 }
+
 void ft_is_expand (t_word *token, t_env *envirment, int *sign)
 {
 	char	*name;
@@ -136,6 +137,7 @@ void ft_is_expand (t_word *token, t_env *envirment, int *sign)
 			envirment->i++;
 	}
 }
+
 
 void	word_expand (t_word *token, t_env *envirment)
 {

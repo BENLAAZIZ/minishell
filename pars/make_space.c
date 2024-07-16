@@ -33,12 +33,14 @@ int char_stop(char c)
 		return (1);
 	return (0);
 }
+
 int char_continue(char c)
 {
 	if (c == '=' ||  c == '\'' || c == '"')
 		return (1);
 	return (0);
 }
+
 int check_after_d(char c)
 {
 	if (c == 32 || (c >= 9 && c <= 13) || c == '|'
@@ -46,6 +48,7 @@ int check_after_d(char c)
 		return (0);
 	return (1);
 }
+
 int	end_point(char c,int *sign)
 {
 	if (*sign == 0)

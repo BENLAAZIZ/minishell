@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/16 14:13:20 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:14:16 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	handle_redirection(int *flag, t_red_node *red_node)
 	fd_in = -1;
 	fd_out = -1;
 	fd = -1;
+	//   // for seg
 	if (!red_node)
 		return 0;
 	while (red_node)
@@ -114,15 +115,14 @@ int	handle_redirection(int *flag, t_red_node *red_node)
 					fd_in = open(red_node->file, O_RDONLY, 0644);
 					if (fd_in < 0)
 					{
-						// if (red_node->expand == 1)
-						// 	printf("minishell: %s: ambiguous redirect\n", red_node->exp);
-						// else
+						if (red_node->expand == 1)
+							printf("minishell: %s: ambiguous redirect\n", red_node->exp);
+						else
 							printf("minishell: %s: No such file or directory \n", red_node->file);
-						return (1);
+						return (-1);
 					}
 					dup2(fd_in, 0);
 					close(fd_in);
-					// printf("\n======  if ********   ======\n");
 			}
 		}
 		else if (ft_strncmp(red_node->red, ">>", 3) == 0 || ft_strncmp(red_node->red, ">", 2) == 0)
@@ -139,16 +139,22 @@ int	handle_redirection(int *flag, t_red_node *red_node)
 			}
 			if (fd_out < 0)
 			{
-				// if (red_node->expand == 1)
-					// printf("minishell: %s: ambiguous redirect\n", red_node->exp);
-				return (1);
+				if (red_node->expand == 1)
+					printf("minishell: %s: ambiguous redirect\n", red_node->exp);
+				return (-1);
 			}
+
+			// if (!*flag)
+			// {
+			// 	dup2(fd[0], 1);
+			// 	close(fd[0]);
+			// }
 			dup2(fd_out, 1);
 			close(fd_out);
 		}
 		red_node = red_node->next;
 	}
-	return (0);
+	return (1);
 }
 
 //***************************************
@@ -194,21 +200,23 @@ void	ft_minishell(t_env **env)
 	t_red_node	*files;
 	t_cmd_node	*node;
 	t_cmd_node	*tmp_node;
-	t_path	data;
-	t_var	var;
-	char	*line;
-	// int		size;
-	int		fd[2];
-	// int		*fd;
-	int		pid;
-	int		i;
-	int b;
+	t_path		data;
+	t_var		var;
+	char		*line;
+	int			fd[2];
+	int			pid;
+	int			i;
+	int 		b;
+	int 		fd_stdin;
+	int 		fd_stdout;
+	int 		c;
+	
 	node = NULL;
 	files = NULL;
 	token = NULL;
 	line = NULL;
-	int fd_stdin = dup(0);
-	int fd_stdout = dup(1);
+	fd_stdin = dup(0);
+	fd_stdout = dup(1);
 	while (1)
 	{
 		i = 0;
@@ -233,14 +241,14 @@ void	ft_minishell(t_env **env)
 			continue ;
 		}
 		ft_list_cmd (token, &node);
-		tmp_node = node;
+		tmp_node = node; // for save head node
 		ft_lstclear_token(&token);	
 		//==============
 		// desplay_node(&node);
 		if (node->next == NULL)
 		{
 			node->flag_r = 0;
-			if (handle_redirection(&node->flag_r, node->red_node) == 1)
+			if (handle_redirection(&node->flag_r, node->red_node) == -1)
 				continue ;
 			b = built_functions(env, &var, node->command);
 			if (b == -1)
@@ -258,15 +266,18 @@ void	ft_minishell(t_env **env)
 				if (pipe(fd) == -1)
 					perror("pipe fail :");
 				node->flag_r = 0;
+				c = handle_redirection(&node->flag_r, node->red_node);
 				pid = fork();
 				if (pid == 0)
 				{
-					if (handle_redirection(&node->flag_r, node->red_node) == 1)
+					if (c == -1 || c == 0)
 					{
-						node = node->next;
-						continue ;
+						if (c == -1)
+						{
+							node = node->next;
+							continue ;
+						}
 					}
-					// printf("--- node->flag_r = %d\n", node->flag_r);
 					if (node->flag_r == 0)
 					{
 						close(fd[0]);

@@ -113,6 +113,7 @@ int check_dollar_sign(char c1, char c2, char c3)
 		return (1);
 	return (0);
 }
+
 t_word	*ft_list_tokn(char *all_command, t_word *token, t_env *envirment)
 {
 	char	*escap_dollar;

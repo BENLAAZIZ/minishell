@@ -113,8 +113,8 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 	t_word		*tmp2;
 	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
 	commands->red_node = NULL;
-	commands->red_node->file = NULL;
-	commands->red_node->red = NULL;
+	// commands->red_node->file = NULL;
+	// commands->red_node->red = NULL;
 	tmp2 = token;
 	tmp = token;
 	while (token != NULL)

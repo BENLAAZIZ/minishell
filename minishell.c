@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/15 18:07:44 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/16 09:02:25 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	handle_redirection(t_red_node *red_node)
 	fd_out = -1;
 	fd = -1;
 	if (!red_node)
+	{
+		printf("\n====== red node = null  ======\n");
 		return 0;
+	}
 	// desplay_node(node);
 	while (red_node)
 	{
@@ -112,12 +115,13 @@ int	handle_redirection(t_red_node *red_node)
 			}
 			else
 			{
+					printf("\n====== no seg in <  ======\n");
 					fd_in = open(red_node->file, O_RDONLY, 0644);
 					if (fd_in < 0)
 					{
-						if (red_node->expand == 1)
-							printf("minishell: %s: ambiguous redirect\n", red_node->exp);
-						else
+						// if (red_node->expand == 1)
+						// 	printf("minishell: %s: ambiguous redirect\n", red_node->exp);
+						// else
 							printf("minishell: %s: No such file or directory\n", red_node->file);
 						return (1);
 					}
@@ -130,20 +134,24 @@ int	handle_redirection(t_red_node *red_node)
 		}
 		else if (ft_strncmp(red_node->red, ">>", 3) == 0 || ft_strncmp(red_node->red, ">", 2) == 0)
 		{
+
+					printf("\n====== no seg in >   ======\n");
+			
 			if (ft_strncmp(red_node->red, ">>", 3) == 0)
 					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			else
 					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			if (fd_out < 0)
 			{
-				if (red_node->expand == 1)
-					printf("minishell: %s: ambiguous redirect\n", red_node->exp);
+				// if (red_node->expand == 1)
+					// printf("minishell: %s: ambiguous redirect\n", red_node->exp);
 				return (1);
 			}
 			// printf("her is 2\n");
 			dup2(fd_out, 1);
 			close(fd_out);
 		}
+	printf("\n====== /////////   ======\n");
 		red_node = red_node->next;
 	}
 	return (0);
@@ -186,7 +194,7 @@ int	handle_redirection(t_red_node *red_node)
 
 //*****************************************
 
-void	ft_minishell(char **ev, t_env **env)
+void	ft_minishell(t_env **env)
 {
 	t_word		*token;
 	t_red_node	*files;
@@ -219,7 +227,7 @@ void	ft_minishell(char **ev, t_env **env)
 		rl_redisplay();
 		if (check_quotes(line) == 1)
 			continue ;
-		ft_env(ev, env);
+		// ft_env(ev, env);
 		ft_initialis_data(&data, *env, 0, 0);
 		// size = size_pipe_node(pipe_node);
 		//=======
@@ -259,6 +267,7 @@ void	ft_minishell(char **ev, t_env **env)
 				pid = fork();
 				if (pid == 0)
 				{
+				// printf("\n====== her seg======\n");
 					if (handle_redirection(node->red_node) == 1)
 					{
 						node = node->next;
@@ -278,7 +287,7 @@ void	ft_minishell(char **ev, t_env **env)
 			}
 
 			wait(NULL);
-			// wait(NULL);
+			wait(NULL);
 			
 		}
 		if (data.path)
@@ -286,16 +295,7 @@ void	ft_minishell(char **ev, t_env **env)
 		if (data.cmd_env)
 			free_t_split(data.cmd_env);
 		free(line);
-		// while (node->red_node)
-		if (node->red_node == NULL)
-		{
-			puts("hhhh");
-			printf("[%s]\n", node->red_node->file);
-			node->red_node = node->red_node->next;
-		}
-		else
-			puts("hshs");
-		// ft_lstclear_red(&node->red_node);
+		ft_lstclear_red(&node->red_node);
 		ft_lstclear_cmd(&node);
 	}
 }
@@ -309,7 +309,7 @@ int	main(int argc, char *argv[], char **ev)
 	(void)argc;
 	(void)argv;
 	cmd = NULL;
-	// ft_env(ev, &env);
-	ft_minishell(ev, &env);
+	ft_env(ev, &env);
+	ft_minishell(&env);
 	return (0);
 }

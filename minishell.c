@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/16 12:52:55 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:13:20 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 
 
 
-int	handle_redirection(t_cmd_node *node, t_red_node *red_node)
+int	handle_redirection(int *flag, t_red_node *red_node)
 {
 	int		fd;
 	int		fd_in;
@@ -120,7 +120,6 @@ int	handle_redirection(t_cmd_node *node, t_red_node *red_node)
 							printf("minishell: %s: No such file or directory \n", red_node->file);
 						return (1);
 					}
-					node->flag_r = 0;
 					dup2(fd_in, 0);
 					close(fd_in);
 					// printf("\n======  if ********   ======\n");
@@ -130,12 +129,12 @@ int	handle_redirection(t_cmd_node *node, t_red_node *red_node)
 		{
 			if (ft_strncmp(red_node->red, ">>", 3) == 0)
 			{
-					node->flag_r = 1;
+					*flag = 1;
 					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			}
 			else
 			{
-					node->flag_r = 1;
+					*flag = 1;
 					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			}
 			if (fd_out < 0)
@@ -223,10 +222,7 @@ void	ft_minishell(t_env **env)
 		rl_redisplay();
 		if (check_quotes(line) == 1)
 			continue ;
-		// ft_env(ev, env);
 		ft_initialis_data(&data, *env, 0, 0);
-		// size = size_pipe_node(pipe_node);
-		//=======
 		token = ft_list_tokn(line, token, *env);
 		word_expand(token, *env);
 		remove_quotes(token);
@@ -243,7 +239,8 @@ void	ft_minishell(t_env **env)
 		// desplay_node(&node);
 		if (node->next == NULL)
 		{
-			if (handle_redirection(node, node->red_node) == 1)
+			node->flag_r = 0;
+			if (handle_redirection(&node->flag_r, node->red_node) == 1)
 				continue ;
 			b = built_functions(env, &var, node->command);
 			if (b == -1)
@@ -264,20 +261,19 @@ void	ft_minishell(t_env **env)
 				pid = fork();
 				if (pid == 0)
 				{
-				// printf("\n====== her seg======\n");
-					if (handle_redirection(node, node->red_node) == 1)
+					if (handle_redirection(&node->flag_r, node->red_node) == 1)
 					{
 						node = node->next;
 						continue ;
 					}
-					b = built_functions(env, &var, node->command);
-					// printf("\n node->flag_r = %d\n", node->flag_r);
+					// printf("--- node->flag_r = %d\n", node->flag_r);
 					if (node->flag_r == 0)
 					{
 						close(fd[0]);
 						dup2(fd[1], 1);
 						close(fd[1]);
 					}
+					b = built_functions(env, &var, node->command);
 					if (b == -1)
 						ft_execute(node->command, &data, &var);
 				}
@@ -287,13 +283,10 @@ void	ft_minishell(t_env **env)
 					dup2(fd[0], 0);
 					close(fd[0]);	
 				}
-
 				node = node->next;
 			}
-
 			wait(NULL);
 			wait(NULL);
-			
 		}
 		if (data.path)
 			free_t_split(data.path);

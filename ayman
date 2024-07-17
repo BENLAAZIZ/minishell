@@ -1,0 +1,14 @@
+Makefile
+README.md
+ayman
+builtin
+doc.tldr
+h1
+minishell
+minishell.c
+minishell.h
+minishell.o
+outils
+pars
+pars2
+test.txt

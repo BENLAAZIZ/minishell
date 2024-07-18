@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 19:21:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:51:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,85 +51,39 @@ void	ft_initialis_data(t_path *data, t_env *env, int size, int i)
 
 //***************************************
 
-
-// #include <string.h>
-
-// void make_process(t_cmd_node *node, int *fd_out)
-// {
-// 	int pid;
-// 	int fd[2];
-
-// 	pipe(fd);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		close(fd[0]);
-// 		if (!strcmp(node->command[0], "wc"))
-// 		{
-// 			printf("tetse\n");
-// 			dup2(*fd_out, 1);
-// 			close(*fd_out);
-// 		}
-// 		else
-// 		{
-// 			dup2(fd[1], 1);
-// 			close(fd[1]);
-// 		}
-// 		execve(node->command[0], node->command, NULL);	
-// 		exit(1);
-// 	}
-// 	close(fd[1]);
-// 	dup2(fd[0], 0);
-// 	close(fd[0]);
-// 	printf("parent\n");
-// }
-
 //*****************************************
 
 
 
-int	make_one_process(t_env **env, t_cmd_node *node, t_var *var, t_path *data)
+int	make_one_process(t_env **env, t_variable *varr)
 {
 	int	b;
 	int	pid;
 
-	node->flag_r = 0;
-	if (handle_redirection(&node->flag_r, node->red_node) == -1)
+	varr->node->flag_r = 0;
+	if (handle_redirection(&varr->node->flag_r, varr->node->red_node) == -1)
 		return (-1) ;
-	b = built_functions(env, var, node->command);
+	b = built_functions(env, &varr->var, varr->node->command);
 	if (b == -1)
 	{
 		pid = fork();
 		if (pid == 0)
-			ft_execute(node->command, data, var);
+			ft_execute(varr->node->command, &varr->data, &varr->var);
 		wait(NULL);
 	}
 	return (0);
 }
 //****************************************
 
-
-void	make_all_process(t_env **env, t_variable *varr)
+int	in_child_process(t_env **env, int c, t_variable *varr)
 {
-	int c;
 	int b;
-	int pid;
-
-	while (varr->node)
-	{
-		if (pipe(varr->fd) == -1)
-			perror("pipe fail :");
-		varr->node->flag_r = 0;
-		c = handle_redirection(&varr->node->flag_r, varr->node->red_node);
-		pid = fork();
-		if (pid == 0)
-		{
 			if (c == -1 || c == 0)
 			{
 				if (c == -1)
 				{
 					varr->node = varr->node->next;
-					continue ;
+					return (-1);;
 				}
 			}
 			if (varr->node->flag_r == 0)
@@ -143,6 +97,26 @@ void	make_all_process(t_env **env, t_variable *varr)
 			b = built_functions(env, &varr->var, varr->node->command);
 			if (b == -1)
 				ft_execute(varr->node->command, &varr->data, &varr->var);
+			return (0);
+}
+
+void	make_all_process(t_env **env, t_variable *varr)
+{
+	int c;
+	// int b;
+	int pid;
+
+	while (varr->node)
+	{
+		if (pipe(varr->fd) == -1)
+			perror("pipe fail :");
+		varr->node->flag_r = 0;
+		c = handle_redirection(&varr->node->flag_r, varr->node->red_node);
+		pid = fork();
+		if (pid == 0)
+		{
+			if (in_child_process(env, c, varr) == -1)
+				continue ;
 		}
 		if (varr->node->flag_r == 0)
 		{
@@ -163,7 +137,7 @@ void	ft_minishell(t_env **env, t_variable *varr)
 {
 	while (1)
 	{
-		varr->var.status = 0;
+		// varr->var.status = 0;
 		(dup2(varr->fd_stdin, 0), dup2(varr->fd_stdout, 1));
 		varr->line = readline("minishell$ ");
 		if (!varr->line || varr->line[0] == '\0')
@@ -190,7 +164,7 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		// exec -----------------
 		if (varr->node->next == NULL)
 		{
-			if (make_one_process(env, varr->node, &varr->var, &varr->data) == -1 )
+			if (make_one_process(env, varr) == -1 )
 				continue ;
 		}
 		else 
@@ -199,7 +173,6 @@ void	ft_minishell(t_env **env, t_variable *varr)
 			wait_function(varr->nbr_node);
 		}
 		// -----------------
-		
 		if (varr->data.path)
 			free_t_split(varr->data.path);
 		if (varr->data.cmd_env)
@@ -214,22 +187,22 @@ void	ft_minishell(t_env **env, t_variable *varr)
 
 int	main(int argc, char *argv[], char **ev)
 {
-	t_variable	var;
+	t_variable	varr;
 	t_env		*env;
 	
 
 	// **********************************
-	var.node = NULL;
-	var.token = NULL;
-	var.line = NULL;
-	var.fd_stdin = dup(0);
-	var.fd_stdout = dup(1);
-
+	varr.node = NULL;
+	varr.token = NULL;
+	varr.line = NULL;
+	varr.fd_stdin = dup(0);
+	varr.fd_stdout = dup(1);
+	varr.var.status = 0;
 	// ***********************************
 	env = NULL;
 	(void)argc;
 	(void)argv;
 	ft_env(ev, &env);
-	ft_minishell(&env, &var);
+	ft_minishell(&env, &varr);
 	return (0);
 }

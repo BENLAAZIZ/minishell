@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 15:29:21 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:58:45 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strdup(const char *s1)
 {
 	size_t	size;
 	char	*tab;
-	
+
 	if (!s1)
 		return (NULL);
 	size = ft_strlen(s1);
@@ -98,4 +98,33 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 		val_shlvl += ft_atoi(node->value, &varr);
 		node->value = ft_itoa(val_shlvl);
 	}
+}
+
+int built_functions(t_env **env, t_var *var, char **cmd)
+{
+		if (ft_strncmp(cmd[0], "env", 4) == 0)
+		{
+			if (cmd[1])
+			{
+				printf("env: %s: No such file or directory\n", cmd[1]);
+				var->status = 1;
+			}
+			else 
+				display_env(*env);
+		}
+		else if (ft_strncmp(cmd[0], "echo", 5) == 0)
+			echo(cmd);
+		else if (ft_strncmp(cmd[0], "cd", 3) == 0)
+			var->status = cd(cmd, env);
+		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
+			var->status = pwd();
+		else if (ft_strncmp(cmd[0], "export", 7) == 0)
+			export(env , cmd, 1, var);
+		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
+			unset(env, cmd, var);
+		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
+			ft_exit(cmd, var);
+		else
+			return (-1);
+		return (0);
 }

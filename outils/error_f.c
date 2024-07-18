@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/13 15:49:44 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:55:02 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ void	close_fd(int *fd)
 
 void	wait_function(int c)
 {
-	int	i;
-
-	i = c - 3;
-	while (i--)
+	while (c--)
 		wait(NULL);
 }
 

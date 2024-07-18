@@ -6,32 +6,27 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 16:13:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:21:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	display_env(t_env *a)
-{
-	while (a)
-	{
-		if (a->value != NULL)
-			printf("%s=%s\n", a->variable, a->value);
-		a = a->next;
-	}
-}
-//============== start 
 
-// =============== end
+void	get_cmd_env(t_env *env, t_path *data, char	*tmp, int *i)
+{
+	tmp = ft_strjoin(env->variable, "=");
+	data->cmd_env[*i] = ft_strjoin(tmp, env->value);
+	(*i)++;
+}
 
 void	ft_initialis_data(t_path *data, t_env *env, int size, int i)
 {
 	t_env	*poin;
-	char	*tmp;
 	t_env	*tp;
-	char *str;
-	
+	char	*tmp;
+	char	*str;
+
 	tp = env;
 	poin = point_node(env, "PATH");
 	if (!poin)
@@ -45,11 +40,7 @@ void	ft_initialis_data(t_path *data, t_env *env, int size, int i)
 	{
 		tmp = NULL;
 		if (env->value)
-		{	
-			tmp = ft_strjoin(env->variable, "=");
-			data->cmd_env[i] = ft_strjoin(tmp, env->value);
-			i++;
-		}
+			get_cmd_env(env, data, tmp, &i);
 		free(tmp);
 		env = env->next;
 	}
@@ -57,105 +48,6 @@ void	ft_initialis_data(t_path *data, t_env *env, int size, int i)
 	env = tp;
 }
 
-
-int built_functions(t_env **env, t_var *var, char **cmd)
-{
-		if (ft_strncmp(cmd[0], "env", 4) == 0)
-		{
-			if (cmd[1])
-			{
-				printf("env: %s: No such file or directory\n", cmd[1]);
-				var->status = 1;
-			}
-			else 
-				display_env(*env);
-		}
-		else if (ft_strncmp(cmd[0], "echo", 5) == 0)
-			echo(cmd);
-		else if (ft_strncmp(cmd[0], "cd", 3) == 0)
-			var->status = cd(cmd, env);
-		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
-			var->status = pwd();
-		else if (ft_strncmp(cmd[0], "export", 7) == 0)
-			export(env , cmd, 1, var);
-		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
-			unset(env, cmd, var);
-		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
-			ft_exit(cmd, var);
-		else
-			return (-1);
-		return (0);
-}
-
-
-
-int	handle_redirection(int *flag, t_red_node *red_node)
-{
-	int		fd;
-	int		fd_in;
-	int		fd_out;
-
-	fd_in = -1;
-	fd_out = -1;
-	fd = -1;
-	//   // for seg
-	if (!red_node)
-		return 0;
-	while (red_node)
-	{
-		if (ft_strncmp(red_node->red, "<<", 2) == 0 || ft_strncmp(red_node->red, "<", 2) == 0)
-		{
-			if (ft_strncmp(red_node->red, "<<", 3) == 0)
-			{
-				dup2(*(red_node)->fd_herdoc, 1);
-				close(*(red_node)->fd_herdoc);
-			}
-			else
-			{
-					fd_in = open(red_node->file, O_RDONLY, 0644);
-					if (fd_in < 0)
-					{
-						if (red_node->expand == 1)
-							printf("minishell: %s: ambiguous redirect\n", red_node->exp);
-						else
-							printf("minishell: %s: No such file or directory \n", red_node->file);
-						return (-1);
-					}
-					dup2(fd_in, 0);
-					close(fd_in);
-			}
-		}
-		else if (ft_strncmp(red_node->red, ">>", 3) == 0 || ft_strncmp(red_node->red, ">", 2) == 0)
-		{
-			if (ft_strncmp(red_node->red, ">>", 3) == 0)
-			{
-					*flag = 1;
-					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-			}
-			else
-			{
-					*flag = 1;
-					fd_out = open(red_node->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			}
-			if (fd_out < 0)
-			{
-				if (red_node->expand == 1)
-					printf("minishell: %s: ambiguous redirect\n", red_node->exp);
-				return (-1);
-			}
-
-			// if (!*flag)
-			// {
-			// 	dup2(fd[0], 1);
-			// 	close(fd[0]);
-			// }
-			dup2(fd_out, 1);
-			close(fd_out);
-		}
-		red_node = red_node->next;
-	}
-	return (1);
-}
 
 //***************************************
 
@@ -194,137 +86,150 @@ int	handle_redirection(int *flag, t_red_node *red_node)
 
 //*****************************************
 
-void	ft_minishell(t_env **env)
+
+
+int	make_one_process(t_env **env, t_cmd_node *node, t_var *var, t_path *data)
 {
-	t_word		*token;
-	t_red_node	*files;
-	t_cmd_node	*node;
-	t_cmd_node	*tmp_node;
-	t_path		data;
-	t_var		var;
-	char		*line;
-	int			fd[2];
-	int			pid;
-	int			i;
-	int 		b;
-	int 		fd_stdin;
-	int 		fd_stdout;
-	int 		c;
-	
-	node = NULL;
-	files = NULL;
-	token = NULL;
-	line = NULL;
-	fd_stdin = dup(0);
-	fd_stdout = dup(1);
+	int	b;
+	int	pid;
+
+	node->flag_r = 0;
+	if (handle_redirection(&node->flag_r, node->red_node) == -1)
+		return (-1) ;
+	b = built_functions(env, var, node->command);
+	if (b == -1)
+	{
+		pid = fork();
+		if (pid == 0)
+			ft_execute(node->command, data, var);
+		wait(NULL);
+	}
+	return (0);
+}
+//****************************************
+
+
+void	make_all_process(t_env **env, t_variable *varr)
+{
+	int c;
+	int b;
+	int pid;
+
+	while (varr->node)
+	{
+		if (pipe(varr->fd) == -1)
+			perror("pipe fail :");
+		varr->node->flag_r = 0;
+		c = handle_redirection(&varr->node->flag_r, varr->node->red_node);
+		pid = fork();
+		if (pid == 0)
+		{
+			if (c == -1 || c == 0)
+			{
+				if (c == -1)
+				{
+					varr->node = varr->node->next;
+					continue ;
+				}
+			}
+			if (varr->node->flag_r == 0)
+			{
+				close(varr->fd[0]);
+				dup2(varr->fd[1], 1);
+				close(varr->fd[1]);
+				if (varr->node->next == NULL)
+					dup2(varr->fd_stdout, 1);
+			}
+			b = built_functions(env, &varr->var, varr->node->command);
+			if (b == -1)
+				ft_execute(varr->node->command, &varr->data, &varr->var);
+		}
+		if (varr->node->flag_r == 0)
+		{
+			close(varr->fd[1]);
+			dup2(varr->fd[0], 0);
+			close(varr->fd[0]);	
+		}
+		varr->node = varr->node->next;
+	}
+}
+
+
+
+//*****************************************
+
+
+void	ft_minishell(t_env **env, t_variable *varr)
+{
 	while (1)
 	{
-		i = 0;
-		var.status = 0;
-		dup2(fd_stdin, 0);
-		dup2(fd_stdout, 1);
-		line = readline("minishell$ ");
-		if (!line || line[0] == '\0')
+		varr->var.status = 0;
+		(dup2(varr->fd_stdin, 0), dup2(varr->fd_stdout, 1));
+		varr->line = readline("minishell$ ");
+		if (!varr->line || varr->line[0] == '\0')
 			continue ; 
-		add_history(line);
-		rl_redisplay();
-		if (check_quotes(line) == 1)
-			continue ;
-		ft_initialis_data(&data, *env, 0, 0);
-		token = ft_list_tokn(line, token, *env);
-		word_expand(token, *env);
-		remove_quotes(token);
-		if (token == NULL || check_syntax(token) == 1)
+		add_history(varr->line);// 1
+		rl_redisplay(); // 1
+		if (check_quotes(varr->line) == 1) // 1
+			continue ; // 1
+		ft_initialis_data(&varr->data, *env, 0, 0); // 2
+		varr->token = ft_list_tokn(varr->line, varr->token, *env);
+		word_expand(varr->token, *env); // 2
+		remove_quotes(varr->token); // 2
+		if (varr->token == NULL || check_syntax(varr->token) == 1)
 		{
-			ft_lstclear_token(&token);
-			free(line);
+			ft_lstclear_token(&varr->token);
+			free(varr->line);
 			continue ;
 		}
-		ft_list_cmd (token, &node);
-		tmp_node = node; // for save head node
-		ft_lstclear_token(&token);	
-		//==============
-		// desplay_node(&node);
-		if (node->next == NULL)
+		ft_list_cmd (varr->token, &varr->node); // 2
+		varr->tmp_node = varr->node; // for save head node
+		ft_lstclear_token(&varr->token);	// 2
+
+		varr->nbr_node = size_node(varr->node);
+		// exec -----------------
+		if (varr->node->next == NULL)
 		{
-			node->flag_r = 0;
-			if (handle_redirection(&node->flag_r, node->red_node) == -1)
+			if (make_one_process(env, varr->node, &varr->var, &varr->data) == -1 )
 				continue ;
-			b = built_functions(env, &var, node->command);
-			if (b == -1)
-			{
-				pid = fork();
-				if (pid == 0)
-					ft_execute(node->command, &data, &var);
-				wait(NULL);
-			}
 		}
-		else
+		else 
 		{
-			while (node)
-			{
-				if (pipe(fd) == -1)
-					perror("pipe fail :");
-				node->flag_r = 0;
-				c = handle_redirection(&node->flag_r, node->red_node);
-				pid = fork();
-				if (pid == 0)
-				{
-					if (c == -1 || c == 0)
-					{
-						if (c == -1)
-						{
-							node = node->next;
-							continue ;
-						}
-					}
-					if (node->flag_r == 0)
-					{
-						close(fd[0]);
-						dup2(fd[1], 1);
-						close(fd[1]);
-						if (node->next == NULL)
-							dup2(fd_stdout, 1);
-					}
-					b = built_functions(env, &var, node->command);
-					if (b == -1)
-						ft_execute(node->command, &data, &var);
-				}
-				if (node->flag_r == 0)
-				{
-					close(fd[1]);
-					dup2(fd[0], 0);
-					close(fd[0]);	
-				}
-				node = node->next;
-			}
-			wait(NULL);
-			wait(NULL);
-			wait(NULL);
-			wait(NULL);
+			make_all_process(env, varr);
+			wait_function(varr->nbr_node);
 		}
-		if (data.path)
-			free_t_split(data.path);
-		if (data.cmd_env)
-			free_t_split(data.cmd_env);
-		free(line);
-		node = tmp_node;
-		ft_lstclear_red(&node->red_node);
-		ft_lstclear_cmd(&node);
+		// -----------------
+		
+		if (varr->data.path)
+			free_t_split(varr->data.path);
+		if (varr->data.cmd_env)
+			free_t_split(varr->data.cmd_env);
+		free(varr->line);
+		varr->node = varr->tmp_node;
+		ft_lstclear_red(&varr->node->red_node);
+		ft_lstclear_cmd(&varr->	node);
 	}
 }
 
 
 int	main(int argc, char *argv[], char **ev)
 {
-	t_env	*env;
-	char	**cmd;
+	t_variable	var;
+	t_env		*env;
 	
+
+	// **********************************
+	var.node = NULL;
+	var.token = NULL;
+	var.line = NULL;
+	var.fd_stdin = dup(0);
+	var.fd_stdout = dup(1);
+
+	// ***********************************
 	env = NULL;
 	(void)argc;
 	(void)argv;
-	cmd = NULL;
 	ft_env(ev, &env);
-	ft_minishell(&env);
+	ft_minishell(&env, &var);
 	return (0);
 }

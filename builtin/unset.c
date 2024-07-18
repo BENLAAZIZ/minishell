@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:42:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 15:08:58 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:41:29 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	remove_variab(t_env **env, char *name)
 	if (node == *env)
 	{
 		(*env) = (*env)->next;
-			free(node->variable);
-			free(node->value);
-			free(node);
+		free(node->variable);
+		free(node->value);
+		free(node);
 		return ;
 	}
 	remove_var(env, node, name);
@@ -63,7 +63,7 @@ static int	check_special_char_unset(char *str)
 	while (str[i])
 	{
 		if ((str[0] >= '0' && str[0] <= '9'))
-				return (0);
+			return (0);
 		if ((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'a' && str[i] <= 'z')
 			|| (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_')
 			i++;

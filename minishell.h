@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 15:46:21 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:03:30 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,20 @@ typedef struct s_var
 	long			status;
 }	t_var;
 
+
+typedef struct s_variable
+{
+	t_word		*token;
+	t_cmd_node	*node;
+	t_cmd_node	*tmp_node;
+	t_path		data;
+	t_var		var;
+	char		*line;
+	int			fd[2];
+	int 		fd_stdin;
+	int 		fd_stdout;
+	int			nbr_node;
+}	t_variable;
 // typedef struct s_pipe
 // {
 // 	int		fd[2];
@@ -144,7 +158,6 @@ void		ft_list_cmd(t_word *token, t_cmd_node **cmd);
 
 //print error
 void		print_error(char *token);
-
 char		*expand_value(char *line);
 int			check_char_expand (char c);
 char 		*remove_dollar(char *all_command);
@@ -152,7 +165,7 @@ void 		word_expand(t_word *token, t_env *envirment);
 //remove_quotes
 int remove_quotes(t_word *token);
 
-
+int		built_functions(t_env **env, t_var *var, char **cmd);
 void	echo(char **cmd);
 void	unset(t_env **env, char **cmd, t_var *var);
 void	ft_env(char **ev, t_env **env);
@@ -160,6 +173,8 @@ void	ft_exit(char **cmd, t_var *var);
 int		cd(char **cmd, t_env **env);
 int		pwd(void);
 void	export(t_env **env , char **cmd, int i, t_var *var);
+void	display_list_export(t_env *a);
+char	*get_variabl_export(char *line, int *egal);
 
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -176,6 +191,7 @@ void	ft_lstadd_back(t_env **lst, t_env *new);
 //================= node ========================
 
 //=========================================
+int		size_node(t_cmd_node *a);
 int		size_env(t_env *a);
 void	display_env(t_env *a);
 void	modif_shlvl(t_env **env, t_env *new, char *var, char *val);
@@ -189,7 +205,9 @@ void	free_t_split(char **array);
 char	*ft_strchr(const char *s, int c);
 void	ft_error(char *s, char *flag, int i, int in);
 void	close_fd(int *fd);
+void	wait_function(int c);
 
+int		handle_redirection(int *flag, t_red_node *red_node);
 void	ft_execute(char **cmd, t_path *data, t_var *var);
 int		exec_cmd(char **cmd, t_path *data);
 char	*get_next_line(int fd);

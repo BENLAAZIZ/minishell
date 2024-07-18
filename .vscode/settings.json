@@ -7,6 +7,10 @@
 		"limits": "c",
 		"ratio": "c",
 		"__node_handle": "c",
-		"tt": "c"
+		"tt": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c"
 	}
 }

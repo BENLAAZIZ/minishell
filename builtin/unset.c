@@ -6,32 +6,17 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:42:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 13:42:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:08:58 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	remove_variab(t_env **env, char *name)
+static void	remove_var(t_env **env, t_env	*node, char *name)
 {
-	t_env	*node;
 	t_env	*tmp;
 
-	if (!env || !*env)
-		return ;
 	tmp = *env;
-	node = point_node(*env, name);
-	if (node == NULL)
-		return ;
-	if (node == *env)
-	{
-		(*env) = (*env)->next;
-			free(node->variable);
-			free(node->value);
-			free(node);
-		return ;
-	}
-		
 	while (*env)
 	{
 		if (ft_strncmp((*env)->next->variable, name, ft_strlen(name) + 1) == 0)
@@ -45,10 +30,30 @@ void	remove_variab(t_env **env, char *name)
 		}
 		*env = (*env)->next;
 	}
-	// *env = tmp;
+	*env = tmp;
 }
 
-int	check_special_char_unset(char *str)
+void	remove_variab(t_env **env, char *name)
+{
+	t_env	*node;
+
+	if (!env || !*env)
+		return ;
+	node = point_node(*env, name);
+	if (node == NULL)
+		return ;
+	if (node == *env)
+	{
+		(*env) = (*env)->next;
+			free(node->variable);
+			free(node->value);
+			free(node);
+		return ;
+	}
+	remove_var(env, node, name);
+}
+
+static int	check_special_char_unset(char *str)
 {
 	int	i;
 

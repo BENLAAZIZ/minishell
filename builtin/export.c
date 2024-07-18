@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 12:31:15 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:48:09 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,14 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 	}
 }
 
-int	export(t_env **env , char **cmd)
+void	export(t_env **env , char **cmd, int i, t_var *var)
 {
-	t_var	*var;
-	int		i;
-
-	var = malloc(sizeof(t_var));
 	var->egal = 0;
 	var->status = 0;
 	if (!cmd[1])
 		display_list_export(*env);
 	else
 	{
-		i = 1;
 		while (cmd[i])
 		{
 			var->var = get_variabl_export(cmd[i], &var->egal);
@@ -149,5 +144,4 @@ int	export(t_env **env , char **cmd)
 			i++;
 		}
 	}
-	return (var->status);
 }

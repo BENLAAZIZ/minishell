@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:39:55 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/07 13:04:19 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:21:35 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	change_env(t_env **env, t_env *home, char *oldpwd)
 	home = point_node(*env, "PWD");
 	if (home)
 		home->value = pwd;
-	else 
+	else
 		return (1);
 	return (0);
 }
@@ -50,7 +50,10 @@ int	cd(char **cmd, t_env **env)
 	else
 	{
 		if (chdir(cmd[1]) != 0)
-			return (printf("minishell: cd: %s: No such file or directory\n",cmd[1]), 1);
+		{
+			printf("minishell: cd: %s: No such file or directory\n", cmd[1]);
+			return (1);
+		}
 	}
 	if (change_env(env, home, oldpwd) == 1)
 		return (1);

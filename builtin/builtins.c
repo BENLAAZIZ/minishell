@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/16 09:30:32 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:29:21 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,28 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (ss1[i] - ss2[i]);
 }
 
+void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
+{
+	t_env	*node;
+	t_var	varr;
+	long	val_shlvl;
+
+	val_shlvl = 1;
+	node = point_node(*env, "SHLVL");
+	if (!node)
+	{
+		var = ft_strdup("SHLVL");
+		val = ft_strdup("1");
+		new = ft_lstnew(var, val);
+		ft_lstadd_back(env, new);
+	}
+	else if (!node->value || (node->value[0] == '\0'))
+		node->value = ft_strdup("1");
+	else if (node->value[0] == '-')
+		node->value = ft_strdup("0");
+	else
+	{
+		val_shlvl += ft_atoi(node->value, &varr);
+		node->value = ft_itoa(val_shlvl);
+	}
+}

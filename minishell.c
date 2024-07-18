@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/17 22:51:03 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:13:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int built_functions(t_env **env, t_var *var, char **cmd)
 		else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
 			var->status = pwd();
 		else if (ft_strncmp(cmd[0], "export", 7) == 0)
-			var->status = export(env , cmd);
+			export(env , cmd, 1, var);
 		else if (ft_strncmp(cmd[0], "unset", 6) == 0)
 			unset(env, cmd, var);
 		else if (ft_strncmp(cmd[0], "exit", 6) == 0)
@@ -300,6 +300,8 @@ void	ft_minishell(t_env **env)
 			}
 			wait(NULL);
 			wait(NULL);
+			wait(NULL);
+			wait(NULL);
 		}
 		if (data.path)
 			free_t_split(data.path);
@@ -317,7 +319,8 @@ int	main(int argc, char *argv[], char **ev)
 {
 	t_env	*env;
 	char	**cmd;
-
+	
+	env = NULL;
 	(void)argc;
 	(void)argv;
 	cmd = NULL;

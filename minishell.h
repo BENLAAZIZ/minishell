@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/16 14:51:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:46:21 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	ft_env(char **ev, t_env **env);
 void	ft_exit(char **cmd, t_var *var);
 int		cd(char **cmd, t_env **env);
 int		pwd(void);
-int		export(t_env **env , char **cmd);
+void	export(t_env **env , char **cmd, int i, t_var *var);
 
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -176,9 +176,9 @@ void	ft_lstadd_back(t_env **lst, t_env *new);
 //================= node ========================
 
 //=========================================
-// int		size_pipe_node(t_node *a);
 int		size_env(t_env *a);
 void	display_env(t_env *a);
+void	modif_shlvl(t_env **env, t_env *new, char *var, char *val);
 void	display_list_export(t_env *a);
 
 char	*get_variabl(char *line);

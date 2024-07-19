@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/19 20:40:35 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:28:17 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	get_cmd_env(t_env *env, t_path *data, char	*tmp, int *i)
 	(*i)++;
 }
 
-// void	ft_initialis_data(t_path *data, t_env *env, int size, int i)
 void	ft_initialis_data(t_variable *varr, t_env *env, int size, int i)
 {
 	t_env	*poin;
@@ -92,17 +91,16 @@ void	in_child_process(t_env **env, t_variable *varr)
 int	check_redirection(t_variable *varr)
 {
 	int c;
+
 	c = handle_redirection(&varr->node->flag_r, varr->node->red_node);
-	if (c == -1 || c == 0)
+	if (c == -1)
 	{
-		if (c == -1)
-		{
-			varr->node = varr->node->next;
-			return (-1);;
-		}
+		varr->node = varr->node->next;
+		return (-1);;
 	}
 	return (0);
 }
+
 void	make_all_process(t_env **env, t_variable *varr)
 {
 	int pid;
@@ -112,15 +110,12 @@ void	make_all_process(t_env **env, t_variable *varr)
 		if (pipe(varr->fd) == -1)
 			perror("pipe fail :");
 		varr->node->flag_r = 0;
-		// c = handle_redirection(&varr->node->flag_r, varr->node->red_node);
-		if (check_redirection(varr) == -1)
-			continue ;
 		pid = fork();
 		if (pid == 0)
 		{
+			if (check_redirection(varr) == -1)
+				exit(1);
 			in_child_process(env, varr);
-			// if (in_child_process(env, c, varr) == -1)
-			// 	continue ;
 		}
 		if (varr->node->flag_r == 0)
 		{
@@ -135,16 +130,12 @@ void	make_all_process(t_env **env, t_variable *varr)
 void	free_data(t_variable *varr)
 {
 	if (varr->data.path)
-	{
-		puts("===== seg f");
 		free_t_split(varr->data.path);
-	}
 	if (varr->data.cmd_env)
 		free_t_split(varr->data.cmd_env);
 	free(varr->line);
 	varr->node = varr->tmp_node;
 	ft_lstclear_cmd(&varr->	node);
-	// pause();
 }
 
 int	execute_line(t_env **env, t_variable *varr)
@@ -186,7 +177,6 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		if (check_quotes(varr->line) == 1)
 			continue ;
 		ft_initialis_data(varr, *env, 0, 0);
-			// puts("===== seg f");
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env);
 		remove_quotes(varr->token);

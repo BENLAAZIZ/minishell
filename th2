@@ -1,0 +1,13 @@
+Makefile
+README.md
+builtin
+doc.tldr
+hamza
+minishell
+minishell.c
+minishell.h
+outils
+pars
+test.txt
+th1
+th2

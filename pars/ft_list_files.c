@@ -51,41 +51,6 @@ void	ft_lstaddback_files(t_red_node **list, t_red_node *new_node)
 	*list = tmp;
 }
 
-// void	ft_list_file(t_word	*token, t_red_node **files)
-// {
-// 	int			j;
-// 	char		*file;
-// 	char		*red;
-// 	t_red_node	*file_and_red;
-// 	t_word		*tmp;
-
-// 	tmp = token;
-// 	*files = NULL;
-// 	while (token != NULL && token->type != PIPE )
-// 	{
-// 		if (token->type == PIPE)
-// 			token = token->next;
-// 		else
-// 		{
-// 			j = 0;
-// 			while ((token->type != PIPE && token->next != NULL) || token)
-// 			{
-// 				if (check_red(token->type) == 1 && token->next != NULL)
-// 				{
-// 					file = ft_strdup(token->next->val_noquotes);
-// 					red = ft_strdup( token->val_noquotes);
-// 					file_and_red = ft_addlist_files(file, red);
-// 					ft_lstaddback_files(files, file_and_red);
-// 					file = NULL;
-// 					red = NULL;
-// 				}
-// 				token = token->next;
-// 			}
-// 			token = token->next;
-// 		}
-// 	}
-// 	token = tmp;
-// }
 
 void	ft_list_file(t_word	*token, t_red_node **files)
 {

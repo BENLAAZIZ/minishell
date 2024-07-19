@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 18:06:15 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:03:38 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	size_env(t_env *a)
 
 t_env	*point_node(t_env *env, char *name)
 {
+	if (!env)
+		return (NULL);
 	while (env)
 	{
 		if (ft_strncmp(env->variable, name, ft_strlen(name) + 1) == 0)

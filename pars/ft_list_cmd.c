@@ -57,49 +57,49 @@ int	lenght_cmds(t_word	*token)
 }
 
 
-void	desplay_red_node(t_red_node *redd)
-{
-	if (!redd)
-		return ;
-	while (redd)
-	{
-		printf("[red = %s]", redd->red);
-		printf("[file = %s]", redd->file);
-		printf(" ---> ");
-		redd = redd->next;
-	} 
-}
+// void	desplay_red_node(t_red_node *redd)
+// {
+// 	if (!redd)
+// 		return ;
+// 	while (redd)
+// 	{
+// 		printf("[red = %s]", redd->red);
+// 		printf("[file = %s]", redd->file);
+// 		printf(" ---> ");
+// 		redd = redd->next;
+// 	} 
+// }
 
 
-void	desplay_node(t_cmd_node *cmd)
-{
-	int i;
-	if (!cmd)
-		printf("nothing\n");
-	else
-	{
-		while (cmd)
-		{
-		printf("\n ========================================== \n\n");
-			printf("red : ");
-			desplay_red_node(cmd->red_node);
-			i = 0;
-			if (cmd->command)
-			{
-				while (cmd->command[i])
-				{
-					printf("\ncommand: %s", cmd->command[i]);
-					i++;
-				}
-				puts("");
-			}
-			cmd = cmd->next;
-			puts("\n\n");
-		}
-		printf("\n");
+// void	desplay_node(t_cmd_node *cmd)
+// {
+// 	int i;
+// 	if (!cmd)
+// 		printf("nothing\n");
+// 	else
+// 	{
+// 		while (cmd)
+// 		{
+// 		printf("\n ========================================== \n\n");
+// 			printf("red : ");
+// 			desplay_red_node(cmd->red_node);
+// 			i = 0;
+// 			if (cmd->command)
+// 			{
+// 				while (cmd->command[i])
+// 				{
+// 					printf("\ncommand: %s", cmd->command[i]);
+// 					i++;
+// 				}
+// 				puts("");
+// 			}
+// 			cmd = cmd->next;
+// 			puts("\n\n");
+// 		}
+// 		printf("\n");
 
-	}
-}
+// 	}
+// }
 
 void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 {
@@ -108,8 +108,8 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 	t_cmd_node	*commands;
 	t_word		*tmp;
 	t_word		*tmp2;
+
 	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
-	// cmd = NULL;
 	tmp2 = token;
 	tmp = token;
 	while (token != NULL)

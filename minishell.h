@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 19:03:30 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:11:22 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,20 +108,11 @@ typedef struct s_variable
 	int 		fd_stdout;
 	int			nbr_node;
 }	t_variable;
-// typedef struct s_pipe
-// {
-// 	int		fd[2];
-// 	int		i;
-// 	int		argc;
-// 	char	**envv;
-// 	int		in_tmp;
-// 	pid_t	pid;
-// }	t_pipe;
 
 
 //expand
 // void	desplay_node(t_cmd_node **cmd);
-void	desplay_red_node(t_red_node *redd);
+// void	desplay_red_node(t_red_node *redd);
 //token_list
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);

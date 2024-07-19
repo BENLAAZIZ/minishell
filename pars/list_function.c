@@ -48,6 +48,7 @@ void	ft_lstclear_cmd(t_cmd_node **list)
 	{
 		tmp = (*list);
 		(*list) = (*list)->next;
+		ft_lstclear_red(&tmp->red_node);
 		free(tmp->command);
 		// free(tmp->val_noquotes);
 		free(tmp);

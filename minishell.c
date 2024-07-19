@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/19 21:28:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/19 22:07:46 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void	free_data(t_variable *varr)
 	ft_lstclear_cmd(&varr->	node);
 }
 
+
 int	execute_line(t_env **env, t_variable *varr)
 {
 	if (varr->token == NULL || check_syntax(varr->token) == 1)
@@ -175,22 +176,53 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		add_history(varr->line);
 		rl_redisplay(); 
 		if (check_quotes(varr->line) == 1)
+		{
+			free_data(varr);
 			continue ;
+		}
 		ft_initialis_data(varr, *env, 0, 0);
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env);
 		remove_quotes(varr->token);
 
 		if (execute_line(env, varr) == -1)
+		{
+			free_data(varr);
 			continue ;
+		}
 	}
 }
 
+// void	ft_lstclear_env(t_env **env)
+// {
+// 	t_env	*tmp;
+
+// 	if (env == NULL || (*env) == NULL)
+// 	{
+// 		pause();
+// 		return ;
+// 	}
+// 	tmp = (*env);
+// 	while ((*env) != NULL)
+// 	{
+// 		tmp = (*env);
+// 		(*env) = (*env)->next;
+// 		free(tmp->variable);
+// 		free(tmp->value);
+// 		free(tmp);
+// 	}
+// 	*env = NULL;
+// }
+
+// void	v()
+// {
+// 	system("leaks minishell");
+// }
 int	main(int argc, char *argv[], char **ev)
 {
 	t_variable	varr;
 	t_env		*env;
-	
+	// atexit(v);
 	(void)argc;
 	(void)argv;
 	varr.node = NULL;
@@ -202,5 +234,6 @@ int	main(int argc, char *argv[], char **ev)
 	varr.var.status = 0;
 	ft_env(ev, &env);
 	ft_minishell(&env, &varr);
+	// ft_lstclear_env(&env);
 	return (0);
 }

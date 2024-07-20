@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/20 18:51:23 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:01:05 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,19 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-void	here_doc(char *limiter, int *fd_herd, int *fd)
+void	here_doc(char *limiter, int *fd_herd, int fd)
 {
 	char	*line;
 
 	*fd_herd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-	*fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-	if (*fd == -1)
+	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	printf("fd herdoc = %d\n", *fd_herd);
+	printf("fd = %d\n", fd);
+	if (fd == -1)
 		return (close(*fd_herd), ft_error("open fail : \n", "fail", 0, -1));
 	if (*fd_herd == -1)
-		return (close(*fd), ft_error("open fail : \n", "fail", 0, -1));
+		return (close(fd), ft_error("open fail : \n", "fail", 0, -1));
 	unlink("herd.txt");
-	printf("[%s]\n", limiter);
 	while (1)
 	{
 		line = readline("> ");
@@ -111,10 +112,8 @@ void	here_doc(char *limiter, int *fd_herd, int *fd)
 		write(*fd_herd, line, ft_strlen(line));
 		free(line);
 	}
-	dup2(*fd, 0);
-	close(*fd);
-	printf("fd herdoc = %d\n", *fd_herd);
-	printf("fd = %d\n", *fd);
+	dup2(fd, 0);
+	close(fd);
 	free(line);
 	exit(0);
 }

@@ -59,7 +59,7 @@ void	ft_list_file(t_word	*token, t_red_node **files, int *fd_herd)
 	t_red_node	*file_and_red;
 	t_word		*tmp;
 	int			pid;
-	int fd;
+	// int fd;
 
 	tmp = token;
 	*files = NULL;
@@ -78,10 +78,10 @@ void	ft_list_file(t_word	*token, t_red_node **files, int *fd_herd)
 				*fd_herd = dup(1);
 				pid = fork();
 				if (pid == 0)
-					here_doc(token->next->val_noquotes, fd_herd, &fd);
+					here_doc(token->next->val_noquotes, fd_herd, -1);
 				// close(*fd_herd);
-				printf("fd herdoc = %d\n", *fd_herd);
-				printf("fd = %d\n", fd);
+				printf("fd in liset red = %d\n", *fd_herd);
+				// printf("fd = %d\n", fd);
 				// dup2(fd, 0);
 				// close(fd);
 				wait(NULL);

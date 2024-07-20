@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/20 18:38:37 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:01:42 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_variable
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
-void		here_doc(char *limiter, int *fd_herd, int *fd);
+void		here_doc(char *limiter, int *fd_herd, int fd);
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);
 void		ft_lstaddback_token(t_word **list, t_word*new_node);

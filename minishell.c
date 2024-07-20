@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/20 12:18:02 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:44:25 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env);
 		remove_quotes(varr->token);
-
 		if (execute_line(env, varr) == -1)
 		{
 			free_data(varr);

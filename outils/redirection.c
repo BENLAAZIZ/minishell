@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/20 17:22:34 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:47:55 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ int	case_input_red(t_red_node *red_node, int *fd_herd)
 	fd_in = -1;
 	if (ft_strncmp(red_node->red, "<<", 3) == 0)
 	{
-		// dup2(*fd_herd, 1);
-		// close(*fd_herd);
-		*fd_herd = *fd_herd;
+		printf("in redirection \n");
+		printf("fd_herd = %d\n", *fd_herd);
+		dup2(*fd_herd, 1);
+		close(*fd_herd);
+			// dup2(fd_in, 0);
+			// close(fd_in);
 	}
 	else
 	{

@@ -58,6 +58,8 @@ void	ft_list_file(t_word	*token, t_red_node **files, int *fd_herd)
 	char		*red;
 	t_red_node	*file_and_red;
 	t_word		*tmp;
+	int pid;
+	// int fd;
 
 	tmp = token;
 	*files = NULL;
@@ -71,10 +73,17 @@ void	ft_list_file(t_word	*token, t_red_node **files, int *fd_herd)
 			red = ft_strdup( token->val_noquotes);
 			file_and_red = ft_addlist_files(file, red);
 			ft_lstaddback_files(files, file_and_red);
-			// *fd_herd = dup(1);
+			*fd_herd = dup(1);
+			// fd = dup(0);
 			if (token->type == 5)
 			{
-				here_doc(token->next->val_noquotes, fd_herd, -1);
+				pid = fork();
+				if (pid == 0)
+					here_doc(token->next->val_noquotes, fd_herd, -1);
+				// close(*fd_herd);
+				// dup2(fd, 0);
+				// close(fd);
+				wait(NULL);
 			}
 			file = NULL;
 			red = NULL;

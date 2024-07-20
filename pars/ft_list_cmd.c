@@ -31,7 +31,6 @@ t_cmd_node	*ft_addlist_cmds(char **commands)
 		return (NULL);
 	new_node->next = NULL;
 	new_node->command = commands;
-	// ft_list_file(tmp, &(new_node->red_node));
 	return (new_node);
 }
 
@@ -144,5 +143,4 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 		}
 	}
 	token = tmp2;
-	// desplay_node(*cmd);
 }

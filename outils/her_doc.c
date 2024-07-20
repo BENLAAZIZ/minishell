@@ -6,39 +6,12 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/13 16:40:55 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:28:10 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char		*ft_substr(char const *s, unsigned int start, size_t len)
-// {
-// 	size_t	s_len;
-// 	size_t	substr_len;
-// 	size_t	i;
-// 	char	*substr;
-
-// 	i = 0;
-// 	if (s == NULL)
-// 		return (NULL);
-// 	s_len = ft_strlen(s);
-// 	if (start >= s_len)
-// 		return (NULL);
-// 	substr_len = len;
-// 	if (start + substr_len > s_len)
-// 		substr_len = s_len - start;
-// 	substr = (char *)malloc((substr_len + 1) * sizeof(char));
-// 	if (substr == NULL)
-// 		return (NULL);
-// 	while (i < substr_len)
-// 	{
-// 		substr[i] = s[start + i];
-// 		i++;
-// 	}
-// 	substr[substr_len] = '\0';
-// 	return (substr);
-// }
 
 static int	chek_new_line(char *buf, int *n)
 {
@@ -115,29 +88,30 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// void	here_doc(char *limiter, int *fd_in, int fd)
-// {
-// 	char	*line;
+void	here_doc(char *limiter, int *fd_herd, int fd)
+{
+	char	*line;
 
-// 	*fd_in = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-// 	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-// 	if (*fd_in == -1 || fd == -1)
-// 		return (ft_error("open fail : \n", "fail", 0, -1));
-// 	unlink("herd.txt");
-// 	while (1)
-// 	{
-// 		write(1, "> ", 2);
-// 		line = get_next_line(0);
-// 		if (!line)
-// 			break ;
-// 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
-// 			&& ft_strlen(limiter) == ft_strlen(line) - 1)
-// 			break ;
-// 		write(*fd_in, line, ft_strlen(line));
-// 		free(line);
-// 	}
-// 	close(*fd_in);
-// 	dup2(fd, 0);
-// 	close(fd);
-// 	free(line);
-// }
+	*fd_herd = -1;
+	*fd_herd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (*fd_herd == -1 || fd == -1)
+		return (ft_error("open fail : \n", "fail", 0, -1));
+	unlink("herd.txt");
+	while (1)
+	{
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (!line)
+			break ;
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
+			&& ft_strlen(limiter) == ft_strlen(line) - 1)
+			break ;
+		write(*fd_herd, line, ft_strlen(line));
+		free(line);
+	}
+	close(*fd_herd);
+	dup2(fd, 0);
+	close(fd);
+	free(line);
+}

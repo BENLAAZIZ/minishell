@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/19 20:11:22 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:13:35 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct  s_red_node
 	char				*file;
 	char				*red;
 	char				*exp;
-	int					*fd_herdoc;
 	int					expand;
 	struct s_red_node	*next;
 }	t_red_node;
@@ -50,6 +49,7 @@ typedef struct s_cmd_node
 	char				**command;
 	t_red_node			*red_node;
 	int					flag_r;
+	int					fd_herd;
 	struct s_cmd_node	*next;
 }	t_cmd_node;
 
@@ -114,6 +114,7 @@ typedef struct s_variable
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
+void		here_doc(char *limiter, int *fd_herd, int fd);
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);
 void		ft_lstaddback_token(t_word **list, t_word*new_node);
@@ -142,7 +143,7 @@ int 		char_continue(char c);
 void		ft_lstclear_token(t_word **list);
 
 //list_files
-void	ft_list_file(t_word	*token, t_red_node **files);
+void	ft_list_file(t_word	*token, t_red_node **files, int *fd_herd);
 
 //listcommands
 void		ft_list_cmd(t_word *token, t_cmd_node **cmd);
@@ -198,7 +199,7 @@ void	ft_error(char *s, char *flag, int i, int in);
 void	close_fd(int *fd);
 void	wait_function(int c);
 
-int		handle_redirection(int *flag, t_red_node *red_node);
+int		handle_redirection(int *flag, t_red_node *red_node, int *fd_herd);
 void	ft_execute(char **cmd, t_path *data, t_var *var);
 int		exec_cmd(char **cmd, t_path *data);
 char	*get_next_line(int fd);

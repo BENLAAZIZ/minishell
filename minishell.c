@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/19 22:07:46 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:18:02 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	make_one_process(t_env **env, t_variable *varr)
 	int	pid;
 
 	varr->node->flag_r = 0;
-	if (handle_redirection(&varr->node->flag_r, varr->node->red_node) == -1)
+	if (handle_redirection(&varr->node->flag_r, varr->node->red_node, &varr->node->fd_herd) == -1)
 		return (-1) ;
 	b = built_functions(env, &varr->var, varr->node->command);
 	if (b == -1)
@@ -92,7 +92,7 @@ int	check_redirection(t_variable *varr)
 {
 	int c;
 
-	c = handle_redirection(&varr->node->flag_r, varr->node->red_node);
+	c = handle_redirection(&varr->node->flag_r, varr->node->red_node, &varr->node->fd_herd);
 	if (c == -1)
 	{
 		varr->node = varr->node->next;

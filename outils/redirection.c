@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 18:02:16 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:17:28 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 
-int	handle_redirection(int *flag, t_red_node *red_node)
+int	handle_redirection(int *flag, t_red_node *red_node, int	*fd_herd)
 {
 	int		fd;
 	int		fd_in;
@@ -31,8 +31,8 @@ int	handle_redirection(int *flag, t_red_node *red_node)
 		{
 			if (ft_strncmp(red_node->red, "<<", 3) == 0)
 			{
-				dup2(*(red_node)->fd_herdoc, 1);
-				close(*(red_node)->fd_herdoc);
+				dup2(*fd_herd, 1);
+				close(*fd_herd);
 			}
 			else
 			{

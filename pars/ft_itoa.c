@@ -7,7 +7,7 @@ static int	ft_nlen(int n)
 	i = 0;
 	if (n == 0)
 		return (1);
-	if (n < 0) 
+	if (n < 0)
 		n = -n;
 	while (n != 0)
 	{
@@ -43,7 +43,7 @@ char	*ft_itoa(int n)
 		return (NULL);
 	c[size] = '\0';
 	if (n == 0)
-		c[0] = 0 + '0'; 
+		c[0] = 0 + '0';
 	else if (n < 0)
 	{
 		c[0] = '-';

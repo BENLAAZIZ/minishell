@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/21 17:51:39 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:18:45 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ typedef enum e_type
 	R_RED = 4,
 	DL_RED = 5,
 	DR_RED = 6,
+	AND = 7,
+	DAND = 8,
+	OPAR = 9,
+	CPAR = 10
 }	t_type;
 
 typedef struct  s_red_node
@@ -118,7 +122,7 @@ void		here_doc(char *limiter, int *fd_herd, int *fd);
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);
 void		ft_lstaddback_token(t_word **list, t_word*new_node);
-int			remove_quotes(t_word *token);
+// int			remove_quotes(t_word *token);
 //token_list
 
 //libft
@@ -155,9 +159,10 @@ int			check_char_expand (char c);
 char 		*remove_dollar(char *all_command);
 void 		word_expand(t_word *token, t_env *envirment);
 //remove_quotes
-int remove_quotes(t_word *token);
+// int remove_quotes(t_word *token);
+int remove_quotes(t_word *token, int sign, int i, int j);
 
-int		built_functions(t_env **env, t_var *var, char **cmd);
+int		built_functions(t_env **env, t_var *var,t_variable *varr);
 void	echo(char **cmd);
 void	unset(t_env **env, char **cmd, t_var *var);
 void	ft_env(char **ev, t_env **env);

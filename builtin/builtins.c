@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/19 20:20:49 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:19:28 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,30 +100,31 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 	}
 }
 
-int built_functions(t_env **env, t_var *var, char **cmd)
+// int built_functions(t_env **env, t_var *var, char **cmd, t_variable *varr)
+int built_functions(t_env **env, t_var *var,t_variable *varr)
 {
-	if (ft_strncmp(cmd[0], "env", 4) == 0)
+	if (ft_strncmp(varr->node->command[0], "env", 4) == 0)
 	{
-		if (cmd[1])
+		if (varr->node->command[1])
 		{
-			printf("env: %s: No such file or directory\n", cmd[1]);
-			var->status = 1;
+			printf("env: %s: No such file or directory\n", varr->node->command[1]);
+			varr->var.status = 127;
 		}
 		else 
 			display_env(*env);
 	}
-	else if (ft_strncmp(cmd[0], "echo", 5) == 0)
-		echo(cmd);
-	else if (ft_strncmp(cmd[0], "cd", 3) == 0)
-		var->status = cd(cmd, env);
-	else if (ft_strncmp(cmd[0], "pwd", 4) == 0)
-		var->status = pwd();
-	else if (ft_strncmp(cmd[0], "export", 7) == 0)
-		export(env , cmd, 1, var);
-	else if (ft_strncmp(cmd[0], "unset", 6) == 0)
-		unset(env, cmd, var);
-	else if (ft_strncmp(cmd[0], "exit", 6) == 0)
-		ft_exit(cmd, var);
+	else if (ft_strncmp(varr->node->command[0], "echo", 5) == 0)
+		echo(varr->node->command);
+	else if (ft_strncmp(varr->node->command[0], "cd", 3) == 0)
+		varr->var.status = (long)cd(varr->node->command, env);
+	else if (ft_strncmp(varr->node->command[0], "pwd", 4) == 0)
+		varr->var.status = (long)pwd();
+	else if (ft_strncmp(varr->node->command[0], "export", 7) == 0)
+		export(env , varr->node->command, 1, var);
+	else if (ft_strncmp(varr->node->command[0], "unset", 6) == 0)
+		unset(env, varr->node->command, var);
+	else if (ft_strncmp(varr->node->command[0], "exit", 6) == 0)
+		ft_exit(varr->node->command, var);
 	else
 		return (-1);
 	return (0);

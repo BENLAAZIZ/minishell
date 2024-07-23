@@ -12,6 +12,7 @@ void	ft_lstclear_token(t_word **list)
 		tmp = (*list);
 		(*list) = (*list)->next;
 		free(tmp->value);
+		tmp->value = NULL;
 		// free(tmp->val_noquotes);
 		free(tmp);
 	}
@@ -48,8 +49,8 @@ void	ft_lstclear_cmd(t_cmd_node **list)
 	{
 		tmp = (*list);
 		(*list) = (*list)->next;
-		ft_lstclear_red(&tmp->red_node);
-		free(tmp->command);
+		if (tmp->command)
+			free(tmp->command);
 		// free(tmp->val_noquotes);
 		free(tmp);
 	}

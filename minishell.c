@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/20 18:44:25 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:19:08 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,20 @@ void	ft_initialis_data(t_variable *varr, t_env *env, int size, int i)
 	env = tp;
 }
 
+
 int	make_one_process(t_env **env, t_variable *varr)
 {
 	int	b;
 	int	pid;
 
 	varr->node->flag_r = 0;
-	if (handle_redirection(&varr->node->flag_r, varr->node->red_node, &varr->node->fd_herd) == -1)
+	if (handle_redirection(&varr->node->flag_r, 
+			varr->node->red_node, &varr->node->fd_herd) == -1)
+	{
+		varr->var.status = 1;
 		return (-1) ;
-	b = built_functions(env, &varr->var, varr->node->command);
+	}
+	b = built_functions(env, &varr->var, varr);
 	if (b == -1)
 	{
 		pid = fork();
@@ -82,7 +87,7 @@ void	in_child_process(t_env **env, t_variable *varr)
 			close(varr->fd_stdout);
 		}
 	}
-	b = built_functions(env, &varr->var, varr->node->command);
+	b = built_functions(env, &varr->var, varr);
 	if (b == -1)
 		ft_execute(varr->node->command, &varr->data, &varr->var);
 	exit(0);
@@ -133,9 +138,9 @@ void	free_data(t_variable *varr)
 		free_t_split(varr->data.path);
 	if (varr->data.cmd_env)
 		free_t_split(varr->data.cmd_env);
-	free(varr->line);
+	if (varr->line)
+		free(varr->line);
 	varr->node = varr->tmp_node;
-	ft_lstclear_cmd(&varr->	node);
 }
 
 
@@ -143,13 +148,12 @@ int	execute_line(t_env **env, t_variable *varr)
 {
 	if (varr->token == NULL || check_syntax(varr->token) == 1)
 		{
+			varr->var.status = 1;
 			ft_lstclear_token(&varr->token);
-			free(varr->line);
 			return (-1);
 		}
 		ft_list_cmd (varr->token, &varr->node);
 		varr->tmp_node = varr->node;
-		ft_lstclear_token(&varr->token);
 		varr->nbr_node = size_node(varr->node);
 		if (varr->node->next == NULL)
 		{
@@ -169,9 +173,12 @@ void	ft_minishell(t_env **env, t_variable *varr)
 {
 	while (1)
 	{
+		printf("======== exit status = %ld =======\n", varr->var.status);
 		(dup2(varr->fd_stdin, 0), dup2(varr->fd_stdout, 1));
 		varr->line = readline("minishell$ ");
-		if (!varr->line || varr->line[0] == '\0')
+		if (!varr->line)
+			exit(varr->var.status);
+		if (varr->line[0] == '\0')
 			continue ; 
 		add_history(varr->line);
 		rl_redisplay(); 
@@ -183,12 +190,20 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		ft_initialis_data(varr, *env, 0, 0);
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env);
-		remove_quotes(varr->token);
+		if (remove_quotes(varr->token, 0, 0, 0) == 0)
+		{
+			varr->var.status = 1;
+			ft_lstclear_token(&varr->token);
+			free(varr->line);
+			continue ;
+		}
 		if (execute_line(env, varr) == -1)
 		{
 			free_data(varr);
 			continue ;
 		}
+		ft_lstclear_token(&varr->token);
+		ft_lstclear_cmd(&varr->node);
 	}
 }
 
@@ -217,6 +232,19 @@ void	ft_minishell(t_env **env, t_variable *varr)
 // {
 // 	system("leaks minishell");
 // }
+
+void handle_siginit(int sig)
+{
+	
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 int	main(int argc, char *argv[], char **ev)
 {
 	t_variable	varr;
@@ -224,6 +252,9 @@ int	main(int argc, char *argv[], char **ev)
 	// atexit(v);
 	(void)argc;
 	(void)argv;
+	rl_catch_signals = 0;
+	signal(SIGINT, handle_siginit);
+	signal(SIGINT, handle_siginit);
 	varr.node = NULL;
 	varr.token = NULL;
 	varr.line = NULL;

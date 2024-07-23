@@ -13,7 +13,7 @@ char	*expand_value(char *line)
 	if (i == 0)
 		return (NULL);
 	variable = (char *)malloc(i + 1);
-	if (!variable)
+	if (variable == NULL)
 		return (NULL);
 	i = 0;
 	while (line[i])
@@ -37,14 +37,27 @@ int	ft_isdigit(int c)
 	}
 	return (0);
 }
+int	dollar_length(t_word *token, t_env **envirment)
+{
+	int	length;
 
+	length = 0;
+	while (token->value[(*envirment)->i] == '$')
+	{
+		length++;
+		(*envirment)->i++;
+	}
+	return (length);
+}
 char	*copy_the_rest(t_word *token, t_env *envirment, int *sign)
 {
 	int		old_i;
 	char	*no_expand;
 
 	old_i = envirment->i;
-
+	int length = dollar_length(token, &envirment);
+	if (length % 2 != 0)
+		envirment->i = old_i;
 	while (token->value[envirment->i])
 	{
 		ft_check_quotes(token->value[envirment->i], sign);
@@ -52,9 +65,16 @@ char	*copy_the_rest(t_word *token, t_env *envirment, int *sign)
 			break ;
 		envirment->i++;
 	}
+	if (token->value[envirment->i] == '$'
+		&& token->value[envirment->i + 1] == '"')
+		{
+			ft_check_quotes(token->value[envirment->i + 1], sign);
+			envirment->i += 2;
+		}
 	if (token->value[envirment->i] == '"' && *sign == 0)
 		envirment->i++;
-	if (token->value[envirment->i] == '$' && token->value[envirment->i + 1] == '\0')
+	if (token->value[envirment->i] == '$'
+		&& token->value[envirment->i + 1] == '\0')
 		envirment->i++;
 	no_expand = ft_substr(token->value, old_i, envirment->i - old_i);
 	envirment->sub = ft_strjoin(envirment->sub, no_expand);
@@ -83,6 +103,15 @@ char	*copy_in_sub(t_word *token, t_env *envirment, int *sign)
 	envirment->sub = copy_the_rest(token, envirment, sign);
 	return (envirment->sub);
 }
+int is_expand(char c)
+{
+	if ((c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9')
+		|| c == '_' || c == '"')
+		return (1);
+	return (0);
+}
 
 char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 {
@@ -98,46 +127,47 @@ char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 			break ;
 		envirment->i++;
 	}
+	if (token->value[envirment->i] == '"' && *sign == 2
+		&& token->value[envirment->i - 1] == '$')
+		envirment->i--;
 	envirment->sub = copy_the_rest(token, envirment, sign);
 	return (envirment->sub);
 }
 
-int is_expand(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_')
-		return (1);
-	return (0);
-}
 
-void	ft_is_expand (t_word *token, t_env *envirment, int *sign)
+
+void	ft_is_expand(t_word *token, t_env *envirment, int *sign)
 {
 	char	*name;
 	t_env	*env_node;
+	int		length;
 
 	while (token->value[envirment->i])
 	{
 		ft_check_quotes(token->value[envirment->i], sign);
 		if (token->value[envirment->i] == '$' && *sign != 1)
 		{
-			envirment->i += 1;
-			if (ft_isdigit(token->value[envirment->i]) == 1
-				|| token->value[envirment->i] == '$')
+			length = dollar_length(token, &envirment);
+			if ((ft_isdigit(token->value[envirment->i]) == 1))
 			{
+				ft_check_quotes(token->value[envirment->i], sign);
 				envirment->i++;
 				envirment->sub = copy_in_sub(token, envirment, sign);
 			}
-			else if (*sign != 1 && is_expand(token->value[envirment->i]) == 1)
+			else if (length % 2 != 0 && *sign != 1
+				&& is_expand(token->value[envirment->i]) == 1)
 			{
 				name = expand_value(token->value + envirment->i);
 				env_node = point_node(envirment, name);
 				envirment->sub = replace(token, envirment, env_node, sign);
+				if (envirment->sub == NULL)
+					return ;
 			}
 		}
 		else
 			envirment->i++;
 	}
 }
-
 
 void	word_expand (t_word *token, t_env *envirment)
 {

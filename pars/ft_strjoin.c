@@ -17,7 +17,7 @@ static void	copystring(char *newstr, const char *s2, int totalsize, int i)
 	int	x;
 
 	x = 0;
-	while (i < totalsize) 
+	while (i < totalsize)
 	{
 		newstr[i++] = s2[x++];
 	}

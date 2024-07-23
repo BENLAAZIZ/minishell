@@ -31,6 +31,7 @@ t_cmd_node	*ft_addlist_cmds(char **commands)
 		return (NULL);
 	new_node->next = NULL;
 	new_node->command = commands;
+	// ft_list_file(tmp, &(new_node->red_node));
 	return (new_node);
 }
 
@@ -55,7 +56,6 @@ int	lenght_cmds(t_word	*token)
 	return (size);
 }
 
-
 // void	desplay_red_node(t_red_node *redd)
 // {
 // 	if (!redd)
@@ -66,13 +66,13 @@ int	lenght_cmds(t_word	*token)
 // 		printf("[file = %s]", redd->file);
 // 		printf(" ---> ");
 // 		redd = redd->next;
-// 	} 
+// 	}
 // }
-
 
 // void	desplay_node(t_cmd_node *cmd)
 // {
-// 	int i;
+// 	int	i;
+	
 // 	if (!cmd)
 // 		printf("nothing\n");
 // 	else
@@ -96,47 +96,58 @@ int	lenght_cmds(t_word	*token)
 // 			puts("\n\n");
 // 		}
 // 		printf("\n");
-
 // 	}
 // }
 
+char **add_cmds_files(t_word	**token)
+{
+	char	**cmds;
+	int		j;
+
+	if (*token == NULL)
+		return (NULL);
+	cmds = (char **)malloc(sizeof(char *) * (lenght_cmds(*token) + 1));
+	if (cmds == NULL)
+		return (NULL);
+	j = 0;
+	while ((*token) != NULL && (*token)->type != PIPE)
+	{
+		if (check_red((*token)->type) == 1)
+		{
+			*token = (*token)->next;
+			if ((*token) != NULL)
+				*token = (*token)->next;
+		}
+		else
+		{
+			cmds[j++] = (*token)->val_noquotes;
+			*token = (*token)->next;
+		}
+	}
+	cmds[j] = NULL;
+	return (cmds);
+}
+
 void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 {
-	int			j;
 	char		**cmds;
 	t_cmd_node	*commands;
 	t_word		*tmp;
 	t_word		*tmp2;
 
+	cmds = NULL;
 	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
+	if (commands == NULL)
+		return ;
 	tmp2 = token;
 	tmp = token;
 	while (token != NULL)
 	{
-		cmds = (char **)malloc(sizeof(char *) * (lenght_cmds(token) + 1));
-		if (cmds == NULL)
-			return ;
-		
-		j = 0;
-		while (token != NULL && token->type != PIPE)
-		{
-			if (check_red(token->type) == 1)
-			{
-				token = token->next;
-				if (token != NULL)
-					token = token->next;
-			}
-			else
-			{
-				cmds[j++] = token->val_noquotes;
-				token = token->next;
-			}
-		}
-		cmds[j] = NULL;
+		cmds = add_cmds_files(&token);
 		commands = ft_addlist_cmds(cmds);
 		ft_lstaddback_cmd(cmd, commands);
+		// ft_list_file(tmp, &(commands->red_node));
 		ft_list_file(tmp, &(commands->red_node), &(*cmd)->fd_herd);
-		dprintf(2, "herd in node = %d\n", (*cmd)->fd_herd);
 		if (token && token->next != NULL)
 		{
 			token = token->next;

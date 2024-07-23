@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 14:18:45 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:14:42 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_variable
 	int 		fd_stdin;
 	int 		fd_stdout;
 	int			nbr_node;
+	int			id;
 }	t_variable;
 
 
@@ -202,10 +203,10 @@ void	free_t_split(char **array);
 char	*ft_strchr(const char *s, int c);
 void	ft_error(char *s, char *flag, int i, int in);
 void	close_fd(int *fd);
-void	wait_function(int c);
+void	wait_function(int c, t_variable *varr);
 
 int		handle_redirection(int *flag, t_red_node *red_node, int *fd_herd);
-void	ft_execute(char **cmd, t_path *data, t_var *var);
+void	ft_execute(char **cmd, t_path *data, t_variable *varr);
 int		exec_cmd(char **cmd, t_path *data);
 char	*get_next_line(int fd);
 

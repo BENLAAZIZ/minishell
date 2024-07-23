@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/19 19:56:39 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:04:51 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,33 @@ void	close_fd(int *fd)
 	close(fd[1]);
 }
 
-void	wait_function(int c)
+void	wait_function(int c, t_variable *varr)
 {
+	int	status;
+
+	
 	while (c--)
-		wait(NULL);
+	{
+		if (wait(&status) == varr->id)
+		{
+			varr->var.status = status;
+		if (WIFEXITED(varr->var.status))
+            varr->var.status = WEXITSTATUS(varr->var.status);
+		else if (WIFSIGNALED(varr->var.status))
+        {
+            if (WTERMSIG(varr->var.status) == SIGQUIT)
+			{
+				
+               printf("^\\Quit: 3\n"); varr->var.status = 131;
+			}
+            else if (WTERMSIG(varr->var.status) == SIGINT)
+			{
+				
+                printf("^C\n"); varr->var.status = 130;
+			}
+        }
+		}
+	}
 }
 
 char	*ft_strchr(const char *s, int c)

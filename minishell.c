@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 14:19:08 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:14:27 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_initialis_data(t_variable *varr, t_env *env, int size, int i)
 	
 	varr->data.path = NULL;
 	varr->data.cmd_env = NULL;
+	varr->node = NULL;
+	varr->token = NULL;
 	tp = env;
 	poin = point_node(env, "PATH");
 	if (!poin)
@@ -55,6 +57,7 @@ int	make_one_process(t_env **env, t_variable *varr)
 	int	pid;
 
 	varr->node->flag_r = 0;
+	varr->var.status = 0;
 	if (handle_redirection(&varr->node->flag_r, 
 			varr->node->red_node, &varr->node->fd_herd) == -1)
 	{
@@ -66,8 +69,9 @@ int	make_one_process(t_env **env, t_variable *varr)
 	{
 		pid = fork();
 		if (pid == 0)
-			ft_execute(varr->node->command, &varr->data, &varr->var);
-		wait(NULL);
+			ft_execute(varr->node->command, &varr->data, varr);
+		varr->id = pid;
+		wait_function(varr->nbr_node, varr);
 	}
 	return (0);
 }
@@ -89,8 +93,8 @@ void	in_child_process(t_env **env, t_variable *varr)
 	}
 	b = built_functions(env, &varr->var, varr);
 	if (b == -1)
-		ft_execute(varr->node->command, &varr->data, &varr->var);
-	exit(0);
+		ft_execute(varr->node->command, &varr->data, varr);
+	exit(varr->var.status);
 }
 
 int	check_redirection(t_variable *varr)
@@ -100,6 +104,7 @@ int	check_redirection(t_variable *varr)
 	c = handle_redirection(&varr->node->flag_r, varr->node->red_node, &varr->node->fd_herd);
 	if (c == -1)
 	{
+		varr->var.status = 1;
 		varr->node = varr->node->next;
 		return (-1);;
 	}
@@ -110,6 +115,7 @@ void	make_all_process(t_env **env, t_variable *varr)
 {
 	int pid;
 
+	varr->var.status = 0;
 	while (varr->node)
 	{
 		if (pipe(varr->fd) == -1)
@@ -119,9 +125,10 @@ void	make_all_process(t_env **env, t_variable *varr)
 		if (pid == 0)
 		{
 			if (check_redirection(varr) == -1)
-				exit(1);
+				exit(varr->var.status);
 			in_child_process(env, varr);
 		}
+		varr->id = pid;
 		if (varr->node->flag_r == 0)
 		{
 			close(varr->fd[1]);
@@ -148,7 +155,7 @@ int	execute_line(t_env **env, t_variable *varr)
 {
 	if (varr->token == NULL || check_syntax(varr->token) == 1)
 		{
-			varr->var.status = 1;
+			varr->var.status = 258;
 			ft_lstclear_token(&varr->token);
 			return (-1);
 		}
@@ -163,7 +170,7 @@ int	execute_line(t_env **env, t_variable *varr)
 		else 
 		{
 			make_all_process(env, varr);
-			wait_function(varr->nbr_node);
+			wait_function(varr->nbr_node, varr);
 		}
 		free_data(varr);
 		return (0);
@@ -173,6 +180,7 @@ void	ft_minishell(t_env **env, t_variable *varr)
 {
 	while (1)
 	{
+		ft_initialis_data(varr, *env, 0, 0);
 		printf("======== exit status = %ld =======\n", varr->var.status);
 		(dup2(varr->fd_stdin, 0), dup2(varr->fd_stdout, 1));
 		varr->line = readline("minishell$ ");
@@ -187,7 +195,6 @@ void	ft_minishell(t_env **env, t_variable *varr)
 			free_data(varr);
 			continue ;
 		}
-		ft_initialis_data(varr, *env, 0, 0);
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env);
 		if (remove_quotes(varr->token, 0, 0, 0) == 0)
@@ -243,6 +250,8 @@ void handle_siginit(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	if (sig == SIGQUIT)
+		return ;
 }
 
 int	main(int argc, char *argv[], char **ev)
@@ -254,7 +263,7 @@ int	main(int argc, char *argv[], char **ev)
 	(void)argv;
 	rl_catch_signals = 0;
 	signal(SIGINT, handle_siginit);
-	signal(SIGINT, handle_siginit);
+	signal(SIGQUIT, handle_siginit);
 	varr.node = NULL;
 	varr.token = NULL;
 	varr.line = NULL;

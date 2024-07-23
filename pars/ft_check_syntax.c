@@ -18,9 +18,9 @@ int	check_quotes(char *line)
 		i++;
 	}
 	if (sign == 1)
-		return (free(line), line = NULL, print_error("'"), 1);
+		return (line = NULL, print_error("'"), 1);
 	if (sign == 2)
-		return (free(line), line = NULL, print_error("\""), 1);
+		return (line = NULL, print_error("\""), 1);
 	return (0);
 }
 

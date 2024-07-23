@@ -147,7 +147,7 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 		commands = ft_addlist_cmds(cmds);
 		ft_lstaddback_cmd(cmd, commands);
 		// ft_list_file(tmp, &(commands->red_node));
-		ft_list_file(tmp, &(commands->red_node), &(*cmd)->fd_herd);
+		ft_list_file(tmp, &(commands->red_node), cmd);
 		if (token && token->next != NULL)
 		{
 			token = token->next;

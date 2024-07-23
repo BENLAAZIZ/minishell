@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 19:14:27 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 22:41:51 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,6 @@ void	ft_minishell(t_env **env, t_variable *varr)
 	while (1)
 	{
 		ft_initialis_data(varr, *env, 0, 0);
-		printf("======== exit status = %ld =======\n", varr->var.status);
 		(dup2(varr->fd_stdin, 0), dup2(varr->fd_stdout, 1));
 		varr->line = readline("minishell$ ");
 		if (!varr->line)
@@ -196,7 +195,7 @@ void	ft_minishell(t_env **env, t_variable *varr)
 			continue ;
 		}
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
-		word_expand(varr->token, *env);
+		word_expand(varr->token, *env, varr);
 		if (remove_quotes(varr->token, 0, 0, 0) == 0)
 		{
 			varr->var.status = 1;

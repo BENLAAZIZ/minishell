@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 19:14:42 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 22:47:37 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_variable
 	int 		fd_stdout;
 	int			nbr_node;
 	int			id;
+	int			fd_herd;
 }	t_variable;
 
 
@@ -119,7 +120,7 @@ typedef struct s_variable
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
-void		here_doc(char *limiter, int *fd_herd, int *fd);
+void    here_doc(char *limiter, t_cmd_node *node);
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);
 void		ft_lstaddback_token(t_word **list, t_word*new_node);
@@ -148,17 +149,19 @@ int 		char_continue(char c);
 void		ft_lstclear_token(t_word **list);
 
 //list_files
-void	ft_list_file(t_word	*token, t_red_node **files, int *fd_herd);
-
+// void	ft_list_file(t_word	*token, t_red_node **files, t_variable *varr);
+void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node);
 //listcommands
-void		ft_list_cmd(t_word *token, t_cmd_node **cmd);
+// void		ft_list_cmd(t_word *token, t_cmd_node **cmd);
+void	ft_list_cmd(t_word	*token, t_cmd_node **cmd);
 
 //print error
 void		print_error(char *token);
 char		*expand_value(char *line);
 int			check_char_expand (char c);
 char 		*remove_dollar(char *all_command);
-void 		word_expand(t_word *token, t_env *envirment);
+void	word_expand (t_word *token, t_env *envirment, t_variable *varr);
+// void	ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 //remove_quotes
 // int remove_quotes(t_word *token);
 int remove_quotes(t_word *token, int sign, int i, int j);

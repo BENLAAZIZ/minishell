@@ -81,7 +81,7 @@ char	*copy_the_rest(t_word *token, t_env *envirment, int *sign)
 	return (envirment->sub);
 }
 
-char	*copy_in_sub(t_word *token, t_env *envirment, int *sign)
+char	*copy_in_sub(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 {
 	int		old_i;
 	char	*no_expand;
@@ -90,6 +90,8 @@ char	*copy_in_sub(t_word *token, t_env *envirment, int *sign)
 		envirment->sub = ft_substr(token->value, 0, envirment->i - 2);
 	if (token->value[envirment->i - 1] == '0')
 		envirment->sub = ft_strjoin(envirment->sub, "minishell");
+	if (token->value[envirment->i - 1] == '?')
+		envirment->sub = ft_strjoin(envirment->sub, ft_itoa(varr->var.status));
 	old_i = envirment->i;
 	while (check_char_expand(token->value[envirment->i]) == 1 && *sign != 1)
 	{
@@ -136,7 +138,7 @@ char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 
 
 
-void	ft_is_expand(t_word *token, t_env *envirment, int *sign)
+void	ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 {
 	char	*name;
 	t_env	*env_node;
@@ -148,11 +150,12 @@ void	ft_is_expand(t_word *token, t_env *envirment, int *sign)
 		if (token->value[envirment->i] == '$' && *sign != 1)
 		{
 			length = dollar_length(token, &envirment);
-			if ((ft_isdigit(token->value[envirment->i]) == 1))
+			if ((ft_isdigit(token->value[envirment->i]) == 1)
+				|| (token->value[envirment->i] == '?' && length % 2 != 0))
 			{
 				ft_check_quotes(token->value[envirment->i], sign);
 				envirment->i++;
-				envirment->sub = copy_in_sub(token, envirment, sign);
+				envirment->sub = copy_in_sub(token, envirment, sign, varr);
 			}
 			else if (length % 2 != 0 && *sign != 1
 				&& is_expand(token->value[envirment->i]) == 1)
@@ -169,7 +172,7 @@ void	ft_is_expand(t_word *token, t_env *envirment, int *sign)
 	}
 }
 
-void	word_expand (t_word *token, t_env *envirment)
+void	word_expand (t_word *token, t_env *envirment, t_variable *varr)
 {
 	int		sign;
 	t_word	*token_tmp;
@@ -187,7 +190,7 @@ void	word_expand (t_word *token, t_env *envirment)
 			token = token->next->next;
 			continue ;
 		}
-		ft_is_expand(token, envirment, &sign);
+		ft_is_expand(token, envirment, &sign, varr);
 		if (envirment->sub != NULL)
 			token->value = envirment->sub;
 		token = token->next;

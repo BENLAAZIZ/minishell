@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 19:26:15 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:21:46 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,12 @@ int	exec_cmd(char **cmd, t_path *data)
 
 void	ft_execute(char **cmd, t_path *data, t_variable *varr)
 {
-	printf("ditkh\n");
+	if (!*cmd)
+		exit(varr->var.status);
 	if (!cmd)
 	{
 		ft_error("command not found: ", " ", 0, 0);
-		varr->var.status = 1;
+		varr->var.status = 127;
 		exit(varr->var.status);
 	}
 	if (ft_strchr(cmd[0], '/') != NULL)
@@ -112,7 +113,7 @@ void	ft_execute(char **cmd, t_path *data, t_variable *varr)
 		if (execve(cmd[0], cmd, NULL) == -1)
 		{
 			ft_error("no such file or directory: ", cmd[0], 0, 0);
-			varr->var.status = 1;
+			varr->var.status = 127;
 			exit(varr->var.status);
 		}
 	}
@@ -120,13 +121,10 @@ void	ft_execute(char **cmd, t_path *data, t_variable *varr)
 	{
 		ft_error(": no such file or directory", cmd[0], 1, -1);
 		free_t_split(cmd);
-		varr->var.status = 1;
+		varr->var.status = 127;
 		exit(varr->var.status);
 	}
 	if (exec_cmd(cmd, data) == 0)
-	{
-		
-		varr->var.status = 1;
-	}
+		varr->var.status = 127;
 	exit(varr->var.status);
 }

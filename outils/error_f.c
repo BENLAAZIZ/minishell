@@ -6,11 +6,9 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 21:22:51 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:45:38 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "minishell.h"
 
@@ -37,7 +35,6 @@ void	ft_error(char *s, char *flag, int i, int in)
 		write(2, s, ft_strlen(s));
 		write(2, "\n", 1);
 	}
-	//kant exit hna ;
 }
 
 void	free_t_split(char **array)
@@ -65,27 +62,13 @@ void	wait_function(int c, t_variable *varr)
 {
 	int	status;
 
-	
 	while (c--)
 	{
 		if (wait(&status) == varr->id)
 		{
 			varr->var.status = status;
-		if (WIFEXITED(varr->var.status))
-            varr->var.status = WEXITSTATUS(varr->var.status);
-		// else if (WIFSIGNALED(varr->var.status))
-        // {
-        //     if (WTERMSIG(varr->var.status) == SIGQUIT)
-		// 	{
-				
-        //        printf("^\\Quit: 3\n"); varr->var.status = 131;
-		// 	}
-        //     else if (WTERMSIG(varr->var.status) == SIGINT)
-		// 	{
-				
-        //         printf("^C\n"); varr->var.status = 130;
-		// 	}
-        // }
+			if (WIFEXITED(varr->var.status))
+				varr->var.status = WEXITSTATUS(varr->var.status);
 		}
 	}
 }

@@ -6,12 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 10:57:20 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:09:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	case_input_red(t_red_node *red_node, int *fd_herd)
 {
@@ -31,7 +30,8 @@ int	case_input_red(t_red_node *red_node, int *fd_herd)
 			if (red_node->expand == 1)
 				printf("minishell: %s: ambiguous redirect\n", red_node->exp);
 			else
-				printf("minishell: %s: No such file or directory \n", red_node->file);
+				printf("minishell: %s: No such file or directory \n",
+					red_node->file);
 			return (-1);
 		}
 		dup2(fd_in, 0);
@@ -43,7 +43,7 @@ int	case_input_red(t_red_node *red_node, int *fd_herd)
 int	case_output_red(t_red_node *red_node, int *flag)
 {
 	int	fd_out;
-	
+
 	fd_out = -1;
 	if (ft_strncmp(red_node->red, ">>", 3) == 0)
 	{
@@ -69,15 +69,17 @@ int	case_output_red(t_red_node *red_node, int *flag)
 int	handle_redirection(int *flag, t_red_node *red_node, int	*fd_herd)
 {
 	if (!red_node)
-		return 0;
+		return (0);
 	while (red_node)
 	{
-		if (ft_strncmp(red_node->red, "<<", 2) == 0 || ft_strncmp(red_node->red, "<", 2) == 0)
+		if (ft_strncmp(red_node->red, "<<", 2) == 0
+			|| ft_strncmp(red_node->red, "<", 2) == 0)
 		{
 			if (case_input_red(red_node, fd_herd) == -1)
 				return (-1);
 		}
-		else if (ft_strncmp(red_node->red, ">>", 3) == 0 || ft_strncmp(red_node->red, ">", 2) == 0)
+		else if (ft_strncmp(red_node->red, ">>", 3) == 0
+			|| ft_strncmp(red_node->red, ">", 2) == 0)
 		{
 			if (case_output_red(red_node, flag) == -1)
 				return (-1);

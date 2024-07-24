@@ -6,12 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 10:56:46 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:03:59 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	here_doc(char *limiter, t_cmd_node *node)
 {
@@ -21,7 +20,8 @@ void	here_doc(char *limiter, t_cmd_node *node)
 	node->fd_herd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		return (close(node->fd_herd), ft_error("open fail : \n", "fail", 0, -1));
+		return (close(node->fd_herd),
+			ft_error("open fail : \n", "fail", 0, -1));
 	if (node->fd_herd == -1)
 		return (close(fd), ft_error("open fail : \n", "fail", 0, -1));
 	unlink("herd.txt");
@@ -39,6 +39,4 @@ void	here_doc(char *limiter, t_cmd_node *node)
 	}
 	close(fd);
 	free(line);
-	// dprintf(2,"fd herdoc in herdoc = %d\n", node->fd_herd);
-	// dprintf(2, "fd = %d\n", fd);
 }

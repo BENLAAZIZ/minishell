@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/21 18:33:02 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:06:46 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ t_env	*ft_lstlast(t_env *lst)
 	}
 	return (last);
 }
+
 void	ft_lstadd_back(t_env **lst, t_env *new)
 {
-	t_env *last;
-	
+	t_env	*last;
+
 	last = NULL;
 	if (!new)
 		return ;
@@ -55,14 +56,8 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	last = ft_lstlast(*lst);
 	if (last)
 		last->next = new;
-	// ft_lstlast(*lst)->next = new;
 }
 
-
-//========================================  start
-
-
-//======================================== end
 int	size_node(t_cmd_node *a)
 {
 	int		size;
@@ -73,22 +68,6 @@ int	size_node(t_cmd_node *a)
 	while (a)
 	{
 		size++;
-		a = a -> next;
-	}
-	return (size);
-}
-
-int	size_env(t_env *a)
-{
-	int		size;
-
-	if (!a)
-		return (-1);
-	size = 0;
-	while (a)
-	{
-		if (a->value != NULL)
-			size++;
 		a = a -> next;
 	}
 	return (size);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoi_h.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/06/12 11:50:49 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:48:06 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ long	ft_atoi(const char *str, t_var *var)
 	i = 0;
 	f = 0;
 	s = 1;
-	
 	if (check_number(str) == -1)
 	{
 		var->fil = ft_strdup("11");
@@ -55,7 +54,7 @@ long	ft_atoi(const char *str, t_var *var)
 	}
 	check_sin(str, &i, &s);
 	while (str[i] >= '0' && str[i] <= '9')
-	{	
+	{
 		f = (f * 10) + str[i] - '0';
 		if (f >= 9223372036854775807 && s == 1)
 			return ((var->fil = ft_strdup("-1")), -1);

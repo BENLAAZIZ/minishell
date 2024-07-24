@@ -78,19 +78,9 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node)
 			ft_lstaddback_files(files, file_and_red);
 				if (token->type == 5)
 			{
-				// *fd_herd = dup(0);
-				// pid = fork();
-				// if (pid == 0)
-				// printf("\nseg her\n");
 				(*node)->fd_herd = dup(0);
 				here_doc(token->next->value, *node);
-				
-				// close(*fd_herd);
-				printf("in list redirection fd_herd = %d\n", (*node)->fd_herd);
-				// printf("fd = %d\n", fd);
-				// dup2(fd, 0);
-				// close(fd);
-				// wait(NULL);
+				// printf("in list redirection fd_herd = %d\n", (*node)->fd_herd);
 			}
 			file = NULL;
 			red = NULL;

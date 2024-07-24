@@ -148,7 +148,7 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 		ft_lstaddback_cmd(cmd, commands);
 		// ft_list_file(tmp, &(commands->red_node));
 		ft_list_file(tmp, &(commands->red_node), cmd);
-		printf("in list node fd_herd = %d\n", (*cmd)->fd_herd);
+		// printf("in list node fd_herd = %d\n", (*cmd)->fd_herd);
 		if (token && token->next != NULL)
 		{
 			token = token->next;

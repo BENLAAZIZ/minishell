@@ -60,7 +60,7 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node)
 	// int			pid;
 	int			*fd;
 
-	node->fd_herd = NULL;
+	// node->fd_herd = NULL;
 	if (token == NULL)
 		return ;
 	tmp = token;
@@ -82,10 +82,11 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node)
 				// pid = fork();
 				// if (pid == 0)
 				// printf("\nseg her\n");
-					here_doc(token->next->value, *node);
+				(*node)->fd_herd = dup(0);
+				here_doc(token->next->value, *node);
 				
 				// close(*fd_herd);
-				dprintf(2, "fd in liset red = %d\n", *fd_herd);
+				printf("in list redirection fd_herd = %d\n", (*node)->fd_herd);
 				// printf("fd = %d\n", fd);
 				// dup2(fd, 0);
 				// close(fd);

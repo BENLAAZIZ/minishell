@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 22:47:37 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:53:05 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ typedef struct s_variable
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
-void    here_doc(char *limiter, t_cmd_node *node);
+void    	here_doc(char *limiter, t_cmd_node *node);
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);
 void		ft_lstaddback_token(t_word **list, t_word*new_node);
@@ -150,40 +150,40 @@ void		ft_lstclear_token(t_word **list);
 
 //list_files
 // void	ft_list_file(t_word	*token, t_red_node **files, t_variable *varr);
-void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node);
+void		ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node);
 //listcommands
 // void		ft_list_cmd(t_word *token, t_cmd_node **cmd);
-void	ft_list_cmd(t_word	*token, t_cmd_node **cmd);
+void		ft_list_cmd(t_word	*token, t_cmd_node **cmd);
 
 //print error
 void		print_error(char *token);
 char		*expand_value(char *line);
 int			check_char_expand (char c);
 char 		*remove_dollar(char *all_command);
-void	word_expand (t_word *token, t_env *envirment, t_variable *varr);
+void		word_expand (t_word *token, t_env *envirment, t_variable *varr);
 // void	ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 //remove_quotes
 // int remove_quotes(t_word *token);
-int remove_quotes(t_word *token, int sign, int i, int j);
+int 		remove_quotes(t_word *token, int sign, int i, int j);
 
-int		built_functions(t_env **env, t_var *var,t_variable *varr);
-void	echo(char **cmd);
-void	unset(t_env **env, char **cmd, t_var *var);
-void	ft_env(char **ev, t_env **env);
-void	ft_exit(char **cmd, t_var *var);
-int		cd(char **cmd, t_env **env);
-int		pwd(void);
-void	export(t_env **env , char **cmd, int i, t_var *var);
-void	display_list_export(t_env *a);
-char	*get_variabl_export(char *line, int *egal);
+int			built_functions(t_env **env, t_var *var,t_variable *varr);
+void		echo(char **cmd);
+void		unset(t_env **env, char **cmd, t_var *var);
+void		ft_env(char **ev, t_env **env);
+void		ft_exit(char **cmd, t_var *var);
+int			cd(char **cmd, t_env **env);
+int			pwd(void);
+void		export(t_env **env , char **cmd, int i, t_var *var);
+void		display_list_export(t_env *a);
+char		*get_variabl_export(char *line, int *egal);
 
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strdup(const char *s1);
-char	*ft_itoa(unsigned int n);
-long	ft_atoi(const char *str, t_var *var);
-void	*ft_memcpy(void	*dst, const void *src, size_t n);
-char	*ft_strjoin(char const *s1, char const *s2);
+size_t		ft_strlen(const char *s);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char		*ft_strdup(const char *s1);
+char		*ft_itoa(unsigned int n);
+long		ft_atoi(const char *str, t_var *var);
+void		*ft_memcpy(void	*dst, const void *src, size_t n);
+char		*ft_strjoin(char const *s1, char const *s2);
 
 t_env	*point_node(t_env *env, char *name);
 t_env	*ft_lstnew(char *var, char *value);
@@ -195,6 +195,7 @@ void	ft_lstadd_back(t_env **lst, t_env *new);
 int		size_node(t_cmd_node *a);
 int		size_env(t_env *a);
 void	display_env(t_env *a);
+int		check_env(t_env **env, t_variable *varr);
 void	modif_shlvl(t_env **env, t_env *new, char *var, char *val);
 void	display_list_export(t_env *a);
 

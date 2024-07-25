@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 12:01:10 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:39:43 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_execute(char **cmd, t_path *data, t_variable *varr)
 	}
 	else if (ft_strchr(cmd[0], '/') != NULL)
 	{
-		if (execve(cmd[0], cmd, NULL) == -1)
+		if (execve(cmd[0], cmd,data->cmd_env) == -1)
 		{
 			ft_error("no such file or directory: ", cmd[0], 0, 0);
 			varr->var.status = 127;

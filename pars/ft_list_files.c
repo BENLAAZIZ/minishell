@@ -57,15 +57,11 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node)
 	char		*red;
 	t_red_node	*file_and_red;
 	t_word		*tmp;
-	// int			pid;
-	int			*fd;
 
-	// node->fd_herd = NULL;
 	if (token == NULL)
 		return ;
 	tmp = token;
 	*files = NULL;
-	fd = 0;
 	while (token)
 	{
 		if (token->type == PIPE)
@@ -76,7 +72,7 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node)
 			red = ft_strdup(token->val_noquotes);
 			file_and_red = ft_addlist_files(file, red);
 			ft_lstaddback_files(files, file_and_red);
-				if (token->type == 5)
+			if (token->type == 5)
 			{
 				(*node)->fd_herd = dup(0);
 				here_doc(token->next->value, *node);

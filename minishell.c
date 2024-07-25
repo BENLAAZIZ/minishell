@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/23 22:41:51 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:23:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	check_redirection(t_variable *varr)
 {
 	int c;
 
-	c = handle_redirection(&varr->node->flag_r, varr->node->red_node, &varr->node->fd_herd);
+	c = handle_redirection(&varr->node->flag_r,
+		varr->node->red_node, &varr->node->fd_herd);
 	if (c == -1)
 	{
 		varr->var.status = 1;

@@ -128,7 +128,7 @@ char **add_cmds_files(t_word	**token)
 	return (cmds);
 }
 
-void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
+void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 {
 	char		**cmds;
 	t_cmd_node	*commands;
@@ -147,7 +147,7 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd)
 		commands = ft_addlist_cmds(cmds);
 		ft_lstaddback_cmd(cmd, commands);
 		// ft_list_file(tmp, &(commands->red_node));
-		ft_list_file(tmp, &(commands->red_node), cmd);
+		ft_list_file(tmp, &(commands->red_node), cmd, env);
 		// printf("in list node fd_herd = %d\n", (*cmd)->fd_herd);
 		if (token && token->next != NULL)
 		{

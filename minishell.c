@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 11:23:57 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:25:52 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	execute_line(t_env **env, t_variable *varr)
 			ft_lstclear_token(&varr->token);
 			return (-1);
 		}
-		ft_list_cmd (varr->token, &varr->node);
+		ft_list_cmd (varr->token, &varr->node, *env);
 		varr->tmp_node = varr->node;
 		varr->nbr_node = size_node(varr->node);
 		if (varr->node->next == NULL)

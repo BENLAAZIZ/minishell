@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 11:53:05 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:28:33 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ typedef struct s_word
 	t_type			type;
 	char			*value;
 	char			*val_noquotes;
+	char			*line;
 	int				quotes_type;
-	int				*here_doc_fd;
+	// int				*here_doc_fd;
 	struct s_word	*next;
 	struct s_word	*prev;
 }	t_word;
@@ -120,7 +121,8 @@ typedef struct s_variable
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
-void    	here_doc(char *limiter, t_cmd_node *node);
+void		expand_her (t_word *token, t_env *envirment);
+void		here_doc(char *limiter, char *limiter_nq, t_cmd_node *node, t_env *envirement);
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
 t_word		*ft_addlist_token(char *word);
 void		ft_lstaddback_token(t_word **list, t_word*new_node);
@@ -144,16 +146,19 @@ int 		c_after_add(char c);
 int 		check_dollar_sign(char c1, char c2, char c3);
 int 		char_stop(char c);
 int 		char_continue(char c);
+int			ft_isdigit(int c);
+int			is_expand(char c);
 
 //list_function
 void		ft_lstclear_token(t_word **list);
 
+
 //list_files
 // void	ft_list_file(t_word	*token, t_red_node **files, t_variable *varr);
-void		ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node);
+void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *envirement);
 //listcommands
 // void		ft_list_cmd(t_word *token, t_cmd_node **cmd);
-void		ft_list_cmd(t_word	*token, t_cmd_node **cmd);
+void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env);
 
 //print error
 void		print_error(char *token);

@@ -45,6 +45,8 @@ void	skip_quotes(t_word **token, int sign, int i, int *j)
 		}
 		else
 		{
+			if ((*token)->value[i] < 0)
+				(*token)->value[i] *= -1;
 			(*token)->val_noquotes[*j] = (*token)->value[i];
 			(*j)++;
 			i++;

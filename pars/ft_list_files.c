@@ -51,7 +51,7 @@ void	ft_lstaddback_files(t_red_node **list, t_red_node *new_node)
 	*list = tmp;
 }
 
-void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node)
+void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *envirement)
 {
 	char		*file;
 	char		*red;
@@ -75,7 +75,7 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node)
 			if (token->type == 5)
 			{
 				(*node)->fd_herd = dup(0);
-				here_doc(token->next->value, *node);
+				here_doc(token->next->value, token->next->val_noquotes, *node, envirement);
 				// printf("in list redirection fd_herd = %d\n", (*node)->fd_herd);
 			}
 			file = NULL;

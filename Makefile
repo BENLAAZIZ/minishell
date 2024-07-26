@@ -15,7 +15,7 @@ SRC =  builtin/builtins.c builtin/cd.c minishell.c outils/spl.c outils/list_h.c 
 	   outils/error_f.c outils/ft_exec.c outils/her_doc.c  outils/redirection.c \
 	   pars/check_line.c pars/expand.c pars/ft_add_list_token.c pars/ft_check_syntax.c pars/ft_list_cmd.c pars/ft_list_files.c \
 	   pars/ft_split.c pars/ft_strcmp.c pars/ft_substr.c pars/list_function.c pars/make_space.c \
-	   pars/remove_quotes.c pars/ft_list_token.c
+	   pars/remove_quotes.c pars/ft_list_token.c pars/expand_her.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -157,3 +157,14 @@ cat < ls.txt | grep m
 - CRAZY:
 fohreogharpgh
 cat main.c parser/parser.c parser/parser_delegator.c parser/input_split.c ; echo wow wowow w w w w w w w w w  w w w w w w  w w w w w w  w w w w  w w w  w w w w  w w ok o k ok ok o ko k ok ok o ko k ok ok o ko k ok ok o ko k ok ok o ko k okkk
+
+
+
+
+
+
+
+
+
+
+echo "$"USER

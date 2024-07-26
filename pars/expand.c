@@ -37,6 +37,7 @@ int	ft_isdigit(int c)
 	}
 	return (0);
 }
+
 int	dollar_length(t_word *token, t_env **envirment)
 {
 	int	length;
@@ -57,7 +58,7 @@ char	*copy_the_rest(t_word *token, t_env *envirment, int *sign)
 	old_i = envirment->i;
 	int length = dollar_length(token, &envirment);
 	if (length % 2 != 0)
-		envirment->i = old_i;
+		envirment->i = envirment->i - 1;;
 	while (token->value[envirment->i])
 	{
 		ft_check_quotes(token->value[envirment->i], sign);
@@ -71,7 +72,9 @@ char	*copy_the_rest(t_word *token, t_env *envirment, int *sign)
 			ft_check_quotes(token->value[envirment->i + 1], sign);
 			envirment->i += 2;
 		}
-	if (token->value[envirment->i] == '"' && *sign == 0)
+	length = dollar_length(token, &envirment);
+	if (length % 2 != 0)
+		envirment->i = envirment->i - 1;;if (token->value[envirment->i] == '"' && *sign == 0)
 		envirment->i++;
 	if (token->value[envirment->i] == '$'
 		&& token->value[envirment->i + 1] == '\0')
@@ -115,12 +118,23 @@ int is_expand(char c)
 	return (0);
 }
 
+void ft_add_q(t_env **env_node)
+{
+	(*env_node)->value[0] *= -1;
+	(*env_node)->value[ft_strlen((*env_node)->value) - 1] *=   -1;
+}
+
 char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 {
 	if (envirment->sub == NULL)
 		envirment->sub = ft_substr(token->value, 0, envirment->i - 1);
+	
 	if (env_node != NULL)
+	{
+		if (env_node->value[0] == '\'' || env_node->value[0] == '"')
+			ft_add_q(&env_node);
 		envirment->sub = ft_strjoin(envirment->sub, env_node->value);
+	}
 	while (check_char_expand(token->value[envirment->i]) == 1 && *sign != 1)
 	{
 		ft_check_quotes(token->value[envirment->i], sign);
@@ -151,11 +165,12 @@ void	ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 		{
 			length = dollar_length(token, &envirment);
 			if ((ft_isdigit(token->value[envirment->i]) == 1)
-				|| (token->value[envirment->i] == '?' && length % 2 != 0))
+				|| ((token->value[envirment->i] == '?')))
 			{
 				ft_check_quotes(token->value[envirment->i], sign);
 				envirment->i++;
 				envirment->sub = copy_in_sub(token, envirment, sign, varr);
+				// printf("1 : %s\n", envirment->sub);
 			}
 			else if (length % 2 != 0 && *sign != 1
 				&& is_expand(token->value[envirment->i]) == 1)

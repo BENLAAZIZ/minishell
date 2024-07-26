@@ -1,43 +1,7 @@
 #include "minishell.h"
 
-char	*expand_value(char *line)
-{
-	int		i;
-	char	*variable;
 
-	i = 0;
-	if (!line)
-		return (NULL);
-	while (check_char_expand (line[i]) == 1)
-		i++;
-	if (i == 0)
-		return (NULL);
-	variable = (char *)malloc(i + 1);
-	if (variable == NULL)
-		return (NULL);
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '=' || line[i] == '"'
-			|| line[i] == '$' || line[i] == ' '
-			|| line[i] == '\'' || line[i] == '\0')
-			break ;
-		variable[i] = line[i];
-		i++;
-	}
-	variable[i] = '\0';
-	return (variable);
-}
-
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-	{
-		return (1);
-	}
-	return (0);
-}
-int	dollar_length(t_word *token, t_env **envirment)
+int	length_dollar(t_word *token, t_env **envirment)
 {
 	int	length;
 
@@ -49,13 +13,13 @@ int	dollar_length(t_word *token, t_env **envirment)
 	}
 	return (length);
 }
-char	*copy_the_rest(t_word *token, t_env *envirment, int *sign)
+char	*add_rest(t_word *token, t_env *envirment, int *sign)
 {
 	int		old_i;
 	char	*no_expand;
 
 	old_i = envirment->i;
-	int length = dollar_length(token, &envirment);
+	int length = length_dollar(token, &envirment);
 	if (length % 2 != 0)
 		envirment->i = old_i;
 	while (token->line[envirment->i])
@@ -81,7 +45,7 @@ char	*copy_the_rest(t_word *token, t_env *envirment, int *sign)
 	return (envirment->sub);
 }
 
-char	*copy_in_sub(t_word *token, t_env *envirment, int *sign)
+char	*expand_copy(t_word *token, t_env *envirment, int *sign)
 {
 	int		old_i;
 	char	*no_expand;
@@ -100,20 +64,11 @@ char	*copy_in_sub(t_word *token, t_env *envirment, int *sign)
 	}
 	no_expand = ft_substr(token->line, old_i, envirment->i - old_i);
 	envirment->sub = ft_strjoin(envirment->sub, no_expand);
-	envirment->sub = copy_the_rest(token, envirment, sign);
+	envirment->sub = add_rest(token, envirment, sign);
 	return (envirment->sub);
 }
-int is_expand(char c)
-{
-	if ((c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9')
-		|| c == '_' || c == '"')
-		return (1);
-	return (0);
-}
 
-char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
+char	*new_value(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 {
 	if (envirment->sub == NULL)
 		envirment->sub = ft_substr(token->line, 0, envirment->i - 1);
@@ -130,36 +85,41 @@ char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 	if (token->line[envirment->i] == '"' && *sign == 2
 		&& token->line[envirment->i - 1] == '$')
 		envirment->i--;
-	envirment->sub = copy_the_rest(token, envirment, sign);
+	envirment->sub = add_rest(token, envirment, sign);
 	return (envirment->sub);
 }
 
 
 
-void	ft_is_expand(t_word *token, t_env *envirment, int *sign)
+void	expand_it(t_word *token, t_env *envirment, int *sign)
 {
 	char	*name;
 	t_env	*env_node;
 	int		length;
+	
 
+	if (token == NULL || envirment == NULL || envirment->value == NULL)
+		return ;
+	envirment->i = 0;
 	while (token->line[envirment->i])
 	{
 		ft_check_quotes(token->line[envirment->i], sign);
 		if (token->line[envirment->i] == '$' && *sign != 1)
 		{
-			length = dollar_length(token, &envirment);
+			length = length_dollar(token, &envirment);
 			if ((ft_isdigit(token->line[envirment->i]) == 1))
 			{
 				ft_check_quotes(token->line[envirment->i], sign);
 				envirment->i++;
-				envirment->sub = copy_in_sub(token, envirment, sign);
+				envirment->sub = expand_copy(token, envirment, sign);
 			}
 			else if (length % 2 != 0 && *sign != 1
 				&& is_expand(token->line[envirment->i]) == 1)
 			{
 				name = expand_value(token->line + envirment->i);
 				env_node = point_node(envirment, name);
-				envirment->sub = replace(token, envirment, env_node, sign);
+				envirment->sub = new_value(token, envirment, env_node, sign);
+				free(name);
 				if (envirment->sub == NULL)
 					return ;
 			}
@@ -169,27 +129,26 @@ void	ft_is_expand(t_word *token, t_env *envirment, int *sign)
 	}
 }
 
-void	word_expand (t_word *token, t_env *envirment)
+void	expand_her (t_word *token, t_env *envirment)
 {
 	int		sign;
 	t_word	*token_tmp;
 
-	token_tmp = token;
-	if (token == NULL || token->line == NULL)
+	if (token == NULL ||token->line == NULL || envirment == NULL || envirment->value == NULL)
 		return ;
+	token_tmp = token;
+	
 	sign = 0;
-	while (token)
+	while (token_tmp)
 	{
 		envirment->sub = NULL;
 		envirment->i = 0;
-		if ((token->type == 5) && token->next != NULL)
-		{
-			token = token->next->next;
-			continue ;
-		}
-		ft_is_expand(token, envirment, &sign);
+		expand_it(token_tmp, envirment, &sign);
 		if (envirment->sub != NULL)
-			token->line = envirment->sub;
-		token = token->next;
+		{
+			free(token_tmp->line);
+			token_tmp->line = envirment->sub;
+		}
+		token_tmp = token_tmp->next;
 	}
 }

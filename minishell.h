@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/26 11:28:33 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:32:31 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,11 @@ void		ft_lstclear_token(t_word **list);
 
 
 //list_files
-// void	ft_list_file(t_word	*token, t_red_node **files, t_variable *varr);
+// void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *envirement);
 void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *envirement);
 //listcommands
 // void		ft_list_cmd(t_word *token, t_cmd_node **cmd);
 void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env);
-
 //print error
 void		print_error(char *token);
 char		*expand_value(char *line);

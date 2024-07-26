@@ -6,11 +6,34 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/26 11:25:52 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:32:51 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_lstclear_env(t_env **env)
+{
+	t_env	*tmp;
+
+	if (env == NULL || (*env) == NULL)
+	{
+		pause();
+		return ;
+	}
+	tmp = (*env);
+	while ((*env) != NULL)
+	{
+		tmp = (*env);
+		(*env) = (*env)->next;
+		free(tmp->variable);
+		free(tmp->value);
+		tmp->variable = NULL;
+		tmp->value = NULL;
+		free(tmp);
+	}
+	*env = NULL;
+}
 
 void	get_cmd_env(t_env *env, t_path *data, char	*tmp, int *i)
 {
@@ -185,7 +208,14 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		(dup2(varr->fd_stdin, 0), dup2(varr->fd_stdout, 1));
 		varr->line = readline("minishell$ ");
 		if (!varr->line)
+		{
+			printf("exit\n");
+			ft_lstclear_token(&varr->token);
+			ft_lstclear_cmd(&varr->node);
+			ft_lstclear_env(env);
+			rl_clear_history();
 			exit(varr->var.status);
+		}
 		if (varr->line[0] == '\0')
 			continue ; 
 		add_history(varr->line);
@@ -212,33 +242,20 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		ft_lstclear_token(&varr->token);
 		ft_lstclear_cmd(&varr->node);
 	}
+	ft_lstclear_token(&varr->token);
+	ft_lstclear_cmd(&varr->node);
+	rl_clear_history();
+	free(varr->line);
+	close(varr->fd_stdout);
+	close(varr->fd_stdin);
 }
 
-// void	ft_lstclear_env(t_env **env)
-// {
-// 	t_env	*tmp;
 
-// 	if (env == NULL || (*env) == NULL)
-// 	{
-// 		pause();
-// 		return ;
-// 	}
-// 	tmp = (*env);
-// 	while ((*env) != NULL)
-// 	{
-// 		tmp = (*env);
-// 		(*env) = (*env)->next;
-// 		free(tmp->variable);
-// 		free(tmp->value);
-// 		free(tmp);
-// 	}
-// 	*env = NULL;
-// }
 
-// void	v()
-// {
-// 	system("leaks minishell");
-// }
+void	v()
+{
+	system("leaks minishell");
+}
 
 void handle_siginit(int sig)
 {
@@ -258,7 +275,7 @@ int	main(int argc, char *argv[], char **ev)
 {
 	t_variable	varr;
 	t_env		*env;
-	// atexit(v);
+	atexit(v);
 	(void)argc;
 	(void)argv;
 	rl_catch_signals = 0;
@@ -273,6 +290,6 @@ int	main(int argc, char *argv[], char **ev)
 	varr.var.status = 0;
 	ft_env(ev, &env);
 	ft_minishell(&env, &varr);
-	// ft_lstclear_env(&env);
+	ft_lstclear_env(&env);
 	return (0);
 }

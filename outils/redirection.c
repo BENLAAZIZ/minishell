@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 12:09:57 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:17:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	case_input_red(t_red_node *red_node, int *fd_herd)
+int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
 {
 	int	fd_in;
 
@@ -20,7 +20,8 @@ int	case_input_red(t_red_node *red_node, int *fd_herd)
 	if (ft_strncmp(red_node->red, "<<", 3) == 0)
 	{
 		dup2(*fd_herd, 0);
-		close(*fd_herd);
+		// close(*fd_herd);
+		*flag = 0;
 	}
 	else
 	{
@@ -75,7 +76,7 @@ int	handle_redirection(int *flag, t_red_node *red_node, int	*fd_herd)
 		if (ft_strncmp(red_node->red, "<<", 2) == 0
 			|| ft_strncmp(red_node->red, "<", 2) == 0)
 		{
-			if (case_input_red(red_node, fd_herd) == -1)
+			if (case_input_red(red_node, fd_herd, flag) == -1)
 				return (-1);
 		}
 		else if (ft_strncmp(red_node->red, ">>", 3) == 0

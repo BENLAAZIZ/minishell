@@ -16,7 +16,7 @@ int	lenght_files(t_word	*token)
 	return (size);
 }
 
-t_red_node	*ft_addlist_files(char *file, char *redirection, char *old_word)
+t_red_node	*ft_addlist_files(char *file, char *redirection)
 {
 	t_red_node	*new_node;
 
@@ -26,8 +26,6 @@ t_red_node	*ft_addlist_files(char *file, char *redirection, char *old_word)
 	if (new_node == NULL)
 		return (NULL);
 	new_node->next = NULL;
-	new_node->exp = old_word;
-	new_node->expand = 0;
 	new_node->red = redirection;
 	new_node->file = file;
 	return (new_node);
@@ -53,7 +51,7 @@ void	ft_lstaddback_files(t_red_node **list, t_red_node *new_node)
 	*list = tmp;
 }
 
-void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *env)
+void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *envirement)
 {
 	char		*file;
 	char		*red;
@@ -72,14 +70,12 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *e
 		{
 			file = ft_strdup(token->next->val_noquotes);
 			red = ft_strdup(token->val_noquotes);
-			file_and_red = ft_addlist_files(file, red, token->next->old_word);
-			if (!file_and_red->file ||  file_and_red->file[0] == '\0')
-				file_and_red->expand = 1;
+			file_and_red = ft_addlist_files(file, red);
 			ft_lstaddback_files(files, file_and_red);
 			if (token->type == 5)
 			{
 				(*node)->fd_herd = dup(0);
-				here_doc(token->next->value, token->next->val_noquotes, *node, env);
+				here_doc(token->next->value, token->next->val_noquotes, *node, envirement);
 			}
 			file = NULL;
 			red = NULL;

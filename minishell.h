@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/26 23:32:31 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/28 20:01:36 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_word
 {
 	t_type			type;
 	char			*value;
+	char			*old_word;
 	char			*val_noquotes;
 	char			*line;
 	int				quotes_type;
@@ -86,6 +87,7 @@ typedef struct s_env
 	// long			status;
 	int				i;
 	char 			*expand;
+	char			*expansion;
 	char			*sub;
 	struct s_env	*next;
 }	t_env;
@@ -118,9 +120,12 @@ typedef struct s_variable
 
 
 //expand
+void	word_expand_her(t_word *token, t_env *envirment);
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
+int			dollar_length(t_word *token, t_env **envirment);
+void		ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr);
 void		expand_her (t_word *token, t_env *envirment);
 void		here_doc(char *limiter, char *limiter_nq, t_cmd_node *node, t_env *envirement);
 t_word		*ft_list_tokn(char *all_command, t_word *token, t_env *envirment);
@@ -144,7 +149,8 @@ int			check_quotes(char *line);
 int			check_red(int type);
 int 		c_after_add(char c);
 int 		check_dollar_sign(char c1, char c2, char c3);
-int 		char_stop(char c);
+// int 		char_stop(char c);
+int			char_stop(t_word *token, t_env **envirment);
 int 		char_continue(char c);
 int			ft_isdigit(int c);
 int			is_expand(char c);

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/26 11:42:51 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:57:49 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	here_doc(char *limiter, char *limiter_nq, t_cmd_node *node, t_env *envireme
 			&& ft_strlen(limiter_nq) == ft_strlen(token->line))
 			break ;
 		if (is_quote(limiter) == 0)
-			expand_her(token, envirement);
+			word_expand_her(token, envirement);
 		write(fd, token->line, ft_strlen(token->line));
 		write(fd, "\n", 1);
 		free(token->line);

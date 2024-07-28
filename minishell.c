@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/26 23:32:51 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/28 18:02:08 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,8 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		}
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env, varr);
+		if (varr->token->value[0] == '\0')
+			continue ; 
 		if (remove_quotes(varr->token, 0, 0, 0) == 0)
 		{
 			varr->var.status = 1;
@@ -275,7 +277,7 @@ int	main(int argc, char *argv[], char **ev)
 {
 	t_variable	varr;
 	t_env		*env;
-	atexit(v);
+	// atexit(v);
 	(void)argc;
 	(void)argv;
 	rl_catch_signals = 0;

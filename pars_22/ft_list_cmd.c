@@ -31,6 +31,7 @@ t_cmd_node	*ft_addlist_cmds(char **commands)
 		return (NULL);
 	new_node->next = NULL;
 	new_node->command = commands;
+	// ft_list_file(tmp, &(new_node->red_node));
 	return (new_node);
 }
 
@@ -55,7 +56,50 @@ int	lenght_cmds(t_word	*token)
 	return (size);
 }
 
-char	**add_cmds_files(t_word	**token)
+// void	desplay_red_node(t_red_node *redd)
+// {
+// 	if (!redd)
+// 		return ;
+// 	while (redd)
+// 	{
+// 		printf("[red = %s]", redd->red);
+// 		printf("[file = %s]", redd->file);
+// 		printf(" ---> ");
+// 		redd = redd->next;
+// 	}
+// }
+
+// void	desplay_node(t_cmd_node *cmd)
+// {
+// 	int	i;
+	
+// 	if (!cmd)
+// 		printf("nothing\n");
+// 	else
+// 	{
+// 		while (cmd)
+// 		{
+// 		printf("\n ========================================== \n\n");
+// 			printf("red : ");
+// 			desplay_red_node(cmd->red_node);
+// 			i = 0;
+// 			if (cmd->command)
+// 			{
+// 				while (cmd->command[i])
+// 				{
+// 					printf("\ncommand: %s", cmd->command[i]);
+// 					i++;
+// 				}
+// 				puts("");
+// 			}
+// 			cmd = cmd->next;
+// 			puts("\n\n");
+// 		}
+// 		printf("\n");
+// 	}
+// }
+
+char **add_cmds_files(t_word	**token)
 {
 	char	**cmds;
 	int		j;
@@ -102,7 +146,9 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 		cmds = add_cmds_files(&token);
 		commands = ft_addlist_cmds(cmds);
 		ft_lstaddback_cmd(cmd, commands);
+		// ft_list_file(tmp, &(commands->red_node));
 		ft_list_file(tmp, &(commands->red_node), cmd, env);
+		// printf("in list node fd_herd = %d\n", (*cmd)->fd_herd);
 		if (token && token->next != NULL)
 		{
 			token = token->next;

@@ -78,7 +78,7 @@ void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node **node, t_env *e
 			ft_lstaddback_files(files, file_and_red);
 			if (token->type == 5)
 			{
-				(*node)->fd_herd = dup(0);
+				// (*node)->fd_herd = dup(0);
 				here_doc(token->next->value, token->next->val_noquotes, *node, env);
 			}
 			file = NULL;

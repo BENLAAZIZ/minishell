@@ -101,7 +101,13 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 	{
 		cmds = add_cmds_files(&token);
 		commands = ft_addlist_cmds(cmds);
+		// dayb chi variabl ocopih f addback 
+		// ft_lstaddback_cmd(cmd, commands, node);
 		ft_lstaddback_cmd(cmd, commands);
+		// cmd tatrjar lbdya
+		// daba node ghatkon katpointi 3la node li bghina nhato fiha fd_h 
+		// ft_list_file(tmp, &(commands->red_node), node, env,);
+
 		ft_list_file(tmp, &(commands->red_node), cmd, env);
 		if (token && token->next != NULL)
 		{

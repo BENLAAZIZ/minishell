@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/28 18:29:27 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/29 23:08:05 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
 	{
 		dup2(*fd_herd, 0);
 		// close(*fd_herd);
-		*flag = 0;
+		*flag = 2;
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 18:40:42 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:43:36 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env);
 void		print_error(char *token);
 char		*expand_value(char *line);
 int			check_char_expand (char c);
-char 		*remove_dollar(char *all_command);
 void		word_expand (t_word *token, t_env *envirment, t_variable *varr);
 // void	ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 //remove_quotes

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/29 23:38:04 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:06:44 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,39 +129,11 @@ int	check_redirection(t_variable *varr)
 	if (c == -1)
 	{
 		varr->var.status = 1;
-		// varr->node = varr->node->next;
 		return (-1);;
 	}
 	return (0);
 }
 
-// void	make_all_process(t_env **env, t_variable *varr)
-// {
-// 	int pid;
-
-// 	varr->var.status = 0;
-// 	while (varr->node)
-// 	{
-// 		if (pipe(varr->fd) == -1)
-// 			perror("pipe fail :");
-// 		varr->node->flag_r = 0;
-// 		pid = fork();
-// 		if (pid == 0)
-// 		{
-// 			if (check_redirection(varr) == -1)
-// 				exit(varr->var.status);
-// 			in_child_process(env, varr);
-// 		}
-// 		varr->id = pid;
-// 		if (varr->node->flag_r == 0)
-// 		{
-// 			close(varr->fd[1]);
-// 			dup2(varr->fd[0], 0);
-// 			close(varr->fd[0]);	
-// 		}
-// 		varr->node = varr->node->next;
-// 	}
-// }
 
 void	make_all_process(t_env **env, t_variable *varr)
 {
@@ -175,44 +147,16 @@ void	make_all_process(t_env **env, t_variable *varr)
 			perror("pipe fail :");
 		varr->node->flag_r = 0;
 		c = check_redirection(varr);
-		// if (check_redirection(varr) == -1)
-		// {
-			
-		// 	// exit(varr->var.status);
-		// }
 		if (c != -1)
 		{
 			pid = fork();
 			if (pid == 0)
-			{
 				in_child_process(env, varr);
-			}
+			varr->id = pid;
 		}
-		varr->id = pid;
-		if (varr->node->flag_r == 0)
-		{
-			// printf("\n-------------------------------\n");
-			// printf("\nflag 0\n");
-			// printf("\n command [%s]\n", varr->node->command[0]);
-			// printf("\n fd_herd [%d]\n", varr->node->fd_herd);
-			close(varr->fd[1]);
-			dup2(varr->fd[0], 0);
-			close(varr->fd[0]);	
-			// printf("\n-------------------------------\n");
-		}
-		if (varr->node->flag_r == 2)
-		{
-			// printf("\n*******************************\n");
-			// printf("\nflag 2\n");
-			// printf("\n command [%s]\n", varr->node->command[0]);
-			// printf("\n red [%s %s]\n", varr->node->red_node->red, varr->node->red_node->file);
-			// printf("\n fd_herd [%d]\n", varr->node->fd_herd);
-			close(varr->fd[1]);
-			close(varr->fd[0]);	
-			dup2(varr->node->fd_herd, 0);
-			close(varr->node->fd_herd);
-			// printf("\n*******************************\n");
-		}
+		close(varr->fd[1]);
+		dup2(varr->fd[0], 0);
+		close(varr->fd[0]);	
 		varr->node = varr->node->next;
 	}
 }

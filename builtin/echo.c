@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/15 16:19:09 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:42:33 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,28 @@ int	check_option_n(char *str, int *index, int *newline)
 	return (c);
 }
 
-void	echo(char **cmd)
+void	echo(char **cmd, int i)
 {
 	int	newline;
 	int	index;
-	int	i;
 
 	newline = 0;
 	index = 1;
-	i = 1;
-	while (cmd[i])
+	while (cmd[++i])
 	{
-		if (check_option_n(cmd[index], &index, &newline) == 0)
-			break ;
-		i++;
+		if (cmd[i][0] != '\0')
+		{
+			index = i;
+			if (check_option_n(cmd[index], &index, &newline) == 0)
+				break ;	
+		}	
 	}
-	index = i;
-	while (cmd[index])
+	index = i -1;
+	while (cmd[++index])
 	{
 		ft_putstr(cmd[index]);
-		if (cmd[index + 1])
+		if (cmd[index + 1] && cmd[index][0])
 			write(1, " ", 1);
-		index++;
 	}
 	fflush(stdout);
 	if (!newline)

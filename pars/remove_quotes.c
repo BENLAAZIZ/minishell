@@ -25,6 +25,7 @@ int	lenght_no_quotes(t_word *token)
 			quotes++;
 		i++;
 	}
+	
 	return (quotes);
 }
 

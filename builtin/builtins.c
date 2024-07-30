@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 11:41:04 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:40:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	built_functions(t_env **env, t_var *var, t_variable *varr)
 	if (ft_strncmp(varr->node->command[0], "env", 4) == 0)
 		varr->var.status = check_env(env, varr);
 	else if (ft_strncmp(varr->node->command[0], "echo", 5) == 0)
-		echo(varr->node->command);
+		echo(varr->node->command, 0);
 	else if (ft_strncmp(varr->node->command[0], "cd", 3) == 0)
 		varr->var.status = (long)cd(varr->node->command, env);
 	else if (ft_strncmp(varr->node->command[0], "pwd", 4) == 0)

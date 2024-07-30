@@ -21,7 +21,9 @@
 		"optional": "c",
 		"system_error": "c",
 		"tuple": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"__locale": "c",
+		"__string": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

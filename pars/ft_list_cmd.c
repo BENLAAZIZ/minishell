@@ -1,23 +1,27 @@
 #include "minishell.h"
 
-void	ft_lstaddback_cmd(t_cmd_node **list, t_cmd_node *new_node)
+t_cmd_node	*ft_lstaddback_cmd(t_cmd_node **list, t_cmd_node *new_node)
 {
 	t_cmd_node	*tmp;
+	t_cmd_node	*node;
 
 	tmp = *list;
 	if (list == NULL || new_node == NULL)
-		return ;
+		return (NULL);
 	if (*list == NULL)
 	{
 		*list = new_node;
-		return ;
+		node = *list;
+		return (node);
 	}
 	while ((*list)->next != NULL)
 	{
 		(*list) = (*list)->next;
 	}
 	(*list)->next = new_node;
+	node = (*list)->next;
 	*list = tmp;
+	return (node);
 }
 
 t_cmd_node	*ft_addlist_cmds(char **commands)
@@ -84,12 +88,48 @@ char	**add_cmds_files(t_word	**token)
 	return (cmds);
 }
 
+// void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
+// {
+// 	char		**cmds;
+// 	t_cmd_node	*commands;
+// 	t_word		*tmp;
+// 	t_word		*tmp2;
+
+// 	cmds = NULL;
+// 	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
+// 	if (commands == NULL)
+// 		return ;
+// 	tmp2 = token;
+// 	tmp = token;
+// 	while (token != NULL)
+// 	{
+// 		cmds = add_cmds_files(&token);
+// 		commands = ft_addlist_cmds(cmds);
+// 		// dayb chi variabl ocopih f addback 
+// 		// ft_lstaddback_cmd(cmd, commands, node);
+// 		ft_lstaddback_cmd(cmd, commands);
+// 		// cmd tatrjar lbdya
+// 		// daba node ghatkon katpointi 3la node li bghina nhato fiha fd_h 
+// 		// ft_list_file(tmp, &(commands->red_node), node, env,);
+
+// 		ft_list_file(tmp, &(commands->red_node), cmd, env);
+// 		if (token && token->next != NULL)
+// 		{
+// 			token = token->next;
+// 			tmp = token;
+// 		}
+// 	}
+// 	token = tmp2;
+// }
+
+
 void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 {
 	char		**cmds;
 	t_cmd_node	*commands;
 	t_word		*tmp;
 	t_word		*tmp2;
+	t_cmd_node	*node;
 
 	cmds = NULL;
 	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
@@ -103,12 +143,12 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 		commands = ft_addlist_cmds(cmds);
 		// dayb chi variabl ocopih f addback 
 		// ft_lstaddback_cmd(cmd, commands, node);
-		ft_lstaddback_cmd(cmd, commands);
+		node = ft_lstaddback_cmd(cmd, commands);
 		// cmd tatrjar lbdya
 		// daba node ghatkon katpointi 3la node li bghina nhato fiha fd_h 
-		// ft_list_file(tmp, &(commands->red_node), node, env,);
+		ft_list_file(tmp, &(commands->red_node), node, env);
 
-		ft_list_file(tmp, &(commands->red_node), cmd, env);
+		// ft_list_file(tmp, &(commands->red_node), cmd, env);
 		if (token && token->next != NULL)
 		{
 			token = token->next;

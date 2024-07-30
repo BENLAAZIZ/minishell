@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/29 23:08:05 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:21:21 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
 	fd_in = -1;
 	if (ft_strncmp(red_node->red, "<<", 3) == 0)
 	{
-		dup2(*fd_herd, 0);
+		// dup2(*fd_herd, 0);
 		// close(*fd_herd);
+		fd_in = *fd_herd;
+		// printf("fd_in [%d]\n", fd_in);
 		*flag = 2;
 	}
 	else
 	{
+		*flag = 3;
 		fd_in = open(red_node->file, O_RDONLY, 0644);
 		if (fd_in < 0)
 		{
@@ -35,9 +38,9 @@ int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
 					red_node->file);
 			return (-1);
 		}
-		dup2(fd_in, 0);
-		close(fd_in);
 	}
+	dup2(fd_in, 0);
+	close(fd_in);
 	return (0);
 }
 

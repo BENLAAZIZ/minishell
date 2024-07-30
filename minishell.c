@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 22:06:44 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:21:51 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		varr->line = readline("minishell$ ");
 		if (!varr->line)
 		{
-			printf("exit\n");
+			write(1, "exit\n", 5);
 			ft_lstclear_token(&varr->token);
 			ft_lstclear_cmd(&varr->node);
 			ft_lstclear_env(env);

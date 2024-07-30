@@ -6,24 +6,21 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 18:43:36 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:43:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000
-# endif
-
-# include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <string.h>
 # include <fcntl.h>
 # include <readline/history.h>
+#include <sys/stat.h>
+# include <unistd.h>
 
 typedef enum e_type
 {

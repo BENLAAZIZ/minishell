@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 15:20:09 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:16:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,13 @@ void	word_expand_her(t_word *token, t_env *envirment);
 void	ft_perror_h(char *error, int flag);
 // int	chek_is_directory(char *str, t_variable *varr);
 void	display_node(t_cmd_node *node);
+void	free_data(t_variable *varr);
 // void	desplay_node(t_cmd_node **cmd);
+int	make_one_process(t_env **env, t_variable *varr);
+void	in_child_process(t_env **env, t_variable *varr);
+int	check_redirection(t_variable *varr);
+void	make_all_process(t_env **env, t_variable *varr, int c);
+int	execute_line(t_env **env, t_variable *varr);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
 int			dollar_length(t_word *token, t_env **envirment);

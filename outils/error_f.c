@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 11:46:43 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:59:32 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,6 @@ void	free_t_split(char **array)
 	free(array);
 }
 
-// void	close_fd(int *fd)
-// {
-// 	close(fd[0]);
-// 	close(fd[1]);
-// }
-
 void	wait_function(int c, t_variable *varr)
 {
 	int	status;
@@ -89,18 +83,18 @@ void	wait_function(int c, t_variable *varr)
 	}
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
+// char	*ft_strchr(const char *s, int c)
+// {
+// 	int	i;
 
-	i = 0;
-	if ((unsigned char)c == '\0')
-		return ((char *)s + ft_strlen(s));
-	while (s[i] != '\0')
-	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)(s + i));
-		i++;
-	}
-	return (NULL);
-}
+// 	i = 0;
+// 	if ((unsigned char)c == '\0')
+// 		return ((char *)s + ft_strlen(s));
+// 	while (s[i] != '\0')
+// 	{
+// 		if (s[i] == (unsigned char)c)
+// 			return ((char *)(s + i));
+// 		i++;
+// 	}
+// 	return (NULL);
+// }

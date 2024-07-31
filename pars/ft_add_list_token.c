@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_add_list_token.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:36:00 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/19 16:34:31 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/07/31 19:03:59 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_word	*ft_addlist_token(char *word)
 	if (new_node == NULL)
 		return (NULL);
 	new_node->next = NULL;
+	new_node->old_word = NULL;
 	new_node->value = word;
 	token_type(word, new_node);
 	return (new_node);

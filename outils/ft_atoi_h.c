@@ -6,11 +6,27 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 11:48:06 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:23:32 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if ((unsigned char)c == '\0')
+		return ((char *)s + ft_strlen(s));
+	while (s[i] != '\0')
+	{
+		if (s[i] == (unsigned char)c)
+			return ((char *)(s + i));
+		i++;
+	}
+	return (NULL);
+}
 
 int	check_number(const char *str)
 {

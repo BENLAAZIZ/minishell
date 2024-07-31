@@ -33,7 +33,8 @@ void	ft_lstclear_red(t_red_node **list)
 		(*list) = (*list)->next;
 		free(tmp->red);
 		free(tmp->file);
-		free(tmp->exp);
+		if (tmp->exp)
+			free(tmp->exp);
 		free(tmp);
 	}
 	*list = NULL;

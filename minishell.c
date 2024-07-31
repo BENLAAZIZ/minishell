@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 22:21:51 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:20:11 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ void	ft_lstclear_env(t_env **env)
 	t_env	*tmp;
 
 	if (env == NULL || (*env) == NULL)
-	{
-		pause();
 		return ;
-	}
 	tmp = (*env);
 	while ((*env) != NULL)
 	{
@@ -61,6 +58,7 @@ void	ft_initialis_data(t_variable *varr, t_env *env, int size, int i)
 	varr->data.path = ft_splith(str, ':');
 	size = size_env(env);
 	varr->data.cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
+	//hna leaks.
 	while (env)
 	{
 		tmp = NULL;
@@ -154,6 +152,8 @@ void	make_all_process(t_env **env, t_variable *varr)
 				in_child_process(env, varr);
 			varr->id = pid;
 		}
+		else
+			varr->var.status = 1;
 		close(varr->fd[1]);
 		dup2(varr->fd[0], 0);
 		close(varr->fd[0]);	
@@ -198,6 +198,39 @@ int	execute_line(t_env **env, t_variable *varr)
 		return (0);
 }
 
+//*****************************
+
+void	display_red(t_red_node *red)
+{
+	if (!red)
+		return;
+		while (red)
+		{
+			printf("\n [%s %s] ", red->red, red->file);
+			red = red->next;
+		}
+		
+}
+
+void	display_node(t_cmd_node *node)
+{
+	if (!node)
+	{
+		printf("khaaaawya mafiha walo\n");
+		return;
+	}
+		while (node)
+		{
+			printf("\n-----------------------------------\n");
+			display_red(node->red_node);
+			printf("\n {%s} ", node->command[0]);
+			printf("\n-----------------------------------\n");
+			node = node->next;
+		}
+		
+}
+//***************************************
+
 void	ft_minishell(t_env **env, t_variable *varr)
 {
 	while (1)
@@ -209,6 +242,7 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		{
 			write(1, "exit\n", 5);
 			ft_lstclear_token(&varr->token);
+			// free_data(varr);
 			ft_lstclear_cmd(&varr->node);
 			ft_lstclear_env(env);
 			rl_clear_history();
@@ -223,6 +257,7 @@ void	ft_minishell(t_env **env, t_variable *varr)
 			free_data(varr);
 			continue ;
 		}
+		
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env, varr);
 		if (varr->token->value[0] == '\0')
@@ -239,10 +274,12 @@ void	ft_minishell(t_env **env, t_variable *varr)
 			free_data(varr);
 			continue ;
 		}
-		ft_lstclear_token(&varr->token);
 		ft_lstclear_cmd(&varr->node);
+		// display_node(varr->node);
+		ft_lstclear_token(&varr->token);
 	}
 	ft_lstclear_token(&varr->token);
+	ft_lstclear_env(env);
 	ft_lstclear_cmd(&varr->node);
 	rl_clear_history();
 	free(varr->line);
@@ -288,7 +325,7 @@ int	main(int argc, char *argv[], char **ev)
 	varr.fd_stdin = dup(0);
 	varr.fd_stdout = dup(1);
 	varr.var.status = 0;
-	ft_env(ev, &env);
+	ft_env(ev, &env);  
 	ft_minishell(&env, &varr);
 	ft_lstclear_env(&env);
 	return (0);

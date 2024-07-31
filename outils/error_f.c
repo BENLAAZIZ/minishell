@@ -6,11 +6,27 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/24 11:45:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:46:43 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_perror_h(char *error, int flag)
+{
+	write(2, "minishell: ", 12);
+	write(2, error, ft_strlen(error));
+	if (flag == 11)
+		write(2, ": command not found\n", 20);
+	else if (flag == 12)
+		write(2, ": No such file or directory\n", 28);
+	else if (flag == 13)
+		write(2, ": is a directory\n", 17);
+	else if (flag == 14)
+		write(2, ": Permission denied\n", 20);
+	else if (flag == 15)
+		write(2, ": ambiguous redirect\n", 21);
+}
 
 void	ft_error(char *s, char *flag, int i, int in)
 {
@@ -52,11 +68,11 @@ void	free_t_split(char **array)
 	free(array);
 }
 
-void	close_fd(int *fd)
-{
-	close(fd[0]);
-	close(fd[1]);
-}
+// void	close_fd(int *fd)
+// {
+// 	close(fd[0]);
+// 	close(fd[1]);
+// }
 
 void	wait_function(int c, t_variable *varr)
 {

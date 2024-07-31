@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 18:40:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:33:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	built_functions(t_env **env, t_var *var, t_variable *varr)
 	if (ft_strncmp(varr->node->command[0], "env", 4) == 0)
 		varr->var.status = check_env(env, varr);
 	else if (ft_strncmp(varr->node->command[0], "echo", 5) == 0)
-		echo(varr->node->command, 0);
+		echo(varr->node->command, 0, varr);
 	else if (ft_strncmp(varr->node->command[0], "cd", 3) == 0)
 		varr->var.status = (long)cd(varr->node->command, env);
 	else if (ft_strncmp(varr->node->command[0], "pwd", 4) == 0)
@@ -115,7 +115,7 @@ int	built_functions(t_env **env, t_var *var, t_variable *varr)
 	else if (ft_strncmp(varr->node->command[0], "unset", 6) == 0)
 		unset(env, varr->node->command, var);
 	else if (ft_strncmp(varr->node->command[0], "exit", 6) == 0)
-		ft_exit(varr->node->command, var);
+		ft_exit(varr->node->command, var, env);
 	else
 		return (-1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 22:43:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:35:46 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ typedef enum e_type
 	AND = 7,
 	DAND = 8,
 	OPAR = 9,
-	CPAR = 10
+	CPAR = 10,
+	CM_NF = 11,
+	NO_F = 12,
+	IS_D = 13,
+	PRM_D = 14,
+	OMB_R = 15
 }	t_type;
 
 typedef struct  s_red_node
@@ -118,6 +123,8 @@ typedef struct s_variable
 
 //expand
 void	word_expand_her(t_word *token, t_env *envirment);
+void	ft_perror_h(char *error, int flag);
+// int	chek_is_directory(char *str, t_variable *varr);
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list
@@ -171,12 +178,13 @@ void		word_expand (t_word *token, t_env *envirment, t_variable *varr);
 //remove_quotes
 // int remove_quotes(t_word *token);
 int 		remove_quotes(t_word *token, int sign, int i, int j);
+void	ft_lstclear_env(t_env **env);
 
 int			built_functions(t_env **env, t_var *var,t_variable *varr);
-void		echo(char **cmd, int i);
+void		echo(char **cmd, int i, t_variable *varr);
 void		unset(t_env **env, char **cmd, t_var *var);
 void		ft_env(char **ev, t_env **env);
-void		ft_exit(char **cmd, t_var *var);
+void		ft_exit(char **cmd, t_var *var, t_env **env);
 int			cd(char **cmd, t_env **env);
 int			pwd(void);
 void		export(t_env **env , char **cmd, int i, t_var *var);

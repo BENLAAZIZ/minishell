@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 18:42:33 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 09:56:30 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_option_n(char *str, int *index, int *newline)
 	return (c);
 }
 
-void	echo(char **cmd, int i)
+void	echo(char **cmd, int i, t_variable *varr)
 {
 	int	newline;
 	int	index;
@@ -80,4 +80,5 @@ void	echo(char **cmd, int i)
 	fflush(stdout);
 	if (!newline)
 		write(1, "\n", 1);
+	varr->var.status = 0;
 }

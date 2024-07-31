@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/28 19:57:49 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:42:17 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,12 @@ int	is_quote(char *limiter)
 	}
 	return (0);
 }
-
+// hna
+void signlas_heredoc(int sig)
+{
+	if (sig == SIGINT)
+		close(0);
+}
 void	here_doc(char *limiter, char *limiter_nq, t_cmd_node *node, t_env *envirement)
 {
 	t_word	*token;
@@ -44,6 +49,7 @@ void	here_doc(char *limiter, char *limiter_nq, t_cmd_node *node, t_env *envireme
 	unlink("herd.txt");
 	while (1)
 	{
+		signal(SIGINT, signlas_heredoc);
 		token->line = readline("> ");
 		if (!token->line)
 			break ;

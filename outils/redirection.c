@@ -6,13 +6,41 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/30 22:05:24 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:16:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
+int	chek_permession(char *str)
+{
+	struct stat	st;
+    int			ret;
+
+	ret = stat(str, &st);
+    if (ret == -1)
+	{
+		ft_perror_h(str, NO_F);
+		return -1;
+	}
+	else
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			ft_perror_h(str, IS_D);
+			return -1;
+		}
+		else if (access(str, W_OK))
+		{
+			ft_perror_h(str, PRM_D);
+			return -1;
+		}
+	}
+	return (0);
+}
+
+// int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
+int	case_input_red(t_red_node *red_node, int *fd_herd)
 {
 	int	fd_in;
 
@@ -20,19 +48,20 @@ int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
 	if (ft_strncmp(red_node->red, "<<", 3) == 0)
 	{
 		fd_in = *fd_herd;
-		*flag = 0;
+		// *flag = 0;
 	}
 	else
 	{
-		*flag = 0;
+		// *flag = 0;
+		if (chek_permession(red_node->file) == -1)
+			return (-1);
 		fd_in = open(red_node->file, O_RDONLY, 0644);
 		if (fd_in < 0)
 		{
 			if (red_node->expand == 1)
-				printf("minishell: %s: ambiguous redirect\n", red_node->exp);
+				ft_perror_h(red_node->exp, OMB_R);
 			else
-				printf("minishell: %s: No such file or directory \n",
-					red_node->file);
+				ft_perror_h(red_node->exp, NO_F);
 			return (-1);
 		}
 	}
@@ -60,9 +89,11 @@ int	case_output_red(t_red_node *red_node, int *flag)
 	if (fd_out < 0)
 	{
 		if (red_node->expand == 1)
-			printf("minishell: %s: ambiguous redirect\n", red_node->exp);
+			ft_perror_h(red_node->exp, OMB_R);
 		return (-1);
 	}
+	if (chek_permession(red_node->file) == -1)
+		return (-1);
 	dup2(fd_out, 1);
 	close(fd_out);
 	return (0);
@@ -77,7 +108,7 @@ int	handle_redirection(int *flag, t_red_node *red_node, int	*fd_herd)
 		if (ft_strncmp(red_node->red, "<<", 2) == 0
 			|| ft_strncmp(red_node->red, "<", 2) == 0)
 		{
-			if (case_input_red(red_node, fd_herd, flag) == -1)
+			if (case_input_red(red_node, fd_herd) == -1)
 				return (-1);
 		}
 		else if (ft_strncmp(red_node->red, ">>", 3) == 0

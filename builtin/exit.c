@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:17:46 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 15:34:18 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:34:18 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(char **cmd, t_var *var)
+void	ft_exit(char **cmd, t_var *var, t_env **env)
 {
 	var->fil = "hamza";
 	var->status = 0;
@@ -34,5 +34,6 @@ void	ft_exit(char **cmd, t_var *var)
 		if (ft_strncmp(var->fil, "11", 3) == 0)
 			printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
 	}
+	ft_lstclear_env(env);
 	exit((unsigned char)(var->status));
 }

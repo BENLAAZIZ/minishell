@@ -23,7 +23,8 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"__locale": "c",
-		"__string": "c"
+		"__string": "c",
+		"sstream": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

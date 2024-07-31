@@ -1,8 +1,21 @@
 #include "minishell.h"
 
+void ft_puterror(char *token)
+{
+	int i = 0;
+	write(2, "syntax error near unexpected token `", 36);
+	while (token[i])
+	{
+		write(2, &token[i], 1);
+		i++;
+	}
+	write(2, "'\n", 2);
+}
 void	print_error(char *token)
 {
-	printf("syntax error near unexpected token `%s'\n", token);
+	// printf("syntax error near unexpected token `%s'\n", token);
+	
+	ft_puterror(token);
 }
 
 int	check_quotes(char *line)

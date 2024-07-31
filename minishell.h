@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 13:35:46 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:20:09 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct s_variable
 void	word_expand_her(t_word *token, t_env *envirment);
 void	ft_perror_h(char *error, int flag);
 // int	chek_is_directory(char *str, t_variable *varr);
+void	display_node(t_cmd_node *node);
 // void	desplay_node(t_cmd_node **cmd);
 // void	desplay_red_node(t_red_node *redd);
 //token_list

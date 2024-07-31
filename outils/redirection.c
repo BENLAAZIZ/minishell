@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 12:16:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:25:05 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,39 @@
 int	chek_permession(char *str)
 {
 	struct stat	st;
-    int			ret;
+	int			ret;
 
 	ret = stat(str, &st);
-    if (ret == -1)
+	if (ret == -1)
 	{
 		ft_perror_h(str, NO_F);
-		return -1;
+		return (-1);
 	}
 	else
 	{
 		if (S_ISDIR(st.st_mode))
 		{
 			ft_perror_h(str, IS_D);
-			return -1;
+			return (-1);
 		}
 		else if (access(str, W_OK))
 		{
 			ft_perror_h(str, PRM_D);
-			return -1;
+			return (-1);
 		}
 	}
 	return (0);
 }
 
-// int	case_input_red(t_red_node *red_node, int *fd_herd, int *flag)
 int	case_input_red(t_red_node *red_node, int *fd_herd)
 {
 	int	fd_in;
 
 	fd_in = -1;
 	if (ft_strncmp(red_node->red, "<<", 3) == 0)
-	{
 		fd_in = *fd_herd;
-		// *flag = 0;
-	}
 	else
 	{
-		// *flag = 0;
 		if (chek_permession(red_node->file) == -1)
 			return (-1);
 		fd_in = open(red_node->file, O_RDONLY, 0644);
@@ -69,7 +64,6 @@ int	case_input_red(t_red_node *red_node, int *fd_herd)
 	close(fd_in);
 	return (0);
 }
-
 
 int	case_output_red(t_red_node *red_node, int *flag)
 {

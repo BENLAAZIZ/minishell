@@ -75,6 +75,7 @@ char	*copy_the_r(t_word *token, t_env **envirment, int *sign, int old_i)
 		return (NULL);
 	new = ft_strjoin((*envirment)->expansion, no_expand);
 	free((*envirment)->expansion);
+	free(no_expand);
 	(*envirment)->expansion = new;
 	// printf("5 : %s\n", (*envirment)->value);
 	return ((*envirment)->expansion);
@@ -189,6 +190,7 @@ char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 	if (token->value[envirment->i] == '"' && *sign == 2
 		&& token->value[envirment->i - 1] == '$')
 		envirment->i--;
+	printf("[%s]", token->old_word);
 	envirment->expansion = copy_the_rest(token, envirment, sign);
 	// printf("2 : %s\n", envirment->value);
 	return (envirment->expansion);

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 13:33:57 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:18:39 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 	t_env	*node;
 	t_var	varr;
 	long	val_shlvl;
+	char	*tmp;
 
 	val_shlvl = 1;
 	node = point_node(*env, "SHLVL");
@@ -96,7 +97,9 @@ void	modif_shlvl(t_env **env, t_env *new, char *var, char *val)
 	else
 	{
 		val_shlvl += ft_atoi(node->value, &varr);
+		tmp = node->value;
 		node->value = ft_itoa(val_shlvl);
+		free(tmp);
 	}
 }
 

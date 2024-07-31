@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 14:20:11 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:08:04 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ void	ft_lstclear_env(t_env **env)
 	*env = NULL;
 }
 
-void	get_cmd_env(t_env *env, t_path *data, char	*tmp, int *i)
+void	get_cmd_env(t_env *env, t_path *data, int *i)
 {
+	char	*tmp;
+
 	tmp = ft_strjoin(env->variable, "=");
 	data->cmd_env[*i] = ft_strjoin(tmp, env->value);
+	free(tmp);
 	(*i)++;
 }
 
@@ -43,7 +46,6 @@ void	ft_initialis_data(t_variable *varr, t_env *env, int size, int i)
 {
 	t_env	*poin;
 	t_env	*tp;
-	char	*tmp;
 	char	*str;
 	
 	varr->data.path = NULL;
@@ -58,13 +60,10 @@ void	ft_initialis_data(t_variable *varr, t_env *env, int size, int i)
 	varr->data.path = ft_splith(str, ':');
 	size = size_env(env);
 	varr->data.cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
-	//hna leaks.
 	while (env)
 	{
-		tmp = NULL;
 		if (env->value)
-			get_cmd_env(env, &varr->data, tmp, &i);
-		free(tmp);
+			get_cmd_env(env, &varr->data, &i);
 		env = env->next;
 	}
 	varr->data.cmd_env[i] = NULL;
@@ -120,7 +119,7 @@ void	in_child_process(t_env **env, t_variable *varr)
 
 int	check_redirection(t_variable *varr)
 {
-	int c;
+	int	c;
 
 	c = handle_redirection(&varr->node->flag_r,
 		varr->node->red_node, &varr->node->fd_herd);
@@ -132,13 +131,13 @@ int	check_redirection(t_variable *varr)
 	return (0);
 }
 
-
-void	make_all_process(t_env **env, t_variable *varr)
+void	make_all_process(t_env **env, t_variable *varr, int c)
 {
-	int pid;
-	int c;
+	t_cmd_node	*tmp;
+	int			pid;
 
 	varr->var.status = 0;
+	tmp = varr->node;
 	while (varr->node)
 	{
 		if (pipe(varr->fd) == -1)
@@ -155,10 +154,10 @@ void	make_all_process(t_env **env, t_variable *varr)
 		else
 			varr->var.status = 1;
 		close(varr->fd[1]);
-		dup2(varr->fd[0], 0);
-		close(varr->fd[0]);	
+		(dup2(varr->fd[0], 0), close(varr->fd[0]));
 		varr->node = varr->node->next;
 	}
+	varr->node = tmp;
 }
 
 void	free_data(t_variable *varr)
@@ -191,7 +190,7 @@ int	execute_line(t_env **env, t_variable *varr)
 		}
 		else 
 		{
-			make_all_process(env, varr);
+			make_all_process(env, varr, 1);
 			wait_function(varr->nbr_node, varr);
 		}
 		free_data(varr);
@@ -241,15 +240,17 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		if (!varr->line)
 		{
 			write(1, "exit\n", 5);
-			ft_lstclear_token(&varr->token);
-			// free_data(varr);
-			ft_lstclear_cmd(&varr->node);
+			free_data(varr);
 			ft_lstclear_env(env);
 			rl_clear_history();
 			exit(varr->var.status);
 		}
 		if (varr->line[0] == '\0')
+		{
+			free_data(varr);
+			rl_clear_history();
 			continue ; 
+		}
 		add_history(varr->line);
 		rl_redisplay(); 
 		if (check_quotes(varr->line) == 1)
@@ -257,11 +258,13 @@ void	ft_minishell(t_env **env, t_variable *varr)
 			free_data(varr);
 			continue ;
 		}
-		
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
 		word_expand(varr->token, *env, varr);
 		if (varr->token->value[0] == '\0')
+		{
+			free_data(varr);
 			continue ; 
+		}
 		if (remove_quotes(varr->token, 0, 0, 0) == 0)
 		{
 			varr->var.status = 1;
@@ -272,12 +275,13 @@ void	ft_minishell(t_env **env, t_variable *varr)
 		if (execute_line(env, varr) == -1)
 		{
 			free_data(varr);
+			ft_lstclear_cmd(&varr->node);
+			ft_lstclear_token(&varr->token);
 			continue ;
 		}
 		ft_lstclear_cmd(&varr->node);
-		// display_node(varr->node);
 		ft_lstclear_token(&varr->token);
-	}
+	} 
 	ft_lstclear_token(&varr->token);
 	ft_lstclear_env(env);
 	ft_lstclear_cmd(&varr->node);

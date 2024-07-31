@@ -55,6 +55,7 @@ void	copy_tokens(char *all_command, int sign, t_env **envi, t_word **token)
 	{
 		word = ft_addlist_token(ft_strdup((*envi)->expansion));
 		ft_lstaddback_token(token, word);
+		free((*envi)->expansion);
 		(*envi)->expansion = NULL;
 	}
 }

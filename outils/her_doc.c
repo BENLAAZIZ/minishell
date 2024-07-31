@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 12:42:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:44:23 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,26 @@ int	is_quote(char *limiter)
 	}
 	return (0);
 }
-// hna
-void signlas_heredoc(int sig)
+
+void	signlas_heredoc(int sig)
 {
 	if (sig == SIGINT)
 		close(0);
 }
-void	here_doc(char *limiter, char *limiter_nq, t_cmd_node *node, t_env *envirement)
+
+int	check_limiter(t_word	*token, t_env *env, char *l, char *l_nq)
+{
+	if (!token->line)
+		return (1);
+	if (ft_strncmp(token->line, l_nq, ft_strlen(l_nq)) == 0
+		&& ft_strlen(l_nq) == ft_strlen(token->line))
+		return (1);
+	if (is_quote(l) == 0)
+		word_expand_her(token, env);
+	return (0);
+}
+
+void	here_doc(char *l, char *l_nq, t_cmd_node *node, t_env *env)
 {
 	t_word	*token;
 	int		fd;
@@ -51,47 +64,10 @@ void	here_doc(char *limiter, char *limiter_nq, t_cmd_node *node, t_env *envireme
 	{
 		signal(SIGINT, signlas_heredoc);
 		token->line = readline("> ");
-		if (!token->line)
+		if (check_limiter(token, env, l, l_nq) == 1)
 			break ;
-		if (ft_strncmp(token->line, limiter_nq, ft_strlen(limiter_nq)) == 0
-			&& ft_strlen(limiter_nq) == ft_strlen(token->line))
-			break ;
-		if (is_quote(limiter) == 0)
-			word_expand_her(token, envirement);
 		write(fd, token->line, ft_strlen(token->line));
-		write(fd, "\n", 1);
-		free(token->line);
+		(write(fd, "\n", 1), free(token->line));
 	}
-	close(fd);
-	free(token->line);
+	(close(fd), free(token->line));
 }
-
-// void	here_doc(char *limiter, t_cmd_node *node)
-// {
-// 	char	*line;
-// 	int		fd;
-
-// 	node->fd_herd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-// 	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-// 	if (fd == -1)
-// 		return (close(node->fd_herd),
-// 			ft_error("open fail : \n", "fail", 0, -1));
-// 	if (node->fd_herd == -1)
-// 		return (close(fd), ft_error("open fail : \n", "fail", 0, -1));
-// 	unlink("herd.txt");
-// 	while (1)
-// 	{
-// 		line = readline("> ");
-// 		if (!line)
-// 			break ;
-// 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
-// 			&& ft_strlen(limiter) == ft_strlen(line))
-// 			break ;
-// 		write(fd, line, ft_strlen(line));
-// 		write(fd, "\n", 1);
-// 		free(line);
-// 	}
-// 	close(fd);
-// 	free(line);
-// }
-

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 18:16:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:38:02 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include <stdlib.h>
 # include <stdio.h>
-# include <readline/readline.h>
 # include <string.h>
 # include <fcntl.h>
-# include <readline/history.h>
 #include <sys/stat.h>
 # include <unistd.h>
-
+#include <termios.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 typedef enum e_type
 {
 	WORD = 0,

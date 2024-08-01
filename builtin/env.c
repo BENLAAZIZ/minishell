@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 15:32:52 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/01 08:36:05 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*get_variabl(char *line)
 {
-	int		i;
 	char	*variable;
+	int		i;
 
 	i = 0;
 	if (!line)
@@ -54,10 +54,10 @@ void	init(char *line, int *i, int *t)
 
 char	*get_value(char *line)
 {
+	char	*value;
 	int		i;
 	int		j;
 	int		t;
-	char	*value;
 
 	i = 0;
 	j = 0;

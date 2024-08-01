@@ -118,6 +118,7 @@ char	*replace_her(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 {
 	char	*new;
 	int		old_i;
+	
 	token->old_word = NULL;
 	new = NULL;
 	old_i = envirment->i;

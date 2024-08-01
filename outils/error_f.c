@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 17:59:32 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:28:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,19 @@ void	wait_function(int c, t_variable *varr)
 			varr->var.status = status;
 			if (WIFEXITED(varr->var.status))
 				varr->var.status = WEXITSTATUS(varr->var.status);
+			if (WIFSIGNALED(varr->var.status))
+			{
+				if (WTERMSIG(status) == 2)
+				{
+					write(1, "\n", 1);
+					varr->var.status = 130;
+				}
+				else if (WTERMSIG(status) == 3)
+				{
+					write(2, "Quit: 3\n", 8);
+					varr->var.status = 131;
+				}
+			}
 		}
 	}
 }
-
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if ((unsigned char)c == '\0')
-// 		return ((char *)s + ft_strlen(s));
-// 	while (s[i] != '\0')
-// 	{
-// 		if (s[i] == (unsigned char)c)
-// 			return ((char *)(s + i));
-// 		i++;
-// 	}
-// 	return (NULL);
-// }

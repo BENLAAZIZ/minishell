@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:02:44 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 18:21:15 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:01:52 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	free_data(t_variable *varr)
 	if (varr->data.cmd_env)
 		free_t_split(varr->data.cmd_env);
 	if (varr->line)
+	{
 		free(varr->line);
+		varr->line = NULL;
+	}
 	varr->node = varr->tmp_node;
 }

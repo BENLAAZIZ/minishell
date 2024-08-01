@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 18:23:32 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:29:38 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	check_number(const char *str)
 	while (str[i])
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
-			return (-1);
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 void	check_sin(const char *str, int *i, int *s)
@@ -63,10 +63,10 @@ long	ft_atoi(const char *str, t_var *var)
 	i = 0;
 	f = 0;
 	s = 1;
-	if (check_number(str) == -1)
+	if (check_number(str) == 0)
 	{
 		var->fil = ft_strdup("11");
-		return (-1);
+		return (0);
 	}
 	check_sin(str, &i, &s);
 	while (str[i] >= '0' && str[i] <= '9')

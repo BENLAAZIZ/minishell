@@ -92,11 +92,11 @@ void	ft_lstaddback_files(t_red_node **list, t_red_node *new_node)
 
 void	ft_list_file(t_word	*token, t_red_node **files, t_cmd_node *node, t_env *env)
 {
+	t_red_node	*file_and_red;
+	t_word		*tmp;
 	char		*file;
 	char		*red;
 	char		*old_word;
-	t_red_node	*file_and_red;
-	t_word		*tmp;
 
 	if (token == NULL)
 		return ;

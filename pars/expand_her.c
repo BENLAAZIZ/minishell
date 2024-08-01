@@ -215,7 +215,10 @@ void	word_expand_her(t_word *token, t_env *envirment)
 		}
 		ft_is_expand_her(token, envirment, &sign);
 		if (envirment->expansion != NULL)
+		{
+			free(token->line);
 			token->line = envirment->expansion;
+		}
 		token = token->next;
 	}
 }

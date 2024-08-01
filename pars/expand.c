@@ -118,13 +118,16 @@ char	*copy_in_sub(t_word *token, t_env *env, int *sign, t_variable *varr)
 	int		old_i;
 	char	*no_expand;
 	char	*new;
+	char	*tmp;
 
 	if (env->expansion == NULL)
 		env->expansion = ft_substr(token->value, 0, env->i - 2);
+	tmp = env->expansion;
 	if (token->value[env->i - 1] == '0')
 		env->expansion = ft_strjoin(env->expansion, "minishell");
 	if (token->value[env->i - 1] == '?')
 		env->expansion = ft_strjoin(env->expansion, ft_itoa(varr->var.status));
+	free(tmp);
 	old_i = env->i;
 	while (check_char_expand(token->value[env->i]) == 1 && *sign != 1)
 	{
@@ -165,6 +168,7 @@ char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 {
 	char	*new;
 	int		old_i;
+	char	*tmp;
 	token->old_word = NULL;
 	new = NULL;
 	old_i = envirment->i;
@@ -191,7 +195,9 @@ char	*replace(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 		&& token->value[envirment->i - 1] == '$')
 		envirment->i--;
 	printf("[%s]", token->old_word);
+	tmp = envirment->expansion;
 	envirment->expansion = copy_the_rest(token, envirment, sign);
+	free(tmp);
 	// printf("2 : %s\n", envirment->value);
 	return (envirment->expansion);
 }
@@ -201,6 +207,7 @@ void expand_line(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 	char	*name;
 	t_env	*env_node;
 	int length;
+	char	*tmp;
 
 	length = dollar_length(token, &envirment);
 	if ((ft_isdigit(token->value[envirment->i]) == 1)
@@ -208,7 +215,9 @@ void expand_line(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 	{
 		ft_check_quotes(token->value[envirment->i], sign);
 		envirment->i++;
+		tmp = envirment->expansion;
 		envirment->expansion = copy_in_sub(token, envirment, sign, varr);
+		free(tmp);
 	}
 	else if (length % 2 != 0 && *sign != 1	
 		&& is_expand(token->value[envirment->i]) == 1)
@@ -218,10 +227,11 @@ void expand_line(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 			return ;
 		env_node = point_node(envirment, name);
 		free(name);
+		tmp = envirment->expansion;
 		envirment->expansion = replace(token, envirment, env_node, sign);
-		
 		if (envirment->expansion == NULL)
 			return ;
+		free(tmp);
 	}
 }
 
@@ -261,7 +271,10 @@ void	word_expand(t_word *token, t_env *envirment, t_variable *varr)
 		}
 		ft_is_expand(token, envirment, &sign, varr);
 		if (envirment->expansion != NULL)
+		{
+			free(token->value);
 			token->value = envirment->expansion;
+		}
 		token = token->next;
 	}
 }

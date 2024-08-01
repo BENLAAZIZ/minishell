@@ -34,7 +34,9 @@ int	check_dollar_sign(char c1, char c2, char c3)
 void	copy_tokens(char *all_command, int sign, t_env **envi, t_word **token)
 {
 	t_word	*word;
+	char	*tmp;
 
+	tmp = (*envi)->expansion;
 	word = NULL;
 	if (sign == 0 && ((all_command[(*envi)->i] == '>'
 				&& all_command[(*envi)->i + 1] == '>')
@@ -51,6 +53,7 @@ void	copy_tokens(char *all_command, int sign, t_env **envi, t_word **token)
 	}
 	else
 		(*envi)->expansion = copy_in_word(all_command, *envi, &sign);
+	free(tmp);
 	if (sign == 0)
 	{
 		word = ft_addlist_token(ft_strdup((*envi)->expansion));

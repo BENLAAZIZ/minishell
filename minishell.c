@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/01 17:42:32 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:12:44 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,21 +123,20 @@ void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
 		if (check_quotes(varr->line) == 1)
 		{
 			free_data(varr);
-			close(varr->fd_stdin);
-			close(varr->fd_stdout);
 			continue ;
 		}
 		varr->token = ft_list_tokn(varr->line, varr->token, *env);
-		word_expand(varr->token, *env, varr);
-		//segf varr->token->value[0]
-		if (varr->token->value[0] == '\0')
+		if (!varr->token)
 		{
 			free_data(varr);
-			close(varr->fd_stdin);
-			close(varr->fd_stdout);
 			continue ; 
 		}
-		// ////////////////////////////
+		word_expand(varr->token, *env, varr);
+		if (varr->token->value && varr->token->value[0] == '\0')
+		{
+			free_data(varr);
+			continue ; 
+		}
 		if (remove_quotes(varr->token, 0, 0, 0) == 0)
 		{
 			varr->var.status = 1;

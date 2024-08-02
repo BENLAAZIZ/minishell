@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/01 15:38:02 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:14:22 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct s_word
 	char			*val_noquotes;
 	char			*line;
 	int				quotes_type;
+	int				is_expand;
+	char			**split_value;
 	// int				*here_doc_fd;
 	struct s_word	*next;
 	struct s_word	*prev;
@@ -120,6 +122,11 @@ typedef struct s_variable
 	int			fd_herd;
 }	t_variable;
 
+//split_help
+int	ft_countword(char const *s, char c);
+
+//signlas
+void handle_siginit(int sig);
 
 //expand
 void	word_expand_her(t_word *token, t_env *envirment);

@@ -18,15 +18,28 @@ int	change_env(t_env **env, t_env *home, char *oldpwd)
 
 	home = point_node(*env, "OLDPWD");
 	if (home)
+	{
+		free(home->value);
 		home->value = oldpwd;
+	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
+	{
+		free(oldpwd);
 		return (perror(""), 1);
+	}
 	home = point_node(*env, "PWD");
 	if (home)
+	{
+		free(home->value);
 		home->value = pwd;
+	}
 	else
+	{
+		free(pwd);
+		free(oldpwd);
 		return (1);
+	}
 	return (0);
 }
 
@@ -60,7 +73,10 @@ int	cd(char **cmd, t_env **env)
 	else
 	{
 		if (check_chdir(cmd[1]) == 1)
+		{
+			free(oldpwd);
 			return (1);
+		}
 	}
 	if (change_env(env, home, oldpwd) == 1)
 		return (1);

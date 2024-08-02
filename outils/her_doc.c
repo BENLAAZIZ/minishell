@@ -50,6 +50,8 @@ void	here_doc(char *l, char *l_nq, t_cmd_node *node, t_env *env)
 	int		fd;
 
 	token = (t_word *)malloc(sizeof(t_word));
+	if (token == NULL)
+		return ;
 	token->line = NULL;
 	token->next = NULL;
 	node->fd_herd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
@@ -60,14 +62,16 @@ void	here_doc(char *l, char *l_nq, t_cmd_node *node, t_env *env)
 	if (node->fd_herd == -1)
 		return (close(fd), ft_error("open fail : \n", "fail", 0, -1));
 	unlink("herd.txt");
+	signal(SIGINT, signlas_heredoc);
 	while (1)
 	{
-		signal(SIGINT, signlas_heredoc);
 		token->line = readline("> ");
 		if (check_limiter(token, env, l, l_nq) == 1)
 			break ;
 		write(fd, token->line, ft_strlen(token->line));
-		(write(fd, "\n", 1), free(token->line));
+		(write(fd, "\n", 1), free(token->line), free(token->old_word));
 	}
-	(close(fd), free(token->line));
+	signal(SIGINT, handle_siginit);
+	(close(fd), free(token->line), free(token->old_word));
+	free(token);
 }

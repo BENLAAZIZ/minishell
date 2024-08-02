@@ -48,6 +48,10 @@ t_word	*ft_addlist_token(char *word)
 	new_node->next = NULL;
 	new_node->old_word = NULL;
 	new_node->value = word;
+	new_node->line = NULL;
+	new_node->split_value = NULL;
+	new_node->is_expand = 0;
+	new_node->val_noquotes = NULL;
 	token_type(word, new_node);
 	return (new_node);
 }

@@ -47,14 +47,20 @@ int	lenght_cmds(t_word	*token)
 	tmp = token;
 	while (tmp != NULL && tmp->type != PIPE)
 	{
-		if (tmp->next)
+		if (check_red(tmp->type) == 1)
 		{
-			if (check_red(tmp->type) == 0 && check_red(tmp->next->type) == 0)
-				size++;
+			tmp = tmp->next;
+			if (tmp != NULL)
+				tmp = tmp->next;
 		}
 		else
-			size++;
-		tmp = tmp->next;
+		{
+			if (tmp->is_expand == 1 && tmp->val_noquotes[0] != '\0')
+				size += ft_countword(tmp->val_noquotes, ' ');
+			else
+				size++;
+			tmp = tmp->next;
+		}
 	}
 	return (size);
 }
@@ -63,6 +69,7 @@ char	**add_cmds_files(t_word	**token)
 {
 	char	**cmds;
 	int		j;
+	int		x;
 
 	if (*token == NULL)
 		return (NULL);
@@ -72,7 +79,8 @@ char	**add_cmds_files(t_word	**token)
 	j = 0;
 	while ((*token) != NULL && (*token)->type != PIPE)
 	{
-		if (check_red((*token)->type) == 1)
+		x = 0;
+		if (check_red((*token)->type) == 1) 
 		{
 			*token = (*token)->next;
 			if ((*token) != NULL)
@@ -80,48 +88,26 @@ char	**add_cmds_files(t_word	**token)
 		}
 		else
 		{
-			cmds[j++] = (*token)->val_noquotes;
+			if ((*token)->is_expand == 1 && (*token)->val_noquotes[0] != '\0')
+			{
+				(*token)->split_value = ft_split((*token)->val_noquotes, ' ');
+				if ((*token)->split_value == NULL)
+					return (NULL);
+				while ((*token)->split_value[x] != NULL)
+				{
+					cmds[j] = (*token)->split_value[x];
+					x++;
+					j++;
+				}
+			}
+			else
+				cmds[j++] = (*token)->val_noquotes;
 			*token = (*token)->next;
 		}
+		cmds[j] = NULL;
 	}
-	cmds[j] = NULL;
 	return (cmds);
 }
-
-// void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
-// {
-// 	char		**cmds;
-// 	t_cmd_node	*commands;
-// 	t_word		*tmp;
-// 	t_word		*tmp2;
-
-// 	cmds = NULL;
-// 	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
-// 	if (commands == NULL)
-// 		return ;
-// 	tmp2 = token;
-// 	tmp = token;
-// 	while (token != NULL)
-// 	{
-// 		cmds = add_cmds_files(&token);
-// 		commands = ft_addlist_cmds(cmds);
-// 		// dayb chi variabl ocopih f addback 
-// 		// ft_lstaddback_cmd(cmd, commands, node);
-// 		ft_lstaddback_cmd(cmd, commands);
-// 		// cmd tatrjar lbdya
-// 		// daba node ghatkon katpointi 3la node li bghina nhato fiha fd_h 
-// 		// ft_list_file(tmp, &(commands->red_node), node, env,);
-
-// 		ft_list_file(tmp, &(commands->red_node), cmd, env);
-// 		if (token && token->next != NULL)
-// 		{
-// 			token = token->next;
-// 			tmp = token;
-// 		}
-// 	}
-// 	token = tmp2;
-// }
-
 
 void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 {
@@ -132,9 +118,7 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 	t_cmd_node	*node;
 
 	cmds = NULL;
-	commands = (t_cmd_node *)malloc(sizeof(t_cmd_node));
-	if (commands == NULL)
-		return ;
+	commands = NULL;
 	tmp2 = token;
 	tmp = token;
 	while (token != NULL)

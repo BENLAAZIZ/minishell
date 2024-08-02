@@ -14,12 +14,16 @@
 
 void	display_env(t_env *a)
 {
+	t_env	*tmp;
+
+	tmp = a;
 	while (a)
 	{
 		if (a->value != NULL)
 			printf("%s=%s\n", a->variable, a->value);
 		a = a->next;
 	}
+	a = tmp;
 }
 
 int	size_env(t_env *a)

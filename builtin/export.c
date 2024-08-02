@@ -45,7 +45,8 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 {
 	t_env	*node;	
 	char	*tmp;
-
+	if (var == NULL || var->var == NULL)
+		return ;
 	node = point_node(*env, var->var);
 	if (!node)
 		add_to_export(env, var);
@@ -64,7 +65,10 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 		}
 		else
 			if (node->variable && var->val)
+			{
+				free(node->value);
 				node->value = var->val;
+			}
 	}
 }
 
@@ -83,6 +87,10 @@ void	export(t_env **env, char **cmd, int i, t_var *var)
 			if (check_special_char_export(var->var) == 0
 				|| !var || var->egal == -1)
 			{
+				free(var->var);
+				free(var->val);
+				var->var = NULL;
+				var->val = NULL;
 				printf("minishell: export: `%s': not a valid identifier\n",
 					cmd[i]);
 				i++;

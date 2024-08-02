@@ -38,6 +38,7 @@ char	*copy_the_r_her(t_word *token, t_env **envirment, int *sign, int old_i)
 		return (NULL);
 	new = ft_strjoin((*envirment)->expansion, no_expand);
 	free((*envirment)->expansion);
+	free(no_expand);
 	(*envirment)->expansion = new;
 	// printf("5 : %s\n", (*envirment)->value);
 	return ((*envirment)->expansion);
@@ -46,10 +47,8 @@ char	*copy_the_r_her(t_word *token, t_env **envirment, int *sign, int old_i)
 char	*copy_the_rest_her(t_word *token, t_env *envirment, int *sign)
 {
 	int		old_i;
-	char	*rest;
 	int		length;
 
-	rest = NULL;
 	old_i = envirment->i;
 	length = dollar_length_her(token, &envirment);
 	if (length % 2 != 0)
@@ -68,9 +67,9 @@ char	*copy_the_rest_her(t_word *token, t_env *envirment, int *sign)
 		}
 		envirment->i++;
 	}
-	rest = copy_the_r_her(token, &envirment, sign, old_i);
-	if (rest == NULL)
+	if (copy_the_r_her(token, &envirment, sign, old_i) == NULL)
 		return (NULL);
+
 	// printf("4 : %s\n", envirment->value);
 	return (envirment->expansion);
 }
@@ -80,13 +79,21 @@ char	*copy_in_sub_her(t_word *token, t_env *env, int *sign, t_variable *varr)
 	int		old_i;
 	char	*no_expand;
 	char	*new;
+	char	*tmp;
 
 	if (env->expansion == NULL)
 		env->expansion = ft_substr(token->line, 0, env->i - 2);
+	tmp = env->expansion;
 	if (token->line[env->i - 1] == '0')
+	{
 		env->expansion = ft_strjoin(env->expansion, "minishell");
+		free(tmp);
+	}
 	if (token->line[env->i - 1] == '?')
+	{
 		env->expansion = ft_strjoin(env->expansion, ft_itoa(varr->var.status));
+		free(tmp);
+	}
 	old_i = env->i;
 	while (check_char_expand(token->line[env->i]) == 1 && *sign != 1)
 	{
@@ -118,7 +125,9 @@ char	*replace_her(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 {
 	char	*new;
 	int		old_i;
-	
+	char	*tmp;
+
+	tmp = NULL;
 	token->old_word = NULL;
 	new = NULL;
 	old_i = envirment->i;
@@ -140,7 +149,21 @@ char	*replace_her(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 			break ;
 		envirment->i++;
 	}
-	token->old_word = ft_substr(token->line, old_i - 1, envirment->i - old_i + 1);
+	tmp = ft_substr(token->line, old_i - 1, envirment->i - old_i + 1);
+	if (tmp == NULL)
+		return (NULL);
+	if (token->old_word == NULL)
+		token->old_word = tmp;
+	else
+	{
+		char *new_word = ft_strjoin(token->old_word, tmp);
+		if (new_word != NULL) {
+			free(token->old_word);
+			token->old_word = new_word;
+		}
+		if (tmp)
+			free(tmp);
+	}
 	if (token->line[envirment->i] == '"' && *sign == 2
 		&& token->line[envirment->i - 1] == '$')
 		envirment->i--;
@@ -155,6 +178,7 @@ void expand_line_her(t_word *token, t_env *envirment, int *sign)
 	char	*name;
 	t_env	*env_node;
 	int length;
+	char	*tmp;
 
 	length = dollar_length_her(token, &envirment);
 	if ((ft_isdigit(token->line[envirment->i]) == 1)
@@ -162,7 +186,9 @@ void expand_line_her(t_word *token, t_env *envirment, int *sign)
 	{
 		ft_check_quotes(token->line[envirment->i], sign);
 		envirment->i++;
+		tmp = envirment->expansion;
 		envirment->expansion = copy_in_sub_her(token, envirment, sign, NULL);
+		free(tmp);
 	}
 	else if (length % 2 != 0 && *sign != 1	
 		&& is_expand(token->line[envirment->i]) == 1)
@@ -172,10 +198,14 @@ void expand_line_her(t_word *token, t_env *envirment, int *sign)
 			return ;
 		env_node = point_node(envirment, name);
 		free(name);
+		tmp = envirment->expansion;
 		envirment->expansion = replace_her(token, envirment, env_node, sign);
-		
 		if (envirment->expansion == NULL)
+		{
+			free(tmp);
 			return ;
+		}
+		free(tmp);
 	}
 }
 
@@ -187,9 +217,7 @@ void	ft_is_expand_her(t_word *token, t_env *envirment, int *sign)
 	{
 		ft_check_quotes(token->line[envirment->i], sign);
 		if (token->line[envirment->i] == '$' && *sign != 1)
-		{
 			expand_line_her(token, envirment, sign);
-		}
 		else
 			envirment->i++;
 	}

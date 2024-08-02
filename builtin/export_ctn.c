@@ -31,6 +31,8 @@ void	display_list_export(t_env *a)
 
 void	check_get_variabl(char *line, int *egal, char *variable, int *i)
 {
+	if (line == NULL)
+		return ;
 	while (line[*i])
 	{
 		if (line[*i] == '+' || line[*i] == '=')

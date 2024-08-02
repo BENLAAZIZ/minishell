@@ -65,11 +65,13 @@ int	size_node(t_cmd_node *a)
 	if (!a)
 		return (-1);
 	size = 0;
+	t_cmd_node *tmp = a;
 	while (a)
 	{
 		size++;
 		a = a -> next;
 	}
+	a = tmp;
 	return (size);
 }
 

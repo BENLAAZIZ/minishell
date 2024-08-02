@@ -20,5 +20,6 @@ int	pwd(void)
 	if (s == NULL)
 		return (perror(""), 1);
 	printf("%s\n", s);
+	free(s);
 	return (0);
 }

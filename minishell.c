@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/01 19:12:44 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:51:10 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	display_node(t_cmd_node *node)
 		
 }
 
-
+int t = 0;
 void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
 {
 	while (1)
@@ -132,11 +132,13 @@ void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
 			continue ; 
 		}
 		word_expand(varr->token, *env, varr);
-		if (varr->token->value && varr->token->value[0] == '\0')
-		{
-			free_data(varr);
-			continue ; 
-		}
+		// if (varr->token->value)
+		// {
+		// 	ft_lstclear_token(&varr->token);
+		// 	free_data(varr);
+		// 	continue ; 
+		// }
+		// exit(0);
 		if (remove_quotes(varr->token, 0, 0, 0) == 0)
 		{
 			varr->var.status = 1;
@@ -146,6 +148,7 @@ void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
 		}
 		if (execute_line(env, varr) == -1)
 		{
+			ft_lstclear_cmd(&varr->node);
 			ft_lstclear_token(&varr->token);
 			free_data(varr);
 			continue ;
@@ -159,7 +162,7 @@ void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
 	close(4);
 	ft_lstclear_token(&varr->token);
 	ft_lstclear_env(env);
-	ft_lstclear_cmd(&varr->node);
+	ft_lstclear_cmd(&varr->node);   
 	free(varr->line);
 	close(varr->fd_stdout);
 	close(varr->fd_stdin);

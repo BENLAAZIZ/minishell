@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/02 21:14:22 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:03:14 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ typedef enum e_type
 	NO_F = 12,
 	IS_D = 13,
 	PRM_D = 14,
-	OMB_R = 15
+	OMB_R = 15,
+	NO_V = 16,
+	UNS = 17,
+	EXT = 18
 }	t_type;
 
 typedef struct  s_red_node
@@ -127,6 +130,7 @@ int	ft_countword(char const *s, char c);
 
 //signlas
 void handle_siginit(int sig);
+void	ft_builtin_error(char *error, int flag, int i);
 
 //expand
 void	word_expand_her(t_word *token, t_env *envirment);

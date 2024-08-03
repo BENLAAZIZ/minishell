@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/18 16:48:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 10:58:07 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 		}
 		else if (var->egal == -1)
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", str);
+			// printf("minishell: export: `%s': not a valid identifier\n", str);
+			ft_perror_h(str, NO_V);
+			ft_builtin_error(str, 16, -1);
 			var->status = 1;
 		}
 		else
@@ -91,8 +93,9 @@ void	export(t_env **env, char **cmd, int i, t_var *var)
 				free(var->val);
 				var->var = NULL;
 				var->val = NULL;
-				printf("minishell: export: `%s': not a valid identifier\n",
-					cmd[i]);
+				// printf("minishell: export: `%s': not a valid identifier\n",
+				// 	cmd[i]);
+				ft_builtin_error(cmd[i], 16, -1);
 				i++;
 				var->status = 1;
 				continue ;

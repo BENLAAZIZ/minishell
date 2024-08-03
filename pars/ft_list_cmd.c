@@ -65,6 +65,51 @@ int	lenght_cmds(t_word	*token)
 	return (size);
 }
 
+// char	**add_cmds_files(t_word	**token)
+// {
+// 	char	**cmds;
+// 	int		j;
+// 	int		x;
+
+// 	if (*token == NULL)
+// 		return (NULL);
+// 	cmds = (char **)malloc(sizeof(char *) * (lenght_cmds(*token) + 1));
+// 	if (cmds == NULL)
+// 		return (NULL);
+// 	j = 0;
+// 	while ((*token) != NULL && (*token)->type != PIPE)
+// 	{
+// 		x = 0;
+// 		if (check_red((*token)->type) == 1) 
+// 		{
+// 			*token = (*token)->next;
+// 			if ((*token) != NULL)
+// 				*token = (*token)->next;
+// 		}
+// 		else
+// 		{
+// 			if ((*token)->is_expand == 1 && (*token)->val_noquotes[0] != '\0')
+// 			{
+// 				(*token)->split_value = ft_split((*token)->val_noquotes, ' ');
+// 				if ((*token)->split_value == NULL)
+// 					return (NULL);
+// 				while ((*token)->split_value[x] != NULL)
+// 				{
+// 					cmds[j] = (*token)->split_value[x];
+// 					x++;
+// 					j++;
+// 				}
+// 			}
+// 			else
+// 				cmds[j++] = (*token)->val_noquotes;
+// 			*token = (*token)->next;
+// 		}
+// 		cmds[j] = NULL;
+// 	}
+// 	return (cmds);
+// }
+
+
 char	**add_cmds_files(t_word	**token)
 {
 	char	**cmds;
@@ -88,16 +133,19 @@ char	**add_cmds_files(t_word	**token)
 		}
 		else
 		{
-			if ((*token)->is_expand == 1 && (*token)->val_noquotes[0] != '\0')
+			if ((*token)->is_expand == 1)
 			{
-				(*token)->split_value = ft_split((*token)->val_noquotes, ' ');
-				if ((*token)->split_value == NULL)
-					return (NULL);
-				while ((*token)->split_value[x] != NULL)
+				if ((*token)->val_noquotes && (*token)->val_noquotes[0] != '\0')
 				{
-					cmds[j] = (*token)->split_value[x];
-					x++;
-					j++;
+					(*token)->split_value = ft_split((*token)->val_noquotes, ' ');
+					if ((*token)->split_value == NULL)
+						return (NULL);
+					while ((*token)->split_value[x] != NULL)
+					{
+						cmds[j] = (*token)->split_value[x];
+						x++;
+						j++;
+					}
 				}
 			}
 			else
@@ -133,6 +181,5 @@ void	ft_list_cmd(t_word	*token, t_cmd_node **cmd, t_env *env)
 			tmp = token;
 		}
 	}
-	// display_node(*cmd);
 	token = tmp2;
 }

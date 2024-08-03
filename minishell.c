@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/02 20:51:10 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:05:09 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,7 @@ void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
 	close(4);
 	ft_lstclear_token(&varr->token);
 	ft_lstclear_env(env);
-	ft_lstclear_cmd(&varr->node);   
 	free(varr->line);
-	close(varr->fd_stdout);
-	close(varr->fd_stdin);
 }
 
 void	v()
@@ -201,9 +198,6 @@ int	main(int argc, char *argv[], char **ev)
 	rl_catch_signals = 0;
 	signal(SIGINT, handle_siginit);
 	signal(SIGQUIT, handle_siginit);
-	// varr.node = NULL;
-	// varr.token = NULL;
-	// varr.line = NULL;
 	env = NULL;
 	varr.fd_stdin = dup(0);
 	varr.fd_stdout = dup(1);

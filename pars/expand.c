@@ -157,7 +157,7 @@ int is_expand(char c)
 	if ((c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z')
 		|| (c >= '0' && c <= '9')
-		|| c == '_' || c == '"')
+		|| c == '_' || c == '"' || c == '\'')
 		return (1);
 	return (0);
 }
@@ -242,6 +242,12 @@ void expand_line(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 	else if (length % 2 != 0 && *sign != 1	
 		&& is_expand(token->value[envirment->i]) == 1)
 	{
+		// printf("[%d]\n", *sign);
+		// if ((token->value[envirment->i] == '"' || token->value[envirment->i] == '\'') && *sign == 0)
+		// {
+		// 	ft_check_quotes(token->value[envirment->i])
+		// 	envirment->expansion = copy_the_rest(token, envirment, sign);
+		// }
 		name = expand_value(token->value + envirment->i);
 		if (name == NULL)
 			return ;

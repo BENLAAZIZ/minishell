@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:17:46 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 11:01:34 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:49:38 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,8 @@ void	ft_exit(char **cmd, t_var *var, t_env **env)
 		var->status = ft_atoi(cmd[1], var);
 		if (ft_strncmp(var->fil, "11", 3) == 0)
 			ft_builtin_error(cmd[1], 18, 2);
-			// printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
 		else
 		{
-			// printf("minishell: exit: too many arguments\n");
-			// ft_builtin_error(cmd[1], 100, 100);
 			ft_builtin_error(cmd[1], 18, -1);
 			var->status = 1;
 			return ;
@@ -36,7 +33,6 @@ void	ft_exit(char **cmd, t_var *var, t_env **env)
 		var->status = ft_atoi(cmd[1], var);
 		if (ft_strncmp(var->fil, "11", 3) == 0)
 			ft_builtin_error(cmd[1], 18, 2);
-			// printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
 	}
 	ft_lstclear_env(env);
 	exit((unsigned char)(var->status));

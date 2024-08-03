@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 10:58:07 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:53:18 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_special_char_export(char *str)
+int	check_special_c(char *str)
 {
 	int	i;
 
@@ -45,6 +45,7 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 {
 	t_env	*node;	
 	char	*tmp;
+
 	if (var == NULL || var->var == NULL)
 		return ;
 	node = point_node(*env, var->var);
@@ -60,17 +61,12 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 		}
 		else if (var->egal == -1)
 		{
-			// printf("minishell: export: `%s': not a valid identifier\n", str);
-			ft_perror_h(str, NO_V);
-			ft_builtin_error(str, 16, -1);
+			ft_builtin_error(str, NO_V, -1);
 			var->status = 1;
 		}
 		else
 			if (node->variable && var->val)
-			{
-				free(node->value);
-				node->value = var->val;
-			}
+				(free(node->value), (node->value = var->val));
 	}
 }
 
@@ -86,15 +82,11 @@ void	export(t_env **env, char **cmd, int i, t_var *var)
 		{
 			var->var = get_variabl_export(cmd[i], &var->egal);
 			var->val = get_value(cmd[i]);
-			if (check_special_char_export(var->var) == 0
-				|| !var || var->egal == -1)
+			if (check_special_c(var->var) == 0 || !var || var->egal == -1)
 			{
-				free(var->var);
-				free(var->val);
+				(free(var->var), free(var->val));
 				var->var = NULL;
 				var->val = NULL;
-				// printf("minishell: export: `%s': not a valid identifier\n",
-				// 	cmd[i]);
 				ft_builtin_error(cmd[i], 16, -1);
 				i++;
 				var->status = 1;

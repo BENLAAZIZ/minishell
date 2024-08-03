@@ -242,12 +242,6 @@ void expand_line(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 	else if (length % 2 != 0 && *sign != 1	
 		&& is_expand(token->value[envirment->i]) == 1)
 	{
-		// printf("[%d]\n", *sign);
-		// if ((token->value[envirment->i] == '"' || token->value[envirment->i] == '\'') && *sign == 0)
-		// {
-		// 	ft_check_quotes(token->value[envirment->i])
-		// 	envirment->expansion = copy_the_rest(token, envirment, sign);
-		// }
 		name = expand_value(token->value + envirment->i);
 		if (name == NULL)
 			return ;
@@ -267,18 +261,26 @@ void expand_line(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 	}
 }
 
-void	ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr)
+void    ft_is_expand(t_word *token, t_env *envirment, int *sign, t_variable *varr)
 {
-	if (token == NULL || token->value == NULL || envirment == NULL)
-		return ;
-	while (token->value[envirment->i])
-	{
-		ft_check_quotes(token->value[envirment->i], sign);
-		if (token->value[envirment->i] == '$' && *sign != 1)
-			expand_line(token, envirment, sign, varr);
-		else
-			envirment->i++;
-	}
+    if (token == NULL || token->value == NULL || envirment == NULL)
+        return ;
+    while (token->value[envirment->i])
+    {
+        ft_check_quotes(token->value[envirment->i], sign);
+        if(*sign == 0 && token->value[envirment->i] == '$'
+                && (token->value[envirment->i + 1] == '\''
+            || token->value[envirment->i + 1] == '"') )
+            {
+                char *tmp = token->value;
+                token->value = ft_strdup(token->value + 1);
+                free(tmp);
+            }
+        else if (token->value[envirment->i] == '$' && *sign != 1)
+            expand_line(token, envirment, sign, varr);
+        else
+            envirment->i++;
+    }
 }
 
 void	word_expand(t_word *token, t_env *envirment, t_variable *varr)

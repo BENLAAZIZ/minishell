@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:39:55 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 10:54:54 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:52:46 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,7 @@ int	change_env(t_env **env, t_env *home, char *oldpwd)
 		home->value = pwd;
 	}
 	else
-	{
-		free(pwd);
-		free(oldpwd);
-		return (1);
-	}
+		return (free(pwd), free(oldpwd), 1);
 	return (0);
 }
 
@@ -47,7 +43,6 @@ int	check_chdir(char *str)
 {
 	if (chdir(str) != 0)
 	{
-		// printf("minishell: cd: %s: No such file or directory\n", str);
 		ft_builtin_error(str, NO_F, 0);
 		return (1);
 	}
@@ -74,10 +69,7 @@ int	cd(char **cmd, t_env **env)
 	else
 	{
 		if (check_chdir(cmd[1]) == 1)
-		{
-			free(oldpwd);
-			return (1);
-		}
+			return (free(oldpwd), 1);
 	}
 	if (change_env(env, home, oldpwd) == 1)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/01 08:41:03 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:08:23 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,13 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 
 int	size_node(t_cmd_node *a)
 {
-	int		size;
+	t_cmd_node	*tmp;
+	int			size;
 
+	tmp = a;
 	if (!a)
 		return (-1);
 	size = 0;
-	t_cmd_node *tmp = a;
 	while (a)
 	{
 		size++;

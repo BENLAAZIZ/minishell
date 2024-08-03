@@ -6,11 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 16:44:23 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 13:15:15 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int check_signal = 1;
 
 int	is_quote(char *limiter)
 {
@@ -29,7 +31,12 @@ int	is_quote(char *limiter)
 void	signlas_heredoc(int sig)
 {
 	if (sig == SIGINT)
-		close(0);
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		check_signal = 0;
+		close (0);
+	}
 }
 
 int	check_limiter(t_word	*token, t_env *env, char *l, char *l_nq)
@@ -54,6 +61,7 @@ void	here_doc(char *l, char *l_nq, t_cmd_node *node, t_env *env)
 		return ;
 	token->line = NULL;
 	token->next = NULL;
+	token->old_word = NULL;
 	node->fd_herd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 	fd = open("herd.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
@@ -65,13 +73,23 @@ void	here_doc(char *l, char *l_nq, t_cmd_node *node, t_env *env)
 	signal(SIGINT, signlas_heredoc);
 	while (1)
 	{
+		if (check_signal == 0)
+			break;
 		token->line = readline("> ");
+		if (token->line == NULL) 
+			close(0);
+		if (check_signal == 0)
+		{
+			close(0);
+			break;
+		}
 		if (check_limiter(token, env, l, l_nq) == 1)
 			break ;
 		write(fd, token->line, ft_strlen(token->line));
 		(write(fd, "\n", 1), free(token->line), free(token->old_word));
 	}
+	check_signal = 1;
 	signal(SIGINT, handle_siginit);
-	(close(fd), free(token->line), free(token->old_word));
+	(close(fd), free(token->line));
 	free(token);
 }

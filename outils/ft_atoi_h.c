@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/01 17:29:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:44:24 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ long	ft_atoi(const char *str, t_var *var)
 	if (check_number(str) == 0)
 	{
 		var->fil = ft_strdup("11");
-		return (0);
+		return (255);
 	}
 	check_sin(str, &i, &s);
 	while (str[i] >= '0' && str[i] <= '9')

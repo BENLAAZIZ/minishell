@@ -40,7 +40,6 @@ char	*copy_the_r_her(t_word *token, t_env **envirment, int *sign, int old_i)
 	free((*envirment)->expansion);
 	free(no_expand);
 	(*envirment)->expansion = new;
-	// printf("5 : %s\n", (*envirment)->value);
 	return ((*envirment)->expansion);
 }
 
@@ -69,8 +68,6 @@ char	*copy_the_rest_her(t_word *token, t_env *envirment, int *sign)
 	}
 	if (copy_the_r_her(token, &envirment, sign, old_i) == NULL)
 		return (NULL);
-
-	// printf("4 : %s\n", envirment->value);
 	return (envirment->expansion);
 }
 
@@ -110,7 +107,6 @@ char	*copy_in_sub_her(t_word *token, t_env *env, int *sign, t_variable *varr)
 	env->expansion = new;
 	free(no_expand);
 	env->expansion = copy_the_rest_her(token, env, sign);
-	// printf("3 : %s\n", env->value);
 	return (env->expansion);
 }
 
@@ -168,16 +164,15 @@ char	*replace_her(t_word *token, t_env *envirment, t_env *env_node, int *sign)
 		&& token->line[envirment->i - 1] == '$')
 		envirment->i--;
 	envirment->expansion = copy_the_rest_her(token, envirment, sign);
-	// printf("2 : %s\n", envirment->value);
 	return (envirment->expansion);
 }
 
 
-void expand_line_her(t_word *token, t_env *envirment, int *sign)
+void	expand_line_her(t_word *token, t_env *envirment, int *sign)
 {
 	char	*name;
 	t_env	*env_node;
-	int length;
+	int 	length;
 	char	*tmp;
 
 	length = dollar_length_her(token, &envirment);

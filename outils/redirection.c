@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 11:34:45 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 13:04:06 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int	chek_permession(char *str, int is_exp)
 		if (S_ISDIR(st.st_mode))
 			return (ft_perror_h(str, IS_D), -1);
 		else if (access(str, W_OK))
-		{
 			return (ft_perror_h(str, PRM_D), -1);
-			// ft_perror_h(str, PRM_D);
-		}
 	}
 	return (0);
 }

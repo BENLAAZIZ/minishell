@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 10:04:29 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:21:17 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	make_one_process(t_env **env, t_variable *varr)
 	b = built_functions(env, &varr->var, varr);
 	if (b == -1)
 	{
-		
 		pid = fork();
 		if (pid == 0)
 			ft_execute(varr->node->command, &varr->data, varr);
@@ -117,6 +116,9 @@ int	execute_line(t_env **env, t_variable *varr)
 	{
 		if (make_one_process(env, varr) == -1)
 		{
+			ft_lstclear_cmd(&varr->node);
+			ft_lstclear_token(&varr->token);
+			free_data(varr);
 			return (-1);
 		}
 	}

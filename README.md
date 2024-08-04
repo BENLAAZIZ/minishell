@@ -2,6 +2,9 @@
 
 In our extensive and critical project within the 42 network, we are tasked with developing a sophisticated command interpreter that emulates the functionality of bash. This minishell will manage environment variables, launch programs, and handle their return values. Additionally, it will include several built-in functions such as **`cd`**, **`echo`**, **`env`**, **`exit`**, **`export`**, **`pwd`**, and **`unset`**. This ambitious and lengthy endeavor is a cornerstone of our curriculum, reflecting the depth and complexity expected in our training.
 
+<img width="1963" alt="Screen Shot 2024-08-04 at 1 31 14 PM" src="https://github.com/user-attachments/assets/a7c1e795-cef4-4550-bf5f-de1cf16439a9">
+
+
 ## builtin functions 
 
 

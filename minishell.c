@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 15:16:10 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:11:41 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,8 @@ int	check_empty_line(t_variable *varr, t_env **env)
 	if (varr->line[0] == '\0')
 	{
 		free_data(varr);
-		rl_clear_history();
 		return (-1);
 	}
-	add_history(varr->line);
 	rl_redisplay();
 	return (0);
 }
@@ -94,6 +92,7 @@ void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
 		if (!varr->line || varr->line[0] == '\0')
 			if (check_empty_line(varr, env) == -1)
 				continue ;
+		add_history(varr->line);
 		if (ft_pars(varr, env) == -1)
 			continue ;
 		if (execute_line(env, varr) == -1)

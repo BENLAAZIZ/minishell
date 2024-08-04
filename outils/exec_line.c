@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 14:21:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:04:57 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	make_one_process(t_env **env, t_variable *varr)
 {
 	int	b;
-	int	pid;
 
 	varr->node->flag_r = 0;
 	varr->var.status = 0;
@@ -28,11 +27,15 @@ int	make_one_process(t_env **env, t_variable *varr)
 	b = built_functions(env, &varr->var, varr);
 	if (b == -1)
 	{
-		pid = fork();
-		if (pid == 0)
+		signal(SIGINT, signal_in_child);
+		varr->pid = fork();
+		if (varr->pid == 0)
+		{
 			ft_execute(varr->node->command, &varr->data, varr);
-		varr->id = pid;
+		}
+		varr->id = varr->pid;
 		wait_function(varr->nbr_node, varr);
+		signal(SIGINT, handle_siginit);
 	}
 	return (0);
 }
@@ -74,8 +77,7 @@ int	check_redirection(t_variable *varr)
 
 void	make_all_process(t_env **env, t_variable *varr, int c)
 {
-	t_cmd_node	*tmp;
-	int			pid;
+	t_node		*tmp;
 
 	varr->var.status = 0;
 	tmp = varr->node;
@@ -85,12 +87,13 @@ void	make_all_process(t_env **env, t_variable *varr, int c)
 			perror("pipe fail :");
 		varr->node->flag_r = 0;
 		c = check_redirection(varr);
+		signal(SIGINT, signal_in_child);
 		if (c != -1)
 		{
-			pid = fork();
-			if (pid == 0)
+			varr->pid = fork();
+			if (varr->pid == 0)
 				in_child_process(env, varr);
-			varr->id = pid;
+			varr->id = varr->pid;
 		}
 		else
 			varr->var.status = 1;
@@ -104,11 +107,11 @@ void	make_all_process(t_env **env, t_variable *varr, int c)
 int	execute_line(t_env **env, t_variable *varr)
 {
 	if (varr->token == NULL || check_syntax(varr->token) == 1)
-	{
-		varr->var.status = 258;
-		return (-1);
-	}
+		return (varr->var.status = 258, -1);
+	(*env)->status = varr->var.status;
 	ft_list_cmd (varr->token, &varr->node, *env);
+	if (signal_hdoc(2) == 1)
+		return (signal_hdoc(0), -1);
 	varr->tmp_node = varr->node;
 	varr->nbr_node = size_node(varr->node);
 	add_history(varr->line);
@@ -118,14 +121,14 @@ int	execute_line(t_env **env, t_variable *varr)
 		{
 			ft_lstclear_cmd(&varr->node);
 			ft_lstclear_token(&varr->token);
-			free_data(varr);
-			return (-1);
+			return (free_data(varr), -1);
 		}
 	}
 	else
 	{
 		make_all_process(env, varr, 1);
 		wait_function(varr->nbr_node, varr);
+		signal(SIGINT, handle_siginit);
 	}
 	return (0);
 }

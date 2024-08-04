@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/02 21:13:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:32:26 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,20 @@ void	ft_execute(char **cmd, t_path *data, t_variable *varr)
 		exit(varr->var.status);
 	if (!cmd)
 		ft_perror_h(" ", CM_NF);
+	if (cmd[0][0] == '.' && cmd[0][1] == '\0')
+	{
+		if (cmd[1])
+		{
+			printf("1");
+			varr->var.status = 1;
+		}
+		else
+		{
+			printf("2");
+			varr->var.status = 2;
+		}
+		return ;
+	}
 	else if (ft_strchr(cmd[0], '/') != NULL)
 	{
 		if (check_is_directory(cmd[0], varr) == -1)

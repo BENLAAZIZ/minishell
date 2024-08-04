@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_h.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 17:08:23 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/04 13:38:39 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 		last->next = new;
 }
 
-int	size_node(t_cmd_node *a)
+int	size_node(t_node *a)
 {
-	t_cmd_node	*tmp;
-	int			size;
+	int		size;
+	t_node	*tmp;
 
-	tmp = a;
 	if (!a)
 		return (-1);
 	size = 0;
+	tmp = a;
 	while (a)
 	{
 		size++;

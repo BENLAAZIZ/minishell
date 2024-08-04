@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/04 12:06:19 by aaaraba           #+#    #+#             */
+/*   Updated: 2024/08/04 12:06:20 by aaaraba          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_countword(char const *s, char c)
@@ -71,14 +83,12 @@ static int	len_worlds(char const *s, char c)
 	return (j);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c, int sign)
 {
 	char	**array;
 	int		size;
 	int		i;
-	int		sign;
 
-	sign = 0;
 	size = ft_countword(s, c);
 	if (s == NULL || size == 0)
 		return (NULL);
@@ -95,10 +105,7 @@ char	**ft_split(char const *s, char c)
 		}
 		array[i] = allocate_string(s, 0, len_worlds(s, c));
 		if (array[i] == NULL)
-		{
-			ft_free_split(array, i);
-			return (0);
-		}
+			return (ft_free_split(array, i), NULL);
 		s = s + len_worlds(s, c);
 	}
 	array[i] = NULL;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_function.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/04 11:56:59 by aaaraba           #+#    #+#             */
+/*   Updated: 2024/08/04 13:26:29 by aaaraba          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_lstclear_token(t_word **list)
@@ -42,9 +54,10 @@ void	ft_lstclear_red(t_red_node **list)
 	}
 	*list = NULL;
 }
-void	ft_lstclear_cmd(t_cmd_node **list)
+
+void	ft_lstclear_cmd(t_node **list)
 {
-	t_cmd_node	*tmp;
+	t_node	*tmp;
 
 	if (list == NULL || (*list) == NULL)
 		return ;

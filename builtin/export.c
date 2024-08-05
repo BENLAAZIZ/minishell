@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:25:32 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 		{
 			tmp = node->value;
 			node->value = ft_strjoin(tmp, var->val);
-			free(tmp);
+			(free(tmp), free(var->val));
 		}
 		else if (var->egal == -1)
 		{
@@ -80,6 +80,7 @@ void	export(t_env **env, char **cmd, int i, t_var *var)
 	{
 		while (cmd[i])
 		{
+			var->egal = 0;
 			var->var = get_variabl_export(cmd[i], &var->egal);
 			var->val = get_value(cmd[i]);
 			if (check_special_c(var->var) == 0 || !var || var->egal == -1)
@@ -88,9 +89,7 @@ void	export(t_env **env, char **cmd, int i, t_var *var)
 				var->var = NULL;
 				var->val = NULL;
 				ft_builtin_error(cmd[i], 16, -1);
-				i++;
 				var->status = 1;
-				continue ;
 			}
 			else
 				export_suit(env, var, cmd[i]);

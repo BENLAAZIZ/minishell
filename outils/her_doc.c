@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 14:46:48 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:39:09 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ int	here_doc(char *l, char *l_nq, t_node *node, t_env *env)
 	signal(SIGINT, signlas_heredoc);
 	while (1)
 	{
-		if (signal_hdoc(2) == 1)
-			return (close(fd), close(node->fd_herd), -1);
 		token->line = readline("> ");
 		if (check_limiter(token, env, l, l_nq) == 1)
 			break ;
 		write(fd, token->line, ft_strlen(token->line));
 		(write(fd, "\n", 1), free(token->line), free(token->old_word));
 	}
+	if (signal_hdoc(2) == 1)
+		return (close(fd), close(node->fd_herd), free(token), -1);
 	signal(SIGINT, handle_siginit);
 	(close(fd), free(token->line));
 	free(token);

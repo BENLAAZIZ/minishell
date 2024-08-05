@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 11:51:37 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:55:15 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	lenght_no_quotes(t_word *token)
 	quotes = 0;
 	sign = 0;
 	i = 0;
-	length = strlen(token->value);
+	length = ft_strlen(token->value);
 	if (token->value[0] != '"')
 	{
 		if (length > 1 && token->value[length - 1] == '"')
@@ -79,7 +79,7 @@ int	remove_quotes(t_word *token, int sign, int i, int j)
 		return (0);
 	while (token)
 	{
-		length = strlen(token->value);
+		length = ft_strlen(token->value);
 		i = 0;
 		j = 0;
 		sign = 0;

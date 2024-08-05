@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:15:33 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:43:23 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*copy_the_rest(t_word *token, t_env *env, int *sign)
 char	*sp_case_helper(t_word *token, t_env *env, t_box *data)
 {
 	char	*tmp;
+	char	*status;
 
 	tmp = env->expansion;
 	if (token->value[env->i - 1] == '0')
@@ -79,9 +80,11 @@ char	*sp_case_helper(t_word *token, t_env *env, t_box *data)
 		env->expansion = ft_strjoin(env->expansion, "minishell");
 		free(tmp);
 	}
-	if (token->value[env->i - 1] == '?')
+	else if (token->value[env->i - 1] == '?')
 	{
-		env->expansion = ft_strjoin(env->expansion, ft_itoa(data->var.status));
+		status = ft_itoa(data->var.status);
+		env->expansion = ft_strjoin(env->expansion, status);
+		free(status);
 		free(tmp);
 	}
 	return (env->expansion);

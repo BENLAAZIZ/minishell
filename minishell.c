@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 12:57:55 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:45:14 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_pars(t_box *box, t_env **env)
 	if (check_quotes(box->line) == 1)
 	{
 		free_data(box);
+		box->var.status = 258;
 		return (-1);
 	}
 	box->token = ft_list_tokn(box->line, box->token, *env);

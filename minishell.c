@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:52:33 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:57:55 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,11 @@ void	ft_minishell(t_env **env, t_box *box, struct termios *term)
 		if (ft_pars(box, env) == -1)
 			continue ;
 		if (execute_line(env, box) == -1)
+		{
+			free_data(box);
+			ft_lstclear_token(&box->token);
 			continue ;
+		}
 		free_data(box);
 		ft_lstclear_cmd(&box->node);
 		ft_lstclear_token(&box->token);

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:24:21 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,22 @@ int	open_file_herd(t_node *node, t_word *token, int *fd)
 	return (0);
 }
 
-void	here_doc(char *l, char *l_nq, t_node *node, t_env *env)
+int	here_doc(char *l, char *l_nq, t_node *node, t_env *env)
 {
 	t_word	*token;
 	int		fd;
 
 	token = (t_word *)malloc(sizeof(t_word));
 	if (token == NULL)
-		return ;
+		return (0);
 	if (open_file_herd(node, token, &fd) == -1)
-		return ;
+		return (-1);
 	signal(SIGINT, signlas_heredoc);
 	while (1)
 	{
 		if (signal_hdoc(2) == 1)
-			break ;
+			return (close(fd), close(node->fd_herd), -1);
+			// break ;
 		token->line = readline("> ");
 		if (check_limiter(token, env, l, l_nq) == 1)
 			break ;
@@ -87,4 +88,5 @@ void	here_doc(char *l, char *l_nq, t_node *node, t_env *env)
 	signal(SIGINT, handle_siginit);
 	(close(fd), free(token->line));
 	free(token);
+	return(0);
 }

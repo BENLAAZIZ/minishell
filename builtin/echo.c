@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:38:20 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	echo(char **cmd, int i, t_box *box)
 		if (cmd[index + 1] && cmd[index][0])
 			write(1, " ", 1);
 	}
-	fflush(stdout);
 	if (!newline)
 		write(1, "\n", 1);
 	box->var.status = 0;

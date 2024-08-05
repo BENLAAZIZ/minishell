@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:18:00 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,10 @@ int	execute_line(t_env **env, t_box *box)
 	if (box->token == NULL || check_syntax(box->token) == 1)
 		return (box->var.status = 258, -1);
 	(*env)->status = box->var.status;
-	ft_list_cmd (box->token, &box->node, *env);
+	if (ft_list_cmd (box->token, &box->node, *env) == -1)
+		return (ft_lstclear_cmd(&box->node), -1);
 	if (signal_hdoc(2) == 1)
-		return (signal_hdoc(0), -1);
+		return (ft_lstclear_cmd(&box->node), signal_hdoc(0), -1);
 	box->tmp_node = box->node;
 	box->nbr_node = size_node(box->node);
 	add_history(box->line);
@@ -120,8 +121,7 @@ int	execute_line(t_env **env, t_box *box)
 		if (make_one_process(env, box) == -1)
 		{
 			ft_lstclear_cmd(&box->node);
-			ft_lstclear_token(&box->token);
-			return (free_data(box), -1);
+			return (-1);
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:46:56 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:00:39 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char	*replace_her(t_word *token, t_env *env, t_env *env_node, int *sign);
 t_word	*ft_list_tokn(char *all_command, t_word *token, t_env *env);
 t_word	*ft_addlist_token(char *word);
 void	word_expand_her(t_word *token, t_env *env);
-void	here_doc(char *limiter, char *limiter_nq, t_node *node, t_env *env);
+int	here_doc(char *limiter, char *limiter_nq, t_node *node, t_env *env);
 void	ft_lstaddback_token(t_word **list, t_word*new_node);
 int		dollar_length(t_word *token, t_env **env);
 char	*replace_helper(t_word *token, t_env **env, t_env *env_node, int *sign);
@@ -220,8 +220,8 @@ int		exec_cmd(char **cmd, t_path *data);
 
 // ===================== list pipe  ===============================
 
-void	list_file(t_word *token, t_red_node **files, t_node *node, t_env *env);
-void	ft_list_cmd(t_word	*token, t_node **cmd, t_env *env);
+int		list_file(t_word *token, t_red_node **files, t_node *node, t_env *env);
+int		ft_list_cmd(t_word	*token, t_node **cmd, t_env *env);
 int		size_node(t_node *a);
 
 // ===================== LIBFT  ===============================

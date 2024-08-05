@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:17:46 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 18:28:18 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:19:28 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	ft_exit(char **cmd, t_var *var, t_env **env)
 
 	var->fil = "NULL";
 	var->status = 0;
+	if (!cmd[1])
+		exit((unsigned char)(var->status));
 	array = ft_splith(cmd[1], ' ');
 	if (!array)
 	{

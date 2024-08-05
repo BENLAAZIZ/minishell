@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_hdoc_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 10:47:25 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/04 13:33:33 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*cpy_the_rest_2(t_word *token, t_env **env, int *sign, int old_i)
 {

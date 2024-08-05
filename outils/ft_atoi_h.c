@@ -6,11 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:53 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 11:44:24 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*ft_strchr(const char *s, int c)
 {

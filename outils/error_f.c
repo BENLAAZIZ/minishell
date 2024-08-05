@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error_f.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/04 13:39:57 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_perror_h(char *error, int flag)
 {
@@ -30,6 +30,12 @@ void	ft_perror_h(char *error, int flag)
 
 void	ft_builtin_erro_suit(char *error, int flag, int i)
 {
+	if (flag == FN && i == 3)
+	{
+		write(2, "minishell: .", 12);
+		write(2, ": filename argument required\n", 29);
+		write(2, ".: usage: . filename [arguments]\n", 33);
+	}
 	if (flag == UNS)
 	{
 		write(2, "minishell: unset: `", 20);
@@ -95,28 +101,28 @@ void	ft_error(char *s, char *flag, int i, int in)
 	}
 }
 
-void	wait_function(int c, t_variable *varr)
+void	wait_function(int c, t_box *box)
 {
 	int	status;
 
 	while (c--)
 	{
-		if (wait(&status) == varr->id)
+		if (wait(&status) == box->id)
 		{
-			varr->var.status = status;
-			if (WIFEXITED(varr->var.status))
-				varr->var.status = WEXITSTATUS(varr->var.status);
-			if (WIFSIGNALED(varr->var.status))
+			box->var.status = status;
+			if (WIFEXITED(box->var.status))
+				box->var.status = WEXITSTATUS(box->var.status);
+			if (WIFSIGNALED(box->var.status))
 			{
 				if (WTERMSIG(status) == 2)
 				{
 					write(1, "\n", 1);
-					varr->var.status = 130;
+					box->var.status = 130;
 				}
 				else if (WTERMSIG(status) == 3)
 				{
 					write(2, "Quit: 3\n", 8);
-					varr->var.status = 131;
+					box->var.status = 131;
 				}
 			}
 		}

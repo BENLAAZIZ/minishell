@@ -3,113 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/04 16:11:41 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/05 10:52:33 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_initialis_data(t_variable *varr, t_env *env, int size, int i)
+void	ft_initialis_data(t_box *box, t_env *env, int size, int i)
 {
 	t_env	*poin;
 	t_env	*tp;
 
-	varr->data.path = NULL;
-	varr->data.cmd_env = NULL;
-	varr->node = NULL;
-	varr->token = NULL;
-	varr->line = NULL;
+	box->data.path = NULL;
+	box->data.cmd_env = NULL;
+	box->node = NULL;
+	box->token = NULL;
+	box->line = NULL;
 	tp = env;
 	poin = point_node(env, "PATH");
 	if (!poin)
 		return ;
-	varr->data.path = ft_splith(poin->value, ':');
+	box->data.path = ft_splith(poin->value, ':');
 	size = size_env(env);
-	varr->data.cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
+	box->data.cmd_env = (char **)malloc(sizeof(char *) * (size + 1));
 	while (env)
 	{
 		if (env->value)
-			get_cmd_env(env, &varr->data, &i);
+			get_cmd_env(env, &box->data, &i);
 		env = env->next;
 	}
-	varr->data.cmd_env[i] = NULL;
+	box->data.cmd_env[i] = NULL;
 	env = tp;
 }
 
-int	ft_pars(t_variable *varr, t_env **env)
+int	ft_pars(t_box *box, t_env **env)
 {
-	if (check_quotes(varr->line) == 1)
+	if (check_quotes(box->line) == 1)
 	{
-		free_data(varr);
+		free_data(box);
 		return (-1);
 	}
-	varr->token = ft_list_tokn(varr->line, varr->token, *env);
-	if (!varr->token)
+	box->token = ft_list_tokn(box->line, box->token, *env);
+	if (!box->token)
 	{
-		free_data(varr);
+		free_data(box);
 		return (-1);
 	}
-	word_expand(varr->token, *env, varr);
-	if (remove_quotes(varr->token, 0, 0, 0) == 0)
+	word_expand(box->token, *env, box);
+	if (remove_quotes(box->token, 0, 0, 0) == 0)
 	{
-		varr->var.status = 1;
-		ft_lstclear_token(&varr->token);
-		free(varr->line);
+		box->var.status = 1;
+		ft_lstclear_token(&box->token);
+		free(box->line);
 		return (-1);
 	}
 	return (0);
 }
 
-int	check_empty_line(t_variable *varr, t_env **env)
+int	check_empty_line(t_box *box, t_env **env)
 {
-	if (!varr->line)
+	if (!box->line)
 	{
 		write(1, "exit\n", 5);
-		free_data(varr);
+		free_data(box);
 		ft_lstclear_env(env);
 		rl_clear_history();
-		exit(varr->var.status);
+		exit(box->var.status);
 	}
-	if (varr->line[0] == '\0')
+	if (box->line[0] == '\0')
 	{
-		free_data(varr);
+		free_data(box);
 		return (-1);
 	}
 	rl_redisplay();
 	return (0);
 }
 
-void	ft_minishell(t_env **env, t_variable *varr, struct termios *term)
+void	ft_minishell(t_env **env, t_box *box, struct termios *term)
 {
 	while (1)
 	{
-		ft_initialis_data(varr, *env, 0, 0);
-		(dup2(varr->fd_stdin, 0), dup2(varr->fd_stdout, 1));
-		varr->line = readline("minishell$ ");
-		if (!varr->line || varr->line[0] == '\0')
-			if (check_empty_line(varr, env) == -1)
+		ft_initialis_data(box, *env, 0, 0);
+		(dup2(box->fd_stdin, 0), dup2(box->fd_stdout, 1));
+		box->line = readline("minishell$ ");
+		if (!box->line || box->line[0] == '\0')
+			if (check_empty_line(box, env) == -1)
 				continue ;
-		add_history(varr->line);
-		if (ft_pars(varr, env) == -1)
+		add_history(box->line);
+		if (ft_pars(box, env) == -1)
 			continue ;
-		if (execute_line(env, varr) == -1)
+		if (execute_line(env, box) == -1)
 			continue ;
-		free_data(varr);
-		ft_lstclear_cmd(&varr->node);
-		ft_lstclear_token(&varr->token);
+		free_data(box);
+		ft_lstclear_cmd(&box->node);
+		ft_lstclear_token(&box->token);
 		restore_terminal_attributes(term);
 	}
-	ft_lstclear_token(&varr->token);
+	ft_lstclear_token(&box->token);
 	ft_lstclear_env(env);
-	free(varr->line);
+	free(box->line);
 }
 
 int	main(int argc, char *argv[], char **ev)
 {
-	t_variable		varr;
+	t_box			box;
 	t_env			*env;
 	struct termios	original_termios;
 
@@ -120,10 +120,10 @@ int	main(int argc, char *argv[], char **ev)
 	signal(SIGINT, handle_siginit);
 	signal(SIGQUIT, handle_siginit);
 	env = NULL;
-	varr.fd_stdin = dup(0);
-	varr.fd_stdout = dup(1);
-	varr.var.status = 0;
+	box.fd_stdin = dup(0);
+	box.fd_stdout = dup(1);
+	box.var.status = 0;
 	ft_env(ev, &env);
-	ft_minishell(&env, &varr, &original_termios);
+	ft_minishell(&env, &box, &original_termios);
 	return (0);
 }

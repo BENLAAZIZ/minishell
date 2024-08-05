@@ -6,11 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:17:46 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 11:49:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_exit(char **cmd, t_var *var, t_env **env)
 {

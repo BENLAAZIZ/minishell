@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:16:17 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/04 13:40:50 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	dollar_length(t_word *token, t_env **env)
 {
@@ -46,7 +46,7 @@ void	replace_var_helper(t_word *token, t_env **env, int *sign)
 	}
 }
 
-void	replace_variable(t_word *token, t_env *env, int *sign, t_variable *data)
+void	replace_variable(t_word *token, t_env *env, int *sign, t_box *data)
 {
 	int		length;
 
@@ -65,7 +65,7 @@ void	replace_variable(t_word *token, t_env *env, int *sign, t_variable *data)
 	}
 }
 
-void	contains_dollar(t_word *token, t_env *env, int *sign, t_variable *data)
+void	contains_dollar(t_word *token, t_env *env, int *sign, t_box *data)
 {
 	char	*tmp;
 
@@ -90,7 +90,7 @@ void	contains_dollar(t_word *token, t_env *env, int *sign, t_variable *data)
 	}
 }
 
-void	word_expand(t_word *token, t_env *env, t_variable *data)
+void	word_expand(t_word *token, t_env *env, t_box *data)
 {
 	int		sign;
 	t_word	*token_tmp;

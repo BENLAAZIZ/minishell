@@ -10,16 +10,17 @@ RM = rm -f
 READLINE_L = $(shell brew --prefix readline)/lib
 READLINE_I = $(shell brew --prefix readline)/include
 
-SRC =  builtin/builtins.c builtin/cd.c minishell.c outils/spl.c outils/list_h.c  builtin/echo.c builtin/env.c  builtin/env_suit.c \
-	  builtin/export.c builtin/export_ctn.c builtin/pwd.c builtin/unset.c outils/ft_atoi_h.c outils/ft_itoa_h.c builtin/exit.c outils/ft_strjoin_h.c \
+SRC =  builtin/builtins.c builtin/cd.c minishell.c builtin/echo.c builtin/env.c  builtin/env_suit.c \
+	 	builtin/export.c builtin/export_ctn.c builtin/pwd.c builtin/unset.c builtin/exit.c \
+		outils/spl.c outils/list_h.c outils/ft_atoi_h.c outils/ft_itoa_h.c outils/ft_strjoin_h.c \
 	   outils/error_f.c outils/ft_exec.c outils/her_doc.c  outils/redirection.c outils/exec_line.c outils/clear_list.c \
 	   pars/check_line.c pars/expand.c pars/ft_add_list_token.c pars/ft_check_syntax.c pars/ft_list_cmd.c pars/list_files.c \
 	   pars/ft_split.c pars/ft_strcmp.c pars/ft_substr.c pars/list_function.c \
-	   pars/remove_quotes.c pars/ft_list_token.c seg.c pars/utils.c pars/expand_utils.c  pars/expand_utils2.c \
+	   pars/remove_quotes.c pars/ft_list_token.c pars/seg.c pars/utils.c pars/expand_utils.c  pars/expand_utils2.c \
 	   pars/expand_hdoc.c pars/expand_hdoc_utils.c pars/expand_hdoc_utils2.c pars/puts_error_syntax.c \
 	   pars/check_char.c pars/check_char2.c pars/list_cmd_utils.c
 
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)   
 
 all: $(NAME)
 

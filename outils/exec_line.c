@@ -6,128 +6,128 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/04 17:04:57 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	make_one_process(t_env **env, t_variable *varr)
+int	make_one_process(t_env **env, t_box *box)
 {
 	int	b;
 
-	varr->node->flag_r = 0;
-	varr->var.status = 0;
-	if (handle_redirection(&varr->node->flag_r,
-			varr->node->red_node, &varr->node->fd_herd) == -1)
+	box->node->flag_r = 0;
+	box->var.status = 0;
+	if (handle_redirection(&box->node->flag_r,
+			box->node->red_node, &box->node->fd_herd) == -1)
 	{
-		varr->var.status = 1;
+		box->var.status = 1;
 		return (-1);
 	}
-	b = built_functions(env, &varr->var, varr);
+	b = built_functions(env, &box->var, box);
 	if (b == -1)
 	{
 		signal(SIGINT, signal_in_child);
-		varr->pid = fork();
-		if (varr->pid == 0)
+		box->pid = fork();
+		if (box->pid == 0)
 		{
-			ft_execute(varr->node->command, &varr->data, varr);
+			ft_execute(box->node->command, &box->data, box);
 		}
-		varr->id = varr->pid;
-		wait_function(varr->nbr_node, varr);
+		box->id = box->pid;
+		wait_function(box->nbr_node, box);
 		signal(SIGINT, handle_siginit);
 	}
 	return (0);
 }
 
-void	in_child_process(t_env **env, t_variable *varr)
+void	in_child_process(t_env **env, t_box *box)
 {
 	int	b;
 
-	close(varr->fd[0]);
-	if (varr->node->flag_r == 0)
+	close(box->fd[0]);
+	if (box->node->flag_r == 0)
 	{
-		dup2(varr->fd[1], 1);
-		close(varr->fd[1]);
-		if (varr->node->next == NULL)
+		dup2(box->fd[1], 1);
+		close(box->fd[1]);
+		if (box->node->next == NULL)
 		{
-			dup2(varr->fd_stdout, 1);
-			close(varr->fd_stdout);
+			dup2(box->fd_stdout, 1);
+			close(box->fd_stdout);
 		}
 	}
-	b = built_functions(env, &varr->var, varr);
+	b = built_functions(env, &box->var, box);
 	if (b == -1)
-		ft_execute(varr->node->command, &varr->data, varr);
-	exit(varr->var.status);
+		ft_execute(box->node->command, &box->data, box);
+	exit(box->var.status);
 }
 
-int	check_redirection(t_variable *varr)
+int	check_redirection(t_box *box)
 {
 	int	c;
 
-	c = handle_redirection(&varr->node->flag_r,
-			varr->node->red_node, &varr->node->fd_herd);
+	c = handle_redirection(&box->node->flag_r,
+			box->node->red_node, &box->node->fd_herd);
 	if (c == -1)
 	{
-		varr->var.status = 1;
+		box->var.status = 1;
 		return (-1);
 	}
 	return (0);
 }
 
-void	make_all_process(t_env **env, t_variable *varr, int c)
+void	make_all_process(t_env **env, t_box *box, int c)
 {
 	t_node		*tmp;
 
-	varr->var.status = 0;
-	tmp = varr->node;
-	while (varr->node)
+	box->var.status = 0;
+	tmp = box->node;
+	while (box->node)
 	{
-		if (pipe(varr->fd) == -1)
+		if (pipe(box->fd) == -1)
 			perror("pipe fail :");
-		varr->node->flag_r = 0;
-		c = check_redirection(varr);
+		box->node->flag_r = 0;
+		c = check_redirection(box);
 		signal(SIGINT, signal_in_child);
 		if (c != -1)
 		{
-			varr->pid = fork();
-			if (varr->pid == 0)
-				in_child_process(env, varr);
-			varr->id = varr->pid;
+			box->pid = fork();
+			if (box->pid == 0)
+				in_child_process(env, box);
+			box->id = box->pid;
 		}
 		else
-			varr->var.status = 1;
-		close(varr->fd[1]);
-		(dup2(varr->fd[0], 0), close(varr->fd[0]));
-		varr->node = varr->node->next;
+			box->var.status = 1;
+		close(box->fd[1]);
+		(dup2(box->fd[0], 0), close(box->fd[0]));
+		box->node = box->node->next;
 	}
-	varr->node = tmp;
+	box->node = tmp;
 }
 
-int	execute_line(t_env **env, t_variable *varr)
+int	execute_line(t_env **env, t_box *box)
 {
-	if (varr->token == NULL || check_syntax(varr->token) == 1)
-		return (varr->var.status = 258, -1);
-	(*env)->status = varr->var.status;
-	ft_list_cmd (varr->token, &varr->node, *env);
+	if (box->token == NULL || check_syntax(box->token) == 1)
+		return (box->var.status = 258, -1);
+	(*env)->status = box->var.status;
+	ft_list_cmd (box->token, &box->node, *env);
 	if (signal_hdoc(2) == 1)
 		return (signal_hdoc(0), -1);
-	varr->tmp_node = varr->node;
-	varr->nbr_node = size_node(varr->node);
-	add_history(varr->line);
-	if (varr->node->next == NULL)
+	box->tmp_node = box->node;
+	box->nbr_node = size_node(box->node);
+	add_history(box->line);
+	if (box->node->next == NULL)
 	{
-		if (make_one_process(env, varr) == -1)
+		if (make_one_process(env, box) == -1)
 		{
-			ft_lstclear_cmd(&varr->node);
-			ft_lstclear_token(&varr->token);
-			return (free_data(varr), -1);
+			ft_lstclear_cmd(&box->node);
+			ft_lstclear_token(&box->token);
+			return (free_data(box), -1);
 		}
 	}
 	else
 	{
-		make_all_process(env, varr, 1);
-		wait_function(varr->nbr_node, varr);
+		make_all_process(env, box, 1);
+		wait_function(box->nbr_node, box);
 		signal(SIGINT, handle_siginit);
 	}
 	return (0);

@@ -6,11 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:09:42 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/03 15:43:31 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	display_env(t_env *a)
 {
@@ -42,11 +42,11 @@ int	size_env(t_env *a)
 	return (size);
 }
 
-int	check_env(t_env **env, t_variable *varr)
+int	check_env(t_env **env, t_box *box)
 {
-	if (varr->node->command[1])
+	if (box->node->command[1])
 	{
-		ft_builtin_error(varr->node->command[1], NO_F, 1);
+		ft_builtin_error(box->node->command[1], NO_F, 1);
 		return (127);
 	}
 	else

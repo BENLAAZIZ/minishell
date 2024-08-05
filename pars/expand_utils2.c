@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:15:33 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/04 13:34:23 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*copy_the_rest_2(t_word *token, t_env **env, int *sign, int old_i)
 {
@@ -69,7 +69,7 @@ char	*copy_the_rest(t_word *token, t_env *env, int *sign)
 	return (env->expansion);
 }
 
-char	*sp_case_helper(t_word *token, t_env *env, t_variable *data)
+char	*sp_case_helper(t_word *token, t_env *env, t_box *data)
 {
 	char	*tmp;
 
@@ -87,7 +87,7 @@ char	*sp_case_helper(t_word *token, t_env *env, t_variable *data)
 	return (env->expansion);
 }
 
-char	*spcase_cp(t_word *token, t_env *env, int *sign, t_variable *data)
+char	*spcase_cp(t_word *token, t_env *env, int *sign, t_box *data)
 {
 	int		old_i;
 	char	*no_expand;

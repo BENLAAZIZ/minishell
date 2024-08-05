@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:06:00 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/04 13:33:33 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*copy_in_word(char *skip_d, t_env *env, int *sign)
 {

@@ -6,11 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 10:28:12 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/07/31 16:19:18 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_putstr(char *s)
 {
@@ -54,7 +54,7 @@ int	check_option_n(char *str, int *index, int *newline)
 	return (c);
 }
 
-void	echo(char **cmd, int i, t_variable *varr)
+void	echo(char **cmd, int i, t_box *box)
 {
 	int	newline;
 	int	index;
@@ -80,5 +80,5 @@ void	echo(char **cmd, int i, t_variable *varr)
 	fflush(stdout);
 	if (!newline)
 		write(1, "\n", 1);
-	varr->var.status = 0;
+	box->var.status = 0;
 }

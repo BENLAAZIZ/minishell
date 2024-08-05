@@ -6,11 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:02:44 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/01 15:01:52 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_lstclear_env(t_env **env)
 {
@@ -32,16 +32,16 @@ void	ft_lstclear_env(t_env **env)
 	*env = NULL;
 }
 
-void	free_data(t_variable *varr)
+void	free_data(t_box *box)
 {
-	if (varr->data.path)
-		free_t_split(varr->data.path);
-	if (varr->data.cmd_env)
-		free_t_split(varr->data.cmd_env);
-	if (varr->line)
+	if (box->data.path)
+		free_t_split(box->data.path);
+	if (box->data.cmd_env)
+		free_t_split(box->data.cmd_env);
+	if (box->line)
 	{
-		free(varr->line);
-		varr->line = NULL;
+		free(box->line);
+		box->line = NULL;
 	}
-	varr->node = varr->tmp_node;
+	box->node = box->tmp_node;
 }

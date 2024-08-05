@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/04 17:03:07 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:46:56 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef enum e_type
 	OMB_R = 15,
 	NO_V = 16,
 	UNS = 17,
-	EXT = 18
+	EXT = 18,
+	FN = 19
 }	t_type;
 
 typedef struct s_red_node
@@ -104,7 +105,7 @@ typedef struct s_var
 	long	status;
 }			t_var;
 
-typedef struct s_variable
+typedef struct s_box
 {
 	t_word		*token;
 	t_node		*node;
@@ -118,7 +119,7 @@ typedef struct s_variable
 	int			fd_stdout;
 	int			nbr_node;
 	int			id;
-}				t_variable;
+}				t_box;
 
 // ===================== list_cmds  ============================
 t_node	*ft_lstaddback_cmd(t_node **list, t_node *new_node);
@@ -154,14 +155,14 @@ void	ft_add_q(t_env **env_node);
 char	*copy_the_rest(t_word *token, t_env *env, int *sign);
 char	*copy_the_rest_2(t_word *token, t_env **env, int *sign, int old_i);
 int		is_expand(char c);
-char	*spcase_cp(t_word *token, t_env *env, int *sign, t_variable *data);
-char	*sp_case_helper(t_word *token, t_env *env, t_variable *data);
+char	*spcase_cp(t_word *token, t_env *env, int *sign, t_box *data);
+char	*sp_case_helper(t_word *token, t_env *env, t_box *data);
 char	*copy_the_rest(t_word *token, t_env *env, int *sign);
 void	ft_add_q(t_env **env_node);
 
 // ===================== chech_syntax  ===============================
 
-void	word_expand(t_word *token, t_env *env, t_variable *varr);
+void	word_expand(t_word *token, t_env *env, t_box *box);
 char	*get_var(char *line);
 char	*check_char(char c);
 int		check_syntax(t_word *token);
@@ -181,7 +182,7 @@ int		remove_quotes(t_word *token, int sign, int i, int j);
 
 // ======================== builtin =============================
 
-void	echo(char **cmd, int i, t_variable *varr);
+void	echo(char **cmd, int i, t_box *box);
 void	unset(t_env **env, char **cmd, t_var *var);
 void	ft_env(char **ev, t_env **env);
 void	ft_exit(char **cmd, t_var *var, t_env **env);
@@ -192,10 +193,10 @@ void	display_env(t_env *a);
 void	modif_shlvl(t_env **env, t_env *new, char *var, char *val);
 void	display_list_export(t_env *a);
 char	*get_variabl_export(char *line, int *egal);
-int		built_functions(t_env **env, t_var *var, t_variable *varr);
+int		built_functions(t_env **env, t_var *var, t_box *box);
 int		cd(char **cmd, t_env **env);
 int		pwd(void);
-int		check_env(t_env **env, t_variable *varr);
+int		check_env(t_env **env, t_box *box);
 
 // ===================== env list  ========================
 
@@ -208,12 +209,12 @@ void	ft_lstclear_env(t_env **env);
 
 // ===================== execution  ===============================
 
-void	ft_execute(char **cmd, t_path *data, t_variable *varr);
-void	in_child_process(t_env **env, t_variable *varr);
-void	make_all_process(t_env **env, t_variable *varr, int c);
-int		make_one_process(t_env **env, t_variable *varr);
-int		check_redirection(t_variable *varr);
-int		execute_line(t_env **env, t_variable *varr);
+void	ft_execute(char **cmd, t_path *data, t_box *box);
+void	in_child_process(t_env **env, t_box *box);
+void	make_all_process(t_env **env, t_box *box, int c);
+int		make_one_process(t_env **env, t_box *box);
+int		check_redirection(t_box *box);
+int		execute_line(t_env **env, t_box *box);
 int		handle_redirection(int *flag, t_red_node *red_node, int *fd_herd);
 int		exec_cmd(char **cmd, t_path *data);
 
@@ -252,14 +253,14 @@ char	*get_variabl(char *line);
 char	*get_value(char *line);
 void	remove_variab(t_env **env, char *name);
 void	ft_error(char *s, char *flag, int i, int in);
-void	wait_function(int c, t_variable *varr);
+void	wait_function(int c, t_box *box);
 
 // ======================== error && free =============================
 
 void	ft_builtin_error(char *error, int flag, int i);
 void	ft_perror_h(char *error, int flag);
-void	print_error(char *token);
-void	free_data(t_variable *varr);
+// void	print_error(char *token);
+void	free_data(t_box *box);
 void	free_t_split(char **array);
 void	ft_lstclear_token(t_word **list);
 void	ft_lstclear_red(t_red_node **list);

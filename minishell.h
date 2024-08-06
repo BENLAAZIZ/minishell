@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 14:47:14 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:23:49 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_node
 	char				**command;
 	int					flag_r;
 	int					fd_herd;
+	int					ft_stdin;
 	t_red_node			*red_node;
 	struct s_node		*next;
 }						t_node;
@@ -121,6 +122,8 @@ typedef struct s_box
 	int			id;
 }				t_box;
 
+int get_status;
+
 // ===================== list_cmds  ============================
 t_node	*ft_lstaddback_cmd(t_node **list, t_node *new_node);
 t_node	*ft_addnode_cmds(char **commands);
@@ -146,7 +149,7 @@ char	*replace_her(t_word *token, t_env *env, t_env *env_node, int *sign);
 t_word	*ft_list_tokn(char *all_command, t_word *token, t_env *env);
 t_word	*ft_addlist_token(char *word);
 void	word_expand_her(t_word *token, t_env *env);
-int		here_doc(char *limiter, char *limiter_nq, t_node *node, t_env *env);
+int		here_doc(char *limiter, char *limiter_nq, t_node *node, t_env *env, t_box *box);
 void	ft_lstaddback_token(t_word **list, t_word*new_node);
 int		dollar_length(t_word *token, t_env **env);
 char	*replace_helper(t_word *token, t_env **env, t_env *env_node, int *sign);
@@ -220,8 +223,8 @@ int		exec_cmd(char **cmd, t_path *data);
 
 // ===================== list pipe  ===============================
 
-int		list_file(t_word *token, t_red_node **files, t_node *node, t_env *env);
-int		ft_list_cmd(t_word	*token, t_node **cmd, t_env *env);
+int		list_file(t_word *token, t_red_node **files, t_node *node, t_env *env, t_box *box);
+int		ft_list_cmd(t_word	*token, t_node **cmd, t_env *env, t_box *box);
 int		size_node(t_node *a);
 
 // ===================== LIBFT  ===============================

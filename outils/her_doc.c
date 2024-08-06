@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 15:39:09 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:56:32 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ int	is_quote(char *limiter)
 
 void	signlas_heredoc(int sig)
 {
+	// printf("sigint1\n");
 	if (sig == SIGINT)
 	{
 		signal_hdoc(1);
+		get_status  = 1;
 		close (0);
 	}
 }
@@ -63,7 +65,7 @@ int	open_file_herd(t_node *node, t_word *token, int *fd)
 	return (0);
 }
 
-int	here_doc(char *l, char *l_nq, t_node *node, t_env *env)
+int	here_doc(char *l, char *l_nq, t_node *node, t_env *env, t_box *box)
 {
 	t_word	*token;
 	int		fd;
@@ -82,10 +84,12 @@ int	here_doc(char *l, char *l_nq, t_node *node, t_env *env)
 		write(fd, token->line, ft_strlen(token->line));
 		(write(fd, "\n", 1), free(token->line), free(token->old_word));
 	}
-	if (signal_hdoc(2) == 1)
-		return (close(fd), close(node->fd_herd), free(token), -1);
+	if (get_status)
+	{
+		box->var.status = 1; 
+		(dup2(box->fd_stdin, 0), close(node->fd_herd));
+	}
 	signal(SIGINT, handle_siginit);
-	(close(fd), free(token->line));
-	free(token);
+	(close(fd), free(token->line), free(token));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 11:07:47 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/05 12:54:41 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:21:47 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	**add_cmds_files(t_word	**token)
 	return (cmds);
 }
 
-int	ft_list_cmd(t_word	*token, t_node **cmd, t_env *env)
+int	ft_list_cmd(t_word	*token, t_node **cmd, t_env *env, t_box *box)
 {
 	char		**cmds;
 	t_node		*commands;
@@ -106,7 +106,7 @@ int	ft_list_cmd(t_word	*token, t_node **cmd, t_env *env)
 		cmds = add_cmds_files(&token);
 		commands = ft_addnode_cmds(cmds);
 		node = ft_lstaddback_cmd(cmd, commands);
-		if (list_file(tmp, &(commands->red_node), node, env) == -1)
+		if (list_file(tmp, &(commands->red_node), node, env, box) == -1)
 			return (-1);
 		if (token && token->next != NULL)
 		{

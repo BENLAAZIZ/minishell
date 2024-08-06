@@ -81,7 +81,7 @@ void	add_file_red(t_red_node **files, t_word *token)
 	ft_lstaddback_files(files, file_and_red);
 }
 
-int	list_file(t_word	*tks, t_red_node **red, t_node *cmd, t_env *env)
+int	list_file(t_word	*tks, t_red_node **red, t_node *cmd, t_env *env, t_box *box)
 {
 	t_word		*tmp;
 
@@ -99,7 +99,7 @@ int	list_file(t_word	*tks, t_red_node **red, t_node *cmd, t_env *env)
 			if (tks->type == 5)
 			{
 				if (here_doc(tks->next->value,
-						tks->next->val_noquotes, cmd, env) == -1)
+						tks->next->val_noquotes, cmd, env, box) == -1)
 					return (-1);
 			}
 		}

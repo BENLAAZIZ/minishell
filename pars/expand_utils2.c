@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:15:33 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/05 15:43:23 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:29:06 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ char	*sp_case_helper(t_word *token, t_env *env, t_box *data)
 	}
 	else if (token->value[env->i - 1] == '?')
 	{
-		status = ft_itoa(data->var.status);
+		if (get_status)
+			status = ft_itoa(get_status);
+		else 
+			status = ft_itoa(data->var.status);
 		env->expansion = ft_strjoin(env->expansion, status);
 		free(status);
 		free(tmp);

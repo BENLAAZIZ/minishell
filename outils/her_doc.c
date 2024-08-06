@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 17:21:51 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:54:39 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ int	is_quote(char *limiter)
 
 void	signlas_heredoc(int sig)
 {
-	// printf("sigint1\n");
 	if (sig == SIGINT)
 	{
 		signal_hdoc(1);
-		get_status  = 1;
+		get_status = 1;
 		close (0);
 	}
 }
@@ -86,7 +85,7 @@ int	here_doc(t_node *node, t_env *env, t_box *box)
 	}
 	if (get_status)
 	{
-		box->var.status = 1; 
+		box->var.status = 1;
 		(dup2(box->fd_stdin, 0), close(node->fd_herd));
 	}
 	signal(SIGINT, handle_siginit);

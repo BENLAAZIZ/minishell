@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:28:38 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 18:35:10 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:54:55 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	last = NULL;
 	if (!new)
 		return ;
-	if (!*lst || (*lst)->variable == NULL)
+	if (!*lst)
 	{
 		(*lst) = new;
 		return ;
@@ -78,7 +78,7 @@ int	size_node(t_node *a)
 
 t_env	*point_node(t_env *env, char *name)
 {
-	if (env == NULL || name == NULL ||  env->variable == NULL)
+	if (env == NULL || name == NULL || env->variable == NULL)
 		return (NULL);
 	while (env)
 	{

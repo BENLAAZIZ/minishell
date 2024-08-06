@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 15:56:32 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:21:51 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	open_file_herd(t_node *node, t_word *token, int *fd)
 	return (0);
 }
 
-int	here_doc(char *l, char *l_nq, t_node *node, t_env *env, t_box *box)
+int	here_doc(t_node *node, t_env *env, t_box *box)
 {
 	t_word	*token;
 	int		fd;
@@ -79,7 +79,7 @@ int	here_doc(char *l, char *l_nq, t_node *node, t_env *env, t_box *box)
 	while (1)
 	{
 		token->line = readline("> ");
-		if (check_limiter(token, env, l, l_nq) == 1)
+		if (check_limiter(token, env, box->l, box->l_nq) == 1)
 			break ;
 		write(fd, token->line, ft_strlen(token->line));
 		(write(fd, "\n", 1), free(token->line), free(token->old_word));

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 15:23:49 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:22:36 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ typedef struct s_box
 	int			fd_stdout;
 	int			nbr_node;
 	int			id;
+	char		*l;
+	char		*l_nq;
 }				t_box;
 
 int get_status;
@@ -149,7 +151,7 @@ char	*replace_her(t_word *token, t_env *env, t_env *env_node, int *sign);
 t_word	*ft_list_tokn(char *all_command, t_word *token, t_env *env);
 t_word	*ft_addlist_token(char *word);
 void	word_expand_her(t_word *token, t_env *env);
-int		here_doc(char *limiter, char *limiter_nq, t_node *node, t_env *env, t_box *box);
+int		here_doc(t_node *node, t_env *env, t_box *box);
 void	ft_lstaddback_token(t_word **list, t_word*new_node);
 int		dollar_length(t_word *token, t_env **env);
 char	*replace_helper(t_word *token, t_env **env, t_env *env_node, int *sign);

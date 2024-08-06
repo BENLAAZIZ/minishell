@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 14:31:19 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:20:47 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,14 @@ void	ft_minishell(t_env **env, t_box *box, struct termios *term)
 {
 	while (1)
 	{
-	get_status = 0;
-
+		get_status = 0;
+		if (*env == NULL)
+		{
+			*env = malloc(sizeof(t_env));
+			(*env)->value = NULL;
+			(*env)->variable = NULL;
+			(*env)->next = NULL;
+		}
 		ft_initialis_data(box, *env, 0, 0);
 		(dup2(box->fd_stdin, 0), dup2(box->fd_stdout, 1));
 		box->line = readline("minishell$ ");

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 16:25:32 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:38:26 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	check_special_c(char *str)
 static void	add_to_export(t_env **env, t_var	*var)
 {
 	t_env	*exp;
-
 	exp = ft_lstnew(var->var, var->val);
 	ft_lstadd_back(env, exp);
 }
@@ -49,6 +48,7 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 	if (var == NULL || var->var == NULL)
 		return ;
 	node = point_node(*env, var->var);
+
 	if (!node)
 		add_to_export(env, var);
 	else

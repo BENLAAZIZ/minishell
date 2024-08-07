@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 15:05:31 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:00:38 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	chek_permession(char *str, int is_exp)
+int	chek_permession(char *str, int is_exp, int i)
 {
 	struct stat	st;
 	int			ret;
@@ -26,7 +26,9 @@ int	chek_permession(char *str, int is_exp)
 	{
 		if (S_ISDIR(st.st_mode))
 			return (ft_perror_h(str, IS_D), -1);
-		else if (access(str, W_OK))
+		else if (access(str, R_OK) && i == 0)
+			return (ft_perror_h(str, PRM_D), -1);
+		else if (access(str, W_OK) && i == 1)
 			return (ft_perror_h(str, PRM_D), -1);
 	}
 	return (0);
@@ -41,7 +43,7 @@ int	case_input_red(t_red_node *red_node, int *fd_herd)
 		fd_in = *fd_herd;
 	else
 	{
-		if (chek_permession(red_node->file, red_node->expand) == -1)
+		if (chek_permession(red_node->file, red_node->expand, 0) == -1)
 			return (-1);
 		fd_in = open(red_node->file, O_RDONLY, 0644);
 		if (fd_in < 0)
@@ -63,7 +65,7 @@ int	case_output_red(t_red_node *red_node, int *flag)
 	int	fd_out;
 
 	fd_out = -1;
-	if (chek_permession(red_node->file, red_node->expand) == -1)
+	if (chek_permession(red_node->file, red_node->expand, 1) == -1)
 		return (-1);
 	if (ft_strncmp(red_node->red, ">>", 3) == 0)
 	{

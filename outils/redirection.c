@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:05:31 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	chek_permession(char *str, int is_exp)
 	if (!str[0] && is_exp == 1)
 		return (ft_perror_h(str, OMB_R), -1);
 	if (ret == -1)
-		return (ft_perror_h(str, NO_F), -1);
+		return (0);
 	else
 	{
 		if (S_ISDIR(st.st_mode))
@@ -63,6 +63,8 @@ int	case_output_red(t_red_node *red_node, int *flag)
 	int	fd_out;
 
 	fd_out = -1;
+	if (chek_permession(red_node->file, red_node->expand) == -1)
+		return (-1);
 	if (ft_strncmp(red_node->red, ">>", 3) == 0)
 	{
 		*flag = 1;
@@ -79,8 +81,6 @@ int	case_output_red(t_red_node *red_node, int *flag)
 			ft_perror_h(red_node->exp, OMB_R);
 		return (-1);
 	}
-	if (chek_permession(red_node->file, red_node->expand) == -1)
-		return (-1);
 	dup2(fd_out, 1);
 	close(fd_out);
 	return (0);

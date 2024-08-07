@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 11:07:47 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/06 15:21:47 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:32:47 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	ft_list_cmd(t_word	*token, t_node **cmd, t_env *env, t_box *box)
 	t_node		*commands;
 	t_word		*tmp;
 	t_word		*tmp2;
-	t_node		*node;
 
 	cmds = NULL;
 	commands = NULL;
@@ -105,8 +104,8 @@ int	ft_list_cmd(t_word	*token, t_node **cmd, t_env *env, t_box *box)
 	{
 		cmds = add_cmds_files(&token);
 		commands = ft_addnode_cmds(cmds);
-		node = ft_lstaddback_cmd(cmd, commands);
-		if (list_file(tmp, &(commands->red_node), node, env, box) == -1)
+		box->tmp_node = ft_lstaddback_cmd(cmd, commands);
+		if (list_file(tmp, &(commands->red_node), env, box) == -1)
 			return (-1);
 		if (token && token->next != NULL)
 		{

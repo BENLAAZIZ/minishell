@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   seg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/03 15:38:00 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 14:37:03 by hben-laz         ###   ########.fr       */
+/*   Created: 2024/08/07 14:33:32 by aaaraba           #+#    #+#             */
+/*   Updated: 2024/08/07 14:33:41 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void	handle_siginit(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		get_status = 1;
-		// printf("%d", get_status(1));
+		g_get_status = 1;
 	}
 	if (sig == SIGQUIT)
 		return ;

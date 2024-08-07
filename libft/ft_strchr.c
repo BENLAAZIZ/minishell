@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/04 11:57:16 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Created: 2024/08/07 11:30:41 by hben-laz          #+#    #+#             */
+/*   Updated: 2024/08/07 11:38:18 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while ((s1[i] != '\0' || s2[i] != '\0') && i < n)
+	if ((unsigned char)c == '\0')
+		return ((char *)s + ft_strlen(s));
+	while (s[i] != '\0')
 	{
-		if (s1[i] == s2[i])
-		{
-			i++;
-		}
-		else
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (s[i] == (unsigned char)c)
+			return ((char *)(s + i));
+		i++;
 	}
-	return (0);
+	return (NULL);
 }

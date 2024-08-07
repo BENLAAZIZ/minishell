@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:09:09 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:32:28 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ char	*get_var(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '=' || line[i] == '"'
-			|| line[i] == '$' || line[i] == ' ' || line[i] == '|'
-			|| line[i] == '\'' || line[i] == '\0')
+		if (line[i] == '=' || line[i] == '"' || line[i] == '$'
+			|| line[i] == ' ' || line[i] == '|' || line[i] == '\''
+			|| line[i] == '<' || line[i] == '>' || line[i] == '\0')
 			break ;
 		variable[i] = line[i];
 		i++;

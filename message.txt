@@ -25,7 +25,7 @@ $"PWD" ---> fixed
 "$PWD $PATH $" ---> fixed
 "|$USER$PWD$PWD$PWD$PWD|" ----> fixed
 "$PWD $PATH" --> fixed
-"$dsgadg" --> fixed
+                    ************************* "$dsgadg" --> fixed
 l"s"  -"l"a ---> fixed
 'l's "-"l'a''' ---> fixed
 "ls ""-la" ---> fixed
@@ -51,8 +51,8 @@ ls>out -a>out -l>>out
 
 
 cd '/////' >/dev/null
-cd "$PWD/directory"
-cd $PWD/directory
+       *************************** cd "$PWD/directory"
+       *************************** cd $PWD/directory
 cd $OLDPWD/directory
 cd ?
 echo "-n -n -n"-n nenie_iri

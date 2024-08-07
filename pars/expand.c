@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:16:17 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/06 14:29:55 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:21:37 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,7 @@ void	contains_dollar(t_word *token, t_env *env, int *sign, t_box *data)
 	while (token->value[env->i])
 	{
 		ft_check_quotes(token->value[env->i], sign);
-		if (*sign == 0 && token->value[env->i] == '$'
-			&& (token->value[env->i + 1] == '\''
-				|| token->value[env->i + 1] == '"'))
-		{
-			tmp = token->value;
-			token->value = ft_strdup(token->value + 1);
-			free(tmp);
-		}
-		else if (token->value[env->i] == '$' && *sign != 1)
+		if (token->value[env->i] == '$' && *sign != 1)
 			replace_variable(token, env, sign, data);
 		else
 			env->i++;

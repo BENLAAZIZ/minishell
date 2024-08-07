@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:15:33 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/06 14:29:06 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:32:31 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ char	*sp_case_helper(t_word *token, t_env *env, t_box *data)
 	}
 	else if (token->value[env->i - 1] == '?')
 	{
-		if (get_status)
-			status = ft_itoa(get_status);
-		else 
+		if (g_get_status)
+			status = ft_itoa(g_get_status);
+		else
 			status = ft_itoa(data->var.status);
 		env->expansion = ft_strjoin(env->expansion, status);
 		free(status);

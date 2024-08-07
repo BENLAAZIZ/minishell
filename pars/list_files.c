@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_files.c                                    :+:      :+:    :+:   */
+/*   list_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/04 12:15:05 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/04 13:26:29 by aaaraba          ###   ########.fr       */
+/*   Created: 2024/08/07 14:33:12 by aaaraba           #+#    #+#             */
+/*   Updated: 2024/08/07 14:34:16 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	add_file_red(t_red_node **files, t_word *token)
 	ft_lstaddback_files(files, file_and_red);
 }
 
-int	list_file(t_word	*tks, t_red_node **red, t_node *cmd, t_env *env, t_box *box)
+int	list_file(t_word *tks, t_red_node **red, t_env *env, t_box *box)
 {
 	t_word		*tmp;
 
@@ -100,9 +100,7 @@ int	list_file(t_word	*tks, t_red_node **red, t_node *cmd, t_env *env, t_box *box
 			{
 				box->l = tks->next->value;
 				box->l_nq = tks->next->val_noquotes;
-				// if (here_doc(tks->next->value,
-				// 		tks->next->val_noquotes, cmd, env, box) == -1)
-				if (here_doc(cmd, env, box) == -1)
+				if (here_doc(box->tmp_node, env, box) == -1)
 					return (-1);
 			}
 		}

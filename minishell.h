@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 17:22:36 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:12:23 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ typedef struct s_box
 	char		*l_nq;
 }				t_box;
 
-int get_status;
+int		g_get_status;
+
+void	ft_initialis_data(t_box *box, t_env *env, int size, int i);
 
 // ===================== list_cmds  ============================
 t_node	*ft_lstaddback_cmd(t_node **list, t_node *new_node);
@@ -225,7 +227,7 @@ int		exec_cmd(char **cmd, t_path *data);
 
 // ===================== list pipe  ===============================
 
-int		list_file(t_word *token, t_red_node **files, t_node *node, t_env *env, t_box *box);
+int		list_file(t_word *token, t_red_node **files, t_env *env, t_box *box);
 int		ft_list_cmd(t_word	*token, t_node **cmd, t_env *env, t_box *box);
 int		size_node(t_node *a);
 
@@ -239,6 +241,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_splith(char const *s, char c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_itoa(unsigned int n);
+// char	*ft_itoa(int n);
 long	ft_atoi(const char *str, t_var *var);
 void	*ft_memcpy(void	*dst, const void *src, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/08 16:43:27 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:54:09 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 // ===================== signls  ===============================
 int		signal_hdoc(int check);
+void	signlas_heredoc(int sig);
 void	handle_siginit(int sig);
 void	restore_terminal_attributes(struct termios *original_termios);
 void	get_terminal_attr(struct termios *original_termios);

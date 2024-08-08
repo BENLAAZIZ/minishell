@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:02:44 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:43:54 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,16 @@ void	free_data(t_box *box)
 		box->line = NULL;
 	}
 	box->node = box->tmp_node;
+}
+
+void	free_array_fd(t_box *box)
+{
+	int	l;
+
+	l = 0;
+	while (l < box->i)
+	{
+		close(box->array_fd[l]);
+		l++;
+	}
 }

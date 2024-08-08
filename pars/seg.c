@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   seg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:33:32 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:33:41 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/08 18:56:43 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,14 @@ void	handle_siginit(int sig)
 	}
 	if (sig == SIGQUIT)
 		return ;
+}
+
+void	signlas_heredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		signal_hdoc(1);
+		g_get_status = 1;
+		close (0);
+	}
 }

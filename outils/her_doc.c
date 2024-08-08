@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/08 16:30:54 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:50:59 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ int	is_quote(char *limiter)
 	return (0);
 }
 
-void	signlas_heredoc(int sig)
-{
-	if (sig == SIGINT)
-	{
-		signal_hdoc(1);
-		g_get_status = 1;
-		close (0);
-	}
-}
+// void	signlas_heredoc(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		signal_hdoc(1);
+// 		g_get_status = 1;
+// 		close (0);
+// 	}
+// }
 
 int	check_limiter(t_word	*token, t_env *env, char *l, char *l_nq)
 {
@@ -64,6 +64,13 @@ int	open_file_herd(t_node *node, t_word *token, int *fd)
 	return (0);
 }
 
+void	ad_array_fd(t_box *box, int fd)
+{
+	box->array_fd[box->i] = box->node->fd_herd;
+	box->array_fd[box->i + 1] = fd;
+	box->i = box->i + 2;
+}
+
 int	here_doc(t_node *node, t_env *env, t_box *box)
 {
 	t_word	*token;
@@ -83,18 +90,12 @@ int	here_doc(t_node *node, t_env *env, t_box *box)
 		write(fd, token->line, ft_strlen(token->line));
 		(write(fd, "\n", 1), free(token->line), free(token->old_word));
 	}
-	//****************
-	//****************
-
 	if (g_get_status)
 	{
 		box->var.status = 1;
 		(dup2(box->fd_stdin, 0), close(node->fd_herd));
 	}
-	box->array_fd[box->i] = box->node->fd_herd;
-	box->array_fd[box->i + 1] = fd;
-	box->i = box->i + 2;
+	ad_array_fd(box, fd);
 	signal(SIGINT, handle_siginit);
-	(close(fd), free(token->line), free(token));
-	return (0);
+	return (close(fd), free(token->line), free(token), 0);
 }

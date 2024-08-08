@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 20:12:15 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:11:02 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ int	execute_line(t_env **env, t_box *box)
 		wait_function(box->nbr_node, box);
 		signal(SIGINT, handle_siginit);
 	}
+	free_array_fd(box);
 	return (0);
 }

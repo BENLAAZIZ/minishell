@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 20:00:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:30:54 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,17 @@ int	here_doc(t_node *node, t_env *env, t_box *box)
 		write(fd, token->line, ft_strlen(token->line));
 		(write(fd, "\n", 1), free(token->line), free(token->old_word));
 	}
+	//****************
+	//****************
+
 	if (g_get_status)
 	{
 		box->var.status = 1;
 		(dup2(box->fd_stdin, 0), close(node->fd_herd));
 	}
+	box->array_fd[box->i] = box->node->fd_herd;
+	box->array_fd[box->i + 1] = fd;
+	box->i = box->i + 2;
 	signal(SIGINT, handle_siginit);
 	(close(fd), free(token->line), free(token));
 	return (0);

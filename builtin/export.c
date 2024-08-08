@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 20:28:59 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:04:39 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ static void	add_to_export(t_env **env, t_var	*var)
 		ft_lstadd_back(env, exp);
 }
 
-void	export_suit(t_env **env, t_var	*var, char *str)
+void	export_suit(t_env **env, t_var	*var, char *str, char *tmp)
 {
-	t_env	*node;	
-	char	*tmp;
+	t_env	*node;
 
 	if (var == NULL || var->var == NULL)
 		return ;
@@ -59,6 +58,7 @@ void	export_suit(t_env **env, t_var	*var, char *str)
 		add_to_export(env, var);
 	else
 	{
+		free(var->var);
 		if (var->egal == 1)
 		{
 			tmp = node->value;
@@ -98,7 +98,7 @@ void	export(t_env **env, char **cmd, int i, t_var *var)
 				var->status = 1;
 			}
 			else
-				export_suit(env, var, cmd[i]);
+				export_suit(env, var, cmd[i], NULL);
 			i++;
 		}
 	}

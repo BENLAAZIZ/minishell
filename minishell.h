@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 12:12:23 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:43:27 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ typedef struct s_box
 	char		*line;
 	int			pid;
 	int			fd[2];
+	int			array_fd[100];
+	int			i;
 	int			fd_stdin;
 	int			fd_stdout;
 	int			nbr_node;
@@ -126,6 +128,7 @@ typedef struct s_box
 
 int		g_get_status;
 
+void	free_array_fd(t_box *box);
 void	ft_initialis_data(t_box *box, t_env *env, int size, int i);
 
 // ===================== list_cmds  ============================

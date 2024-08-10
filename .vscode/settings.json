@@ -24,7 +24,8 @@
 		"type_traits": "c",
 		"__locale": "c",
 		"__string": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"hamzaaaa": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

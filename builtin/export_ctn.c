@@ -6,13 +6,13 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:26:02 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/06 18:37:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:55:42 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	display_list_export(t_env *a) // unset PATH PWD OLDPWD SHLVL _
+void	display_list_export(t_env *a)
 {
 	while (a)
 	{

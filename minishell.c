@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/08 18:57:02 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:41:11 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,45 +70,45 @@ void	set_data(t_env **env, t_box *box)
 	ft_initialis_data(box, *env, 0, 0);
 }
 
-void	ft_minishell(t_env **env, t_box *box, struct termios *term)
+void	ft_minishell(t_env **env, t_box *box, struct termios *term, int flag)
 {
 	while (1)
 	{
+		set_std(box, 1);
 		set_data(env, box);
-		(dup2(box->fd_stdin, 0), dup2(box->fd_stdout, 1));
 		box->line = readline("minishell$ ");
 		if (!box->line || box->line[0] == '\0')
 			if (check_empty_line(box, env) == -1)
 				continue ;
 		add_history(box->line);
+		set_std(box, 2);
 		if (ft_pars(box, env) == -1)
 			continue ;
-		if (execute_line(env, box) == -1)
+		if (execute_line(env, box, &flag) == -1)
 		{
-			free_data(box);
-			ft_lstclear_token(&box->token);
+			(free_data(box), ft_lstclear_token(&box->token));
+			free_array_fd(box);
 			continue ;
 		}
-		free_data(box);
-		ft_lstclear_cmd(&box->node);
-		ft_lstclear_token(&box->token);
-		restore_terminal_attributes(term);
+		if (flag == 1)
+			box->var.status = 1;
+		clean_to_restor(box, term, 1);
 	}
-	ft_lstclear_token(&box->token);
-	ft_lstclear_env(env);
-	free(box->line);
+	clean_to_restor(box, term, 2);
 }
 
 int	main(int argc, char *argv[], char **ev)
 {
 	t_box			box;
 	t_env			*env;
+	int				flag;
 	struct termios	original_termios;
 
 	get_terminal_attr(&original_termios);
 	(void)argc;
 	(void)argv;
 	rl_catch_signals = 0;
+	flag = 0;
 	signal(SIGINT, handle_siginit);
 	signal(SIGQUIT, handle_siginit);
 	env = NULL;
@@ -116,6 +116,8 @@ int	main(int argc, char *argv[], char **ev)
 	box.fd_stdout = dup(1);
 	box.var.status = 0;
 	ft_env(ev, &env);
-	ft_minishell(&env, &box, &original_termios);
+	ft_minishell(&env, &box, &original_termios, flag);
+	(close(box.fd_stdin), close(box.fd_stdout));
+	ft_lstclear_env(&env);
 	return (0);
 }

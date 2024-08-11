@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:30:41 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 11:38:18 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:45:35 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,18 @@ char	*ft_strchr(const char *s, int c)
 		i++;
 	}
 	return (NULL);
+}
+
+int	is_quote(char *limiter)
+{
+	int	i;
+
+	i = 0;
+	while (limiter[i])
+	{
+		if (limiter[i] == '\'' || limiter[i] == '"')
+			return (1);
+		i++;
+	}
+	return (0);
 }

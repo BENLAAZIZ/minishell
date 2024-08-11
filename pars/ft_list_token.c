@@ -6,7 +6,7 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:06:00 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:32:51 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/10 10:22:46 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ char	*copy_in_word(char *skip_d, t_env *env, int *sign)
 	if (env->expansion == NULL)
 		env->expansion = ft_substr(skip_d, size, env->i - size);
 	return (env->expansion);
-}
-
-int	check_dollar_sign(char c1, char c2, char c3)
-{
-	if ((c1 == '$' && check_char_expand (c2) == 1)
-		|| (c1 == '"' && c2 == '$' && check_char_expand(c3) == 1))
-		return (1);
-	return (0);
 }
 
 void	add_to_tokens(t_word **token, t_env *env)

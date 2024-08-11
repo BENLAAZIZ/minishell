@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/08 18:53:30 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:28:19 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	make_one_process(t_env **env, t_box *box)
 	{
 		signal(SIGINT, signal_in_child);
 		box->pid = fork();
+		if (box->pid < 0)
+			return (perror("pid"), -1);
 		if (box->pid == 0)
-		{
 			ft_execute(box->node->command, &box->data, box);
-		}
 		box->id = box->pid;
 		wait_function(box->nbr_node, box);
 		signal(SIGINT, handle_siginit);
@@ -61,21 +61,18 @@ void	in_child_process(t_env **env, t_box *box)
 	exit(box->var.status);
 }
 
-int	check_redirection(t_box *box)
+int	open_fork(t_box *box, t_env **env)
 {
-	int	c;
-
-	c = handle_redirection(&box->node->flag_r,
-			box->node->red_node, &box->node->fd_herd);
-	if (c == -1)
-	{
-		box->var.status = 1;
-		return (-1);
-	}
+	box->pid = fork();
+	if (box->pid < 0)
+		return (perror("fork"), 1);
+	if (box->pid == 0)
+		in_child_process(env, box);
+	box->id = box->pid;
 	return (0);
 }
 
-void	make_all_process(t_env **env, t_box *box, int c)
+int	make_all_process(t_env **env, t_box *box, int c)
 {
 	t_node		*tmp;
 
@@ -84,27 +81,26 @@ void	make_all_process(t_env **env, t_box *box, int c)
 	while (box->node)
 	{
 		if (pipe(box->fd) == -1)
-			perror("pipe fail :");
+			return (perror("pipe"), 1);
 		box->node->flag_r = 0;
+		ad_array_fd(box, 4, 1);
 		c = check_redirection(box);
 		signal(SIGINT, signal_in_child);
 		if (c != -1)
 		{
-			box->pid = fork();
-			if (box->pid == 0)
-				in_child_process(env, box);
-			box->id = box->pid;
+			if (open_fork(box, env) == 1)
+				return (1);
 		}
 		else
 			box->var.status = 1;
-		close(box->fd[1]);
-		(dup2(box->fd[0], 0), close(box->fd[0]));
+		(close(box->fd[1]), dup2(box->fd[0], 0), close(box->fd[0]));
 		box->node = box->node->next;
 	}
 	box->node = tmp;
+	return (0);
 }
 
-int	execute_line(t_env **env, t_box *box)
+int	execute_line(t_env **env, t_box *box, int *flag)
 {
 	if (box->token == NULL || check_syntax(box->token) == 1)
 		return (box->var.status = 258, -1);
@@ -122,7 +118,8 @@ int	execute_line(t_env **env, t_box *box)
 	}
 	else
 	{
-		make_all_process(env, box, 1);
+		if (make_all_process(env, box, 1) == 1)
+			*flag = 1;
 		wait_function(box->nbr_node, box);
 		signal(SIGINT, handle_siginit);
 	}

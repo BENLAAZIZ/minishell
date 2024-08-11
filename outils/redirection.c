@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 21:00:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:28:37 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,18 @@ int	handle_redirection(int *flag, t_red_node *red_node, int	*fd_herd)
 		red_node = red_node->next;
 	}
 	return (1);
+}
+
+int	check_redirection(t_box *box)
+{
+	int	c;
+
+	c = handle_redirection(&box->node->flag_r,
+			box->node->red_node, &box->node->fd_herd);
+	if (c == -1)
+	{
+		box->var.status = 1;
+		return (-1);
+	}
+	return (0);
 }

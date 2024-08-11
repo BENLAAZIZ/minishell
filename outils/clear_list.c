@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:02:44 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/08 18:43:54 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:31:44 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,23 @@ void	free_array_fd(t_box *box)
 	{
 		close(box->array_fd[l]);
 		l++;
+	}
+}
+
+void	clean_to_restor(t_box *box, struct termios *term, int flag)
+{
+	if (flag == 1)
+	{
+		free_array_fd(box);
+		free_data(box);
+		ft_lstclear_cmd(&box->node);
+		ft_lstclear_token(&box->token);
+		restore_terminal_attributes(term);
+	}
+	else
+	{
+		free_array_fd(box);
+		ft_lstclear_token(&box->token);
+		free(box->line);
 	}
 }

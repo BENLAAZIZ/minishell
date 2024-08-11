@@ -6,7 +6,7 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:33:24 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:33:47 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/09 20:58:58 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,5 @@ int	return_error(t_word *token)
 		return (ft_puterror("|"), 1);
 	if (check_red(token->type) == 1 && token->next == NULL)
 		return (ft_puterror("newline"), 1);
-	if (token->type == AND)
-		return (ft_puterror("&"), 1);
-	if (token->type == DAND)
-		return (ft_puterror("&&"), 1);
-	if (token->type == OPAR)
-		return (ft_puterror("("), 1);
-	if (token->type == CPAR)
-		return (ft_puterror(")"), 1);
 	return (0);
 }

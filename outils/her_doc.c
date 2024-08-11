@@ -6,35 +6,11 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:49:43 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/08 18:50:59 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:24:54 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_quote(char *limiter)
-{
-	int	i;
-
-	i = 0;
-	while (limiter[i])
-	{
-		if (limiter[i] == '\'' || limiter[i] == '"')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-// void	signlas_heredoc(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		signal_hdoc(1);
-// 		g_get_status = 1;
-// 		close (0);
-// 	}
-// }
 
 int	check_limiter(t_word	*token, t_env *env, char *l, char *l_nq)
 {
@@ -64,11 +40,28 @@ int	open_file_herd(t_node *node, t_word *token, int *fd)
 	return (0);
 }
 
-void	ad_array_fd(t_box *box, int fd)
+void	ad_array_fd(t_box *box, int fd, int i)
 {
-	box->array_fd[box->i] = box->node->fd_herd;
-	box->array_fd[box->i + 1] = fd;
+	if (i == 0)
+	{
+		box->array_fd[box->i] = box->node->fd_herd;
+		box->array_fd[box->i + 1] = fd;
+	}
+	if (i == 1)
+	{
+		box->array_fd[box->i] = box->fd[0];
+		box->array_fd[box->i + 1] = box->fd[1];
+	}
 	box->i = box->i + 2;
+}
+
+int	ctl_handler(t_box *box, t_node *node, t_word *token, int fd)
+{
+	box->var.status = 1;
+	(dup2(box->fd_stdin, 0), close(node->fd_herd));
+	ad_array_fd(box, fd, 0);
+	signal(SIGINT, handle_siginit);
+	return (free_array_fd(box), free(token->line), free(token), -1);
 }
 
 int	here_doc(t_node *node, t_env *env, t_box *box)
@@ -92,10 +85,10 @@ int	here_doc(t_node *node, t_env *env, t_box *box)
 	}
 	if (g_get_status)
 	{
-		box->var.status = 1;
-		(dup2(box->fd_stdin, 0), close(node->fd_herd));
+		if (ctl_handler(box, node, token, fd) == -1)
+			return (-1);
 	}
-	ad_array_fd(box, fd);
+	ad_array_fd(box, fd, 0);
 	signal(SIGINT, handle_siginit);
 	return (close(fd), free(token->line), free(token), 0);
 }

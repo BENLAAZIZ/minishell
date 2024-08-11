@@ -6,7 +6,7 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 10:46:25 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:32:24 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/09 21:00:52 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	rep_var_hdoc(t_word *token, t_env *env, int *sign)
 	int	length;
 
 	length = dollar_length_her(token, &env);
-	if ((ft_isdigit(token->line[env->i]) == 1)
-		|| ((token->line[env->i] == '?')))
+	if (length % 2 != 0 && ((ft_isdigit(token->line[env->i]) == 1)
+			|| ((token->line[env->i] == '?'))))
 	{
 		ft_check_quotes(token->line[env->i], sign);
 		env->i++;

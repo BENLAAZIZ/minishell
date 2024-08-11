@@ -6,26 +6,11 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 11:53:07 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:32:10 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/10 10:22:29 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	check_after_d(char c)
-{
-	if (c == 32
-		|| (c >= 9 && c <= 13)
-		|| c == '|'
-		|| c == '>'
-		|| c == '<'
-		|| c == '"'
-		|| c == '='
-		|| c == '$'
-		|| c == '\0')
-		return (0);
-	return (1);
-}
 
 int	end_point(char c, int *sign)
 {
@@ -36,18 +21,8 @@ int	end_point(char c, int *sign)
 			|| c == '|'
 			|| c == '>'
 			|| c == '<'
-			|| c == '&'
-			|| c == ')'
-			|| c == '('
 			|| c == '\0')
 			return (0);
 	}
 	return (1);
-}
-
-int	c_after_add(char c)
-{
-	if (c != '$' && c != '\'' && c != '"')
-		return (1);
-	return (0);
 }

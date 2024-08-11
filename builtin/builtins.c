@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:28:45 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 15:04:13 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/11 10:29:00 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	built_functions(t_env **env, t_var *var, t_box *box)
 	else if (ft_strncmp(box->node->command[0], "cd", 3) == 0)
 		box->var.status = (long)cd(box->node->command, env);
 	else if (ft_strncmp(box->node->command[0], "pwd", 4) == 0)
-		box->var.status = (long)pwd();
+		box->var.status = (long)pwd(env);
 	else if (ft_strncmp(box->node->command[0], "export", 7) == 0)
 		export(env, box->node->command, 1, var);
 	else if (ft_strncmp(box->node->command[0], "unset", 6) == 0)

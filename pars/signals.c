@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   seg.c                                              :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:33:32 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/08 18:56:43 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:31:43 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	get_terminal_attr(struct termios *original_termios)
-{
-	tcgetattr(STDIN_FILENO, original_termios);
-	original_termios->c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, original_termios);
-}
-
-void	restore_terminal_attributes(struct termios *original_termios)
-{
-	tcsetattr(STDIN_FILENO, TCSANOW, original_termios);
-}
 
 void	signal_in_child(int sig)
 {
@@ -56,4 +44,15 @@ void	signlas_heredoc(int sig)
 		g_get_status = 1;
 		close (0);
 	}
+}
+
+int	signal_hdoc(int check)
+{
+	static int	signal;
+
+	if (check == 1)
+		signal = 1;
+	else if (check == 0)
+		signal = 0;
+	return (signal);
 }

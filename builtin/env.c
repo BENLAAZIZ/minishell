@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:30:34 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ void	ft_env(char **ev, t_env **env)
 	char	*val;
 	int		i;
 
+	new = NULL;
+	var = NULL;
+	val = NULL;
 	i = 0;
 	while (ev[i])
 	{

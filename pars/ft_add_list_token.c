@@ -6,7 +6,7 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:36:00 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 14:32:39 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/09 20:58:47 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ void	token_type(char *word, t_word *new_node)
 		new_node->type = DR_RED;
 	else if (ft_strcmp(word, "|") == 0)
 		new_node->type = PIPE;
-	else if (ft_strcmp(word, "&") == 0)
-		new_node->type = AND;
-	else if (ft_strcmp(word, "&&") == 0)
-		new_node->type = DAND;
-	else if (ft_strcmp(word, "(") == 0)
-		new_node->type = OPAR;
-	else if (ft_strcmp(word, ")") == 0)
-		new_node->type = CPAR;
 	else
 		new_node->type = WORD;
 }

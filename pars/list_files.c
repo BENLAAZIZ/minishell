@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   list_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:33:12 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/08 16:35:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:23:00 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	lenght_files(t_word	*token)
-{
-	int		size;
-	t_word	*tmp;
-
-	size = 0;
-	tmp = token;
-	while (tmp != NULL && tmp->type != PIPE)
-	{
-		if (check_red(tmp->type) == 1)
-			size++;
-		tmp = tmp->next;
-	}
-	return (size);
-}
 
 t_red_node	*ft_addlist_files(char *file, char *redirection, char *old_word)
 {

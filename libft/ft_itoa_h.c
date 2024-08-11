@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa_h.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:30:20 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/07 11:56:10 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:19:57 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,7 @@ char	*ft_itoa(unsigned int n)
 	if (string == NULL)
 		return (NULL);
 	string[size] = '\0';
-	if (n < 0)
-	{
-		string[0] = '-';
-		l = (long)n * -1;
-	}
-	else if (n > 0)
-		l = (long)n;
+	l = (long)n;
 	while (size && l)
 	{
 		string[--size] = l % 10 + '0';

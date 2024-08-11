@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:39:55 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/10 18:42:38 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:39:40 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	change_env(t_env **env, t_env *home, char *oldpwd)
 	{
 		home->value = NULL;
 		free(oldpwd);
-		return (free(oldpwd), perror(""), 1);
+		return (perror(""), 1);
 	}
 	home = point_node(*env, "PWD");
 	if (home)
@@ -33,7 +33,7 @@ int	change_env(t_env **env, t_env *home, char *oldpwd)
 	{
 		home = point_node(*env, "OLDPWD");
 		home->value = NULL;
-		return (free(pwd), free(oldpwd), 1);
+		return (free(pwd), free(oldpwd), 0);
 	}
 	return (0);
 }
@@ -55,8 +55,8 @@ int	cd(char **cmd, t_env **env)
 
 	home = NULL;
 	oldpwd = getcwd(NULL, 0);
-	if (!oldpwd)
-		return (perror(""), 1);
+	if (!oldpwd && cmd[1])
+		return (ft_builtin_error(cmd[1], NO_F, 0), 1);
 	if (cmd[1] == NULL)
 	{
 		home = point_node(*env, "HOME");

@@ -3,7 +3,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
@@ -16,11 +16,11 @@ SRC =	builtin/builtins.c builtin/cd.c minishell.c builtin/echo.c builtin/env.c  
 	 	outils/error_f.c outils/ft_exec.c outils/her_doc.c  outils/redirection.c outils/exec_line.c outils/clear_list.c \
 		pars/check_line.c pars/expand.c pars/ft_add_list_token.c pars/ft_check_syntax.c pars/ft_list_cmd.c pars/list_files.c \
 		pars/ft_substr.c pars/list_function.c \
-		pars/remove_quotes.c pars/ft_list_token.c pars/seg.c pars/utils.c pars/expand_utils.c  pars/expand_utils2.c \
+		pars/remove_quotes.c pars/ft_list_token.c pars/signals.c pars/utils.c pars/expand_utils.c  pars/expand_utils2.c \
 		pars/expand_hdoc.c pars/expand_hdoc_utils.c pars/expand_hdoc_utils2.c pars/puts_error_syntax.c \
 		pars/check_char.c pars/check_char2.c pars/list_cmd_utils.c \
 		libft/ft_atoi_h.c libft/ft_itoa_h.c libft/ft_strjoin.c libft/ft_strncmp.c \
-	 libft/ft_strchr.c libft/ft_strdup.c libft/ft_strcmp.c libft/ft_split.c libft/ft_memcpy.c
+	 libft/ft_strchr.c libft/ft_strdup.c libft/ft_strcmp.c libft/ft_split.c
 
 OBJ = $(SRC:.c=.o)   
 

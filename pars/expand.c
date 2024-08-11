@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:16:17 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 10:21:37 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/09 21:01:04 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	replace_variable(t_word *token, t_env *env, int *sign, t_box *data)
 	int		length;
 
 	length = dollar_length(token, &env);
-	if ((ft_isdigit(token->value[env->i]) == 1)
-		|| ((token->value[env->i] == '?')))
+	if ((length % 2 != 0) && ((ft_isdigit(token->value[env->i]) == 1)
+			|| ((token->value[env->i] == '?'))))
 	{
 		ft_check_quotes(token->value[env->i], sign);
 		env->i++;

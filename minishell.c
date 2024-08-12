@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:35:52 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/11 12:41:11 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:03:13 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_minishell(t_env **env, t_box *box, struct termios *term, int flag)
 	{
 		set_std(box, 1);
 		set_data(env, box);
+		flag = 0;
 		box->line = readline("minishell$ ");
 		if (!box->line || box->line[0] == '\0')
 			if (check_empty_line(box, env) == -1)

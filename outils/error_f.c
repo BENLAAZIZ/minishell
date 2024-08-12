@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:43:22 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:43:53 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:09:15 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_perror_h(char *error, int flag)
 {
-	write(2, "minishell: ", 12);
+	write(2, "minishell: ", 11);
 	write(2, error, ft_strlen(error));
 	if (flag == CM_NF)
 		write(2, ": command not found\n", 20);
@@ -38,9 +38,9 @@ void	ft_builtin_erro_suit(char *error, int flag, int i)
 	}
 	if (flag == UNS)
 	{
-		write(2, "minishell: unset: `", 20);
+		write(2, "minishell: unset: `", 19);
 		write(2, error, ft_strlen(error));
-		write(2, "': not a valid identifier\n", 27);
+		write(2, "': not a valid identifier\n", 26);
 	}
 	else if (flag == EXT && i == 2)
 	{
@@ -56,21 +56,24 @@ void	ft_builtin_error(char *error, int flag, int i)
 {
 	if (flag == NO_F && i == 0)
 	{
-		write(2, "minishell: cd: ", 16);
-		write(2, error, ft_strlen(error));
-		write(2, ": No such file or directory\n", 29);
-	}
-	else if (flag == NO_F && i == 1)
-	{
-		write(2, "minishell: env: ", 12);
+		write(2, "minishell: cd: ", 15);
 		write(2, error, ft_strlen(error));
 		write(2, ": No such file or directory\n", 28);
 	}
+	else if (flag == NO_F && i == 1)
+	{
+		write(2, "minishell: env: ", 16);
+		write(2, error, ft_strlen(error));
+		if (error)
+			write(2, ": No such file or directory\n", 28);
+		else
+			write(2, "No such file or directory\n", 26);
+	}
 	else if (flag == NO_V)
 	{
-		write(2, "minishell: export: `", 21);
+		write(2, "minishell: export: `", 20);
 		write(2, error, ft_strlen(error));
-		write(2, "': not a valid identifier\n", 27);
+		write(2, "': not a valid identifier\n", 26);
 	}
 	else
 		ft_builtin_erro_suit(error, flag, i);

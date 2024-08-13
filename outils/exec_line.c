@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/12 17:59:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:08:12 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	make_all_process(t_env **env, t_box *box, int c)
 			if (open_fork(box, env) == 1)
 				return (1);
 		}
-		// else
-		// 	box->var.status = 1;
 		(close(box->fd[1]), dup2(box->fd[0], 0), close(box->fd[0]));
 		box->node = box->node->next;
 	}
@@ -106,9 +104,10 @@ int	execute_line(t_env **env, t_box *box, int *flag)
 		return (box->var.status = 258, -1);
 	(*env)->status = box->var.status;
 	if (ft_list_cmd (box->token, &box->node, *env, box) == -1)
-		return (ft_lstclear_cmd(&box->node), -1);
-	if (signal_hdoc(2) == 1)
-		return (ft_lstclear_cmd(&box->node), signal_hdoc(0), -1);
+	{
+		if (signal_hdoc(2) == 1)
+			return (ft_lstclear_cmd(&box->node), signal_hdoc(0), -1);
+	}
 	box->tmp_node = box->node;
 	box->nbr_node = size_node(box->node);
 	if (box->node->next == NULL)

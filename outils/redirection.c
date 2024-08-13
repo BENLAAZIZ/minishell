@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:01:32 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/11 12:28:37 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:15:55 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	case_input_red(t_red_node *red_node, int *fd_herd)
 			if (red_node->expand == 1)
 				ft_perror_h(red_node->exp, OMB_R);
 			else
-				ft_perror_h(red_node->exp, NO_F);
+				ft_perror_h(red_node->file, NO_F);
 			return (-1);
 		}
 	}

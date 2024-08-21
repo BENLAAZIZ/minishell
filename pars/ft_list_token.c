@@ -6,7 +6,7 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:06:00 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/10 10:22:46 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/12 18:40:13 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ char	*copy_in_word(char *skip_d, t_env *env, int *sign)
 {
 	int		size;
 	t_word	*word;
+	int		j;
 
+	j = 0;
 	size = env->i;
 	word = NULL;
+	env->expansion = malloc(alloc_lenght(skip_d, env->i, sign) + 1);
+	if (env->expansion == NULL)
+		return (NULL);
 	while (ft_is_space(skip_d[env->i]) == 1
 		&& skip_d[env->i])
 		env->i++;
@@ -28,11 +33,12 @@ char	*copy_in_word(char *skip_d, t_env *env, int *sign)
 			&& size != env->i)
 			break ;
 		ft_check_quotes(skip_d[env->i], sign);
-		env->i++;
+		if (skip_d[env->i] == '$')
+			copy_in_word_2(&j, skip_d, &env, sign);
+		else
+			env->expansion[j++] = skip_d[env->i++];
 	}
-	if (env->expansion == NULL)
-		env->expansion = ft_substr(skip_d, size, env->i - size);
-	return (env->expansion);
+	return (env->expansion[j] = '\0', env->expansion);
 }
 
 void	add_to_tokens(t_word **token, t_env *env)

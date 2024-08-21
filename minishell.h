@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 23:31:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/11 12:45:46 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:31:44 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_box
 	t_path		data;
 	t_var		var;
 	char		*line;
+	int			c;
 	int			pid;
 	int			fd[2];
 	int			array_fd[100];
@@ -120,6 +121,9 @@ typedef struct s_box
 
 int		g_get_status;
 
+void	ft_rev_quotes(t_env **env_node);
+int		alloc_lenght(char *skip_d, int i, int *sign);
+void	copy_in_word_2(int *j, char *skip_d, t_env **env, int *sign);
 void	ft_initialis_data(t_box *box, t_env *env, int size, int i);
 void	set_std(t_box *box, int flag);
 void	ad_array_fd(t_box *box, int fd, int i);

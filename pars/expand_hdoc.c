@@ -6,7 +6,7 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 10:46:25 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/09 21:00:52 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:33:53 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	rep_var_hdoc(t_word *token, t_env *env, int *sign)
 		env->i++;
 		env->expansion = spcase_cpy_hdoc(token, env, sign);
 	}
-	else if (length % 2 != 0 && *sign != 1
+	else if (length % 2 != 0
 		&& is_expand(token->line[env->i]) == 1)
 	{
 		rep_var_hdoc2(token, &env, sign);
@@ -58,7 +58,7 @@ void	contains_dollar_hdoc(t_word *token, t_env *env, int *sign)
 	while (token->line[env->i])
 	{
 		ft_check_quotes(token->line[env->i], sign);
-		if (token->line[env->i] == '$' && *sign != 1)
+		if (token->line[env->i] == '$')
 			rep_var_hdoc(token, env, sign);
 		else
 			env->i++;

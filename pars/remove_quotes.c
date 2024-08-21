@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:33:28 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:33:44 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/13 11:40:31 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,19 @@
 int	lenght_no_quotes(t_word *token)
 {
 	int	quotes;
-	int	sign;
 	int	i;
-	int	length;
+	int	check;
+	int	old_check;
 
-	quotes = 0;
-	sign = 0;
+	old_check = 0;
 	i = 0;
-	length = ft_strlen(token->value);
-	if (token->value[0] != '"')
-	{
-		if (length > 1 && token->value[length - 1] == '"')
-			sign = 2;
-	}
-	ft_check_quotes(token->value[i], &sign);
+	quotes = 0;
+	check = 0;
 	while (token->value[i] != '\0')
 	{
-		if (sign == 1 && token->value[i] == '\'')
-			quotes++;
-		if (sign == 2 && token->value[i] == '"')
+		old_check = check;
+		ft_check_quotes(token->value[i], &check);
+		if (old_check != check)
 			quotes++;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:09:09 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:32:28 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/14 12:25:00 by aaaraba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_expand(char c)
 	if ((c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z')
 		|| (c >= '0' && c <= '9')
-		|| c == '_' || c == '"' || c == '\'')
+		|| c == '_')
 		return (1);
 	return (0);
 }
@@ -30,7 +30,7 @@ char	*get_var(char *line)
 	i = 0;
 	if (!line)
 		return (NULL);
-	while (check_char_expand (line[i]) == 1)
+	while (is_expand(line[i]) == 1)
 		i++;
 	if (i == 0)
 		return (NULL);
@@ -40,9 +40,7 @@ char	*get_var(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '=' || line[i] == '"' || line[i] == '$'
-			|| line[i] == ' ' || line[i] == '|' || line[i] == '\''
-			|| line[i] == '<' || line[i] == '>' || line[i] == '\0')
+		if (is_expand(line[i]) == 0)
 			break ;
 		variable[i] = line[i];
 		i++;
@@ -53,8 +51,15 @@ char	*get_var(char *line)
 
 void	ft_add_q(t_env **env_node)
 {
-	(*env_node)->value[0] *= -1;
-	(*env_node)->value[ft_strlen((*env_node)->value) - 1] *= -1;
+	int	i;
+
+	i = 0;
+	while ((*env_node)->value[i])
+	{
+		if ((*env_node)->value[i] == '\'' || (*env_node)->value[i] == '"')
+			(*env_node)->value[i] *= -1;
+		i++;
+	}
 }
 
 char	*replace_helper(t_word *token, t_env **env, t_env *env_node, int *sign)
@@ -66,13 +71,13 @@ char	*replace_helper(t_word *token, t_env **env, t_env *env_node, int *sign)
 		(*env)->expansion = ft_substr(token->value, 0, (*env)->i - 1);
 	if (env_node != NULL && env_node->value)
 	{
-		if (env_node->value[0] == '\'' || env_node->value[0] == '"')
-			ft_add_q(&env_node);
+		ft_add_q(&env_node);
 		new = ft_strjoin((*env)->expansion, env_node->value);
 		free((*env)->expansion);
 		(*env)->expansion = new;
+		ft_rev_quotes(&env_node);
 	}
-	while (check_char_expand(token->value[(*env)->i]) == 1 && *sign != 1)
+	while (is_expand(token->value[(*env)->i]) == 1 && *sign != 1)
 	{
 		ft_check_quotes(token->value[(*env)->i], sign);
 		if (token->value[(*env)->i] == '$'

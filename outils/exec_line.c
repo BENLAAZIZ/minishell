@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:06:26 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/12 19:08:12 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:01:18 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	in_child_process(t_env **env, t_box *box)
 			close(box->fd_stdout);
 		}
 	}
+	if (box->c == -1)
+		exit(1);
 	b = built_functions(env, &box->var, box);
 	if (b == -1)
 		ft_execute(box->node->command, &box->data, box);
@@ -86,11 +88,9 @@ int	make_all_process(t_env **env, t_box *box, int c)
 		ad_array_fd(box, 4, 1);
 		c = check_redirection(box);
 		signal(SIGINT, signal_in_child);
-		if (c != -1)
-		{
-			if (open_fork(box, env) == 1)
-				return (1);
-		}
+		box->c = c;
+		if (open_fork(box, env) == 1)
+			return (1);
 		(close(box->fd[1]), dup2(box->fd[0], 0), close(box->fd[0]));
 		box->node = box->node->next;
 	}

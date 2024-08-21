@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:39:55 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/11 13:40:17 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:36:10 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	change_env(t_env **env, t_env *home, char *oldpwd)
 	home = point_node(*env, "OLDPWD");
 	if (home)
 		(free(home->value), home->value = oldpwd);
+	else
+		(free(oldpwd), oldpwd = NULL);
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
@@ -49,6 +51,18 @@ int	check_chdir(char *str)
 	return (0);
 }
 
+int	check_relative_path(char *str)
+{
+	if (str[0] == '\0')
+		return (1);
+	if (ft_strchr(str, '/'))
+	{
+		if (check_chdir(str) == 0)
+			return (1);
+	}
+	return (0);
+}
+
 int	cd(char **cmd, t_env **env)
 {
 	t_env	*home;
@@ -56,21 +70,23 @@ int	cd(char **cmd, t_env **env)
 
 	home = NULL;
 	oldpwd = getcwd(NULL, 0);
+	if (cmd[1])
+		if (check_relative_path(cmd[1]) == 1)
+			return (free(oldpwd), 0);
 	if (!oldpwd && cmd[1])
 		return (ft_builtin_error(cmd[1], NO_F, 0), 1);
 	if (cmd[1] == NULL)
 	{
 		home = point_node(*env, "HOME");
 		if (!home)
-			return (1);
+			return (write(2, "minishell: cd: HOME not set\n", 28),
+				free(oldpwd), 1);
 		if (chdir(home->value) != 0)
 			perror(home->value);
 	}
 	else
-	{
 		if (check_chdir(cmd[1]) == 1)
 			return (free(oldpwd), 1);
-	}
 	if (change_env(env, home, oldpwd) == 1)
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:42:15 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:29:01 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:11:01 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	remove_var(t_env **env, t_env	*node, char *name)
 			(*env)->next = (*env)->next->next;
 			free(node->variable);
 			free(node->value);
+			node->variable = NULL;
+			node->value = NULL;
 			free(node);
 			*env = tmp;
 			return ;
@@ -59,6 +61,8 @@ static int	check_special_char_unset(char *str)
 
 	i = 0;
 	if (!str)
+		return (0);
+	if (str[i] == '\0')
 		return (0);
 	while (str[i])
 	{

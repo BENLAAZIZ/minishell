@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:15:33 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/07 14:32:31 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/13 12:07:09 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,17 @@ char	*spcase_cp(t_word *token, t_env *env, int *sign, t_box *data)
 	free(no_expand);
 	env->expansion = copy_the_rest(token, env, sign);
 	return (env->expansion);
+}
+
+void	ft_rev_quotes(t_env **env_node)
+{
+	int	i;
+
+	i = 0;
+	while ((*env_node)->value[i])
+	{
+		if ((*env_node)->value[i] < 0)
+			(*env_node)->value[i] *= -1;
+		i++;
+	}
 }

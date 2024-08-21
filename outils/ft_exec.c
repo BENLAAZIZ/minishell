@@ -6,7 +6,7 @@
 /*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:44:14 by hben-laz          #+#    #+#             */
-/*   Updated: 2024/08/05 10:51:30 by hben-laz         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:33:10 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_execute(char **cmd, t_path *data, t_box *box)
 		if (check_is_directory(cmd[0], box) == -1)
 			exit(box->var.status);
 		if (execve(cmd[0], cmd, data->cmd_env) == -1)
-			(ft_perror_h(cmd[0], NO_F), exit(127));
+			(perror("execve: "), exit(127));
 	}
 	else if (data->path == NULL)
 		(ft_perror_h(cmd[0], NO_F), free_t_split(cmd));

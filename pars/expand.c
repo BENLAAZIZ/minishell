@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaraba <aaaraba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hben-laz <hben-laz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:16:17 by aaaraba           #+#    #+#             */
-/*   Updated: 2024/08/09 21:01:04 by aaaraba          ###   ########.fr       */
+/*   Updated: 2024/08/13 11:50:24 by hben-laz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	contains_dollar(t_word *token, t_env *env, int *sign, t_box *data)
 	{
 		ft_check_quotes(token->value[env->i], sign);
 		if (token->value[env->i] == '$' && *sign != 1)
+		{
 			replace_variable(token, env, sign, data);
+		}
 		else
 			env->i++;
 	}
